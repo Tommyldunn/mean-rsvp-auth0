@@ -1,16 +1,29 @@
+/*
+ |--------------------------------------
+ | Dependencies
+ |--------------------------------------
+ */
+
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
 const axios = require('axios');
 
 const API = 'https://jsonplaceholder.typicode.com';
 
+/*
+ |--------------------------------------
+ | Routing
+ |--------------------------------------
+ */
+
 module.exports = function(app, config) {
+  // Authentication middleware
   const jwtCheck = jwt({
     secret: jwks.expressJwtSecret({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        jwksUri: `https://${config.AUTH0_DOMAIN}/.well-known/jwks.json`
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: `https://${config.AUTH0_DOMAIN}/.well-known/jwks.json`
     }),
     audience: config.AUTH0_API_AUDIENCE,
     issuer: `https://${config.AUTH0_DOMAIN}/`,
@@ -22,12 +35,12 @@ module.exports = function(app, config) {
     res.send('API works');
   });
 
-  // Authorized API
+  // GET sample authorized API route
   app.get('/api/authorized', jwtCheck, (req, res) => {
     res.send('Authorization successful');
   });
 
-  // Get all posts
+  // GET all posts
   app.get('/api/posts', (req, res) => {
     // Get posts from the mock api
     // This should ideally be replaced with a service that connects to MongoDB
