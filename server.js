@@ -10,6 +10,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const cors = require('cors'); // @TODO: remove when deploying
 
 // Config
 const config = require('./server/config');
@@ -42,13 +43,15 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(cors()); // @TODO: remove when deploying
 
 // Set port
 const port = process.env.PORT || '3000';
 app.set('port', port);
 
 // Set static path to Angular app in dist
-app.use(express.static(path.join(__dirname, './dist')));
+// @TODO: uncomment when deploying
+// app.use(express.static(path.join(__dirname, './dist')));
 
 /*
  |--------------------------------------
@@ -59,9 +62,10 @@ app.use(express.static(path.join(__dirname, './dist')));
 require('./server/api')(app, config);
 
 // Pass routing to Angular app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
-});
+// @TODO: uncomment when deploying
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'dist/index.html'));
+// });
 
 /*
  |--------------------------------------
@@ -69,4 +73,4 @@ app.get('*', (req, res) => {
  |--------------------------------------
  */
 
-app.listen(port, () => console.log(`App running on localhost:${port}`));
+app.listen(port, () => console.log(`Server running on localhost:${port}`));
