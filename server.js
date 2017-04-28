@@ -1,22 +1,27 @@
+// Module dependencies
 const express = require('express');
 const path = require('path');
-const http = require('http');
 const bodyParser = require('body-parser');
-const api = require('./server/api');
+const mongoose = require('mongoose');
+const methodOverride = require('method-override');
+
+// Config
+const config = require('./server/config');
 
 // App
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride('X-HTTP-Method-Override'));
 
 // Set static path to Angular app in dist
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, './dist')));
 
 // API routes
-app.use('/api', api);
+require('./server/api')(app, config);
 
-// Send anything else to Angular app
+// Pass routing to Angular app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
@@ -25,8 +30,5 @@ app.get('*', (req, res) => {
 const port = process.env.PORT || '3000';
 app.set('port', port);
 
-// Create server
-const server = http.createServer(app);
-
 // Listen
-server.listen(port, () => console.log(`API running on localhost:${port}`));
+app.listen(port, () => console.log(`API running on localhost:${port}`));
