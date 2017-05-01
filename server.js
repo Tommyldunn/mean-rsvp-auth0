@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 // Set port
-const port = process.env.PORT || '3000';
+const port = process.env.PORT || '3003';
 app.set('port', port);
 
 // Set static path to Angular app in dist
