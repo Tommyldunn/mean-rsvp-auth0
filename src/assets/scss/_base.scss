@@ -1,0 +1,45 @@
+/*--------------------
+       BASICS
+--------------------*/
+
+body {
+  background: #eee;
+  color: #333;
+  font: normal 16px/1.2 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+  min-width: 320px;
+}
+
+/*-- Cursor --*/
+
+a, 
+input[type=button], 
+input[type=submit], 
+button { 
+  cursor: pointer; 
+}
+
+/*-- Forms --*/
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="date"],
+select option,
+textarea {
+  font-size: 16px; /* for iOS to prevent autozoom */
+}
+
+/*-- Content --*/
+
+.content-wrapper {
+  padding: $padding-screen-small;
+
+  @include mq($large) {
+    margin: 0 auto;
+    max-width: 960px;
+    padding: $padding-screen-large;
+  }
+}
+.content-heading {
+  text-align: center;
+}
