@@ -10,7 +10,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const cors = require('cors'); // @TODO: remove when deploying
+
+// Use cors in dev only
+const cors = require('cors');
 
 // Config
 const config = require('./server/config');
@@ -43,15 +45,21 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('X-HTTP-Method-Override'));
-app.use(cors()); // @TODO: remove when deploying
+
+// Use cors in dev only
+if (process.env.NODE_ENV === 'dev') {
+  app.use(cors());
+}
 
 // Set port
 const port = process.env.PORT || '3000';
 app.set('port', port);
 
 // Set static path to Angular app in dist
-// @TODO: uncomment when deploying
-// app.use(express.static(path.join(__dirname, './dist')));
+// Don't run in dev
+if (process.env.NODE_ENV !== 'dev') {
+  app.use(express.static(path.join(__dirname, './dist')));
+}
 
 /*
  |--------------------------------------
@@ -62,10 +70,12 @@ app.set('port', port);
 require('./server/api')(app, config);
 
 // Pass routing to Angular app
-// @TODO: uncomment when deploying
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'dist/index.html'));
-// });
+// Don't run in dev
+if (process.env.NODE_ENV !== 'dev') {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/index.html'));
+  });
+}
 
 /*
  |--------------------------------------
