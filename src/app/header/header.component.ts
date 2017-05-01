@@ -8,7 +8,7 @@ import 'rxjs/add/operator/filter';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-@Output() navToggled = new EventEmitter();
+  @Output() navToggled = new EventEmitter();
   navOpen = false;
 
   constructor(private router: Router) { }

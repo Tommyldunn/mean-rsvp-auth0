@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   navOpen: boolean;
 
-  navToggleHandler(e: boolean) {
+  navToggledHandler(e: boolean) {
     this.navOpen = e;
   }
 }

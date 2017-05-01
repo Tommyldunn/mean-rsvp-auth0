@@ -4,7 +4,7 @@
     [ngClass]="{'nav-open': navOpen, 'nav-closed': !navOpen}">
 
     <!-- HEADER -->
-    <app-header (navToggled)="navToggleHandler($event)"></app-header>
+    <app-header (navToggled)="navToggledHandler($event)"></app-header>
 
     <!-- CONTENT -->
     <div id="layout-view" class="layout-view">
