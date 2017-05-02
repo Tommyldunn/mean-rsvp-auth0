@@ -30,19 +30,14 @@ module.exports = function(app, config) {
     algorithms: ['RS256']
   });
 
-  // Check for admin user
-  const adminCheck = function(req, res, next) {
-    console.log(req.user);
-    next();
-
-    // var appMetadata = req.user.profile._json.app_metadata || {};
-    // var roles = appMetadata.roles || [];
-
-    // if (roles.indexOf('admin') != -1) {
-    //   next();
-    // } else {
-    //   res.status(401).send('Unauthorized: no admin privileges');
-    // }
+  // Check for an authenticated admin user
+  const adminCheck = (req, res, next) => {
+    const roles = req.user[`${config.NAMESPACE}roles`] || [];
+    if (roles.indexOf('admin') > -1) {
+      next();
+    } else {
+      res.status(401).send('Not authorized for admin access');
+    }
   }
 
   // GET API root
@@ -55,8 +50,8 @@ module.exports = function(app, config) {
     res.send('Authorization successful');
   });
 
-  // GET sample authorized admin-only API route
-  app.get('/api/admin', adminCheck, (req, res) => {
+  // GET sample authorized API route
+  app.get('/api/admin', jwtCheck, adminCheck, (req, res) => {
     res.send('Admin authorization successful');
   });
 

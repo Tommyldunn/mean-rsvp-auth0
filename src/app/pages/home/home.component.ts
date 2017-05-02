@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             (res) => console.log(res)
           );
 
+        // @TODO: this doesn't work?!
         this.api
           .getAdmin$()
           .subscribe(

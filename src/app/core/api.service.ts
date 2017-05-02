@@ -25,7 +25,7 @@ export class ApiService {
   }
 
   getAdmin$(): Observable<any> {
-    return this.http
+    return this.authHttp
       .get(`${ENV.BASE_API}admin`)
       .map(this.handleSuccess)
       .catch(this.handleError);
