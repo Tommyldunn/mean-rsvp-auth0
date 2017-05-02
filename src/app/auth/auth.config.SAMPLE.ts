@@ -6,6 +6,7 @@ interface AuthConfig {
   AUDIENCE: string;
   REDIRECT: string;
   SCOPE: string;
+  NAMESPACE: string;
 }
 
 export const AUTH_CONFIG: AuthConfig = {
@@ -13,5 +14,6 @@ export const AUTH_CONFIG: AuthConfig = {
   CLIENT_DOMAIN: '[AUTH0_CLIENT_DOMAIN].auth0.com',
   AUDIENCE: '[YOUR_AUTH0_API_AUDIENCE]', // likely http://localhost:3003/api
   REDIRECT: `${ENV.BASE_URI}/callback`,
-  SCOPE: 'openid profile'
+  SCOPE: 'openid profile',
+  NAMESPACE: '[AUTH0_RULES_CUSTOM_CLAIMS_NAMESPACE]' // likely http://myapp.com/
 };

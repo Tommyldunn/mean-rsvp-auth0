@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AUTH_CONFIG } from './auth.config';
 import { tokenNotExpired } from 'angular2-jwt';
-import { UserProfile } from './profile.model';
 
 // Avoid name not found warnings
 declare var auth0: any;
@@ -16,7 +15,7 @@ export class AuthService {
     domain: AUTH_CONFIG.CLIENT_DOMAIN
   });
 
-  userProfile: UserProfile;
+  userProfile: object;
   isAdmin: boolean;
 
   // Create a stream of logged in status to communicate throughout app
@@ -66,7 +65,6 @@ export class AuthService {
     // Use access token to retrieve user's profile and set session
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
       this._setSession(authResult, profile);
-      console.info(profile);
     });
   }
 
@@ -75,16 +73,15 @@ export class AuthService {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('profile', JSON.stringify(profile));
-    localStorage.setItem('isAdmin', this.isAdmin.toString());
     this.userProfile = profile;
     this.isAdmin = this._checkIfAdmin(profile);
+    localStorage.setItem('isAdmin', this.isAdmin.toString());
     this.setLoggedIn(true);
   }
 
   private _checkIfAdmin(profile) {
     // Check if the user has admin role
-    const appMetadata = profile._json.app_metadata || {};
-    const roles = appMetadata.roles || [];
+    const roles = profile[`${AUTH_CONFIG.NAMESPACE}roles`] || [];
     return roles.indexOf('admin') != -1;
   }
 
@@ -93,6 +90,7 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
+    localStorage.removeItem('isAdmin');
     this.userProfile = undefined;
     this.isAdmin = undefined;
     this.setLoggedIn(false);
