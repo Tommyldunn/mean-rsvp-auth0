@@ -9,7 +9,7 @@ export class UserProfile {
     public middle_name?: string,
     public nickname?: string,
     public preferred_username?: string,
-    public profile?: string,
+    public profile?: any, // accommodate Auth0 app metadata
     public picture?: string,
     public website?: string,
     public email?: string,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { AUTH_CONFIG } from './auth.variables';
+import { AUTH_CONFIG } from './auth.config';
 import { tokenNotExpired } from 'angular2-jwt';
 import { UserProfile } from './profile.model';
 
@@ -11,7 +11,6 @@ declare var auth0: any;
 @Injectable()
 export class AuthService {
   // Create Auth0 web auth instance
-  // @TODO: Update AUTH_CONFIG and remove .SAMPLE from src/app/auth/auth.variables.SAMPLE.ts
   auth0 = new auth0.WebAuth({
     clientID: AUTH_CONFIG.CLIENT_ID,
     domain: AUTH_CONFIG.CLIENT_DOMAIN
@@ -25,9 +24,10 @@ export class AuthService {
   loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
 
   constructor(private router: Router) {
-    // If authenticated, set local profile property and update login status subject
+    // If authenticated, set local profile property, admin status, and update login status subject
     if (this.authenticated) {
       this.userProfile = JSON.parse(localStorage.getItem('profile'));
+      this.isAdmin = localStorage.getItem('isAdmin') == 'true';
       this.setLoggedIn(true);
     }
   }
@@ -55,11 +55,10 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this._getProfile(authResult);
-        this.router.navigate(['/']);
       } else if (err) {
-        this.router.navigate(['/']);
         console.error(`Error: ${err.error}`);
       }
+      this.router.navigate(['/']);
     });
   }
 
@@ -67,6 +66,7 @@ export class AuthService {
     // Use access token to retrieve user's profile and set session
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
       this._setSession(authResult, profile);
+      console.info(profile);
     });
   }
 
@@ -75,6 +75,7 @@ export class AuthService {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('profile', JSON.stringify(profile));
+    localStorage.setItem('isAdmin', this.isAdmin.toString());
     this.userProfile = profile;
     this.isAdmin = this._checkIfAdmin(profile);
     this.setLoggedIn(true);
@@ -93,6 +94,7 @@ export class AuthService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
     this.userProfile = undefined;
+    this.isAdmin = undefined;
     this.setLoggedIn(false);
   }
 

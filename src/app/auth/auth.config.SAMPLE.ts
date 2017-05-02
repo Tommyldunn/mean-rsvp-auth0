@@ -1,4 +1,4 @@
-import { ENV } from './../core/env';
+import { ENV } from './../core/env.config';
 
 interface AuthConfig {
   CLIENT_ID: string;
