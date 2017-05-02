@@ -31,17 +31,18 @@ module.exports = function(app, config) {
   });
 
   // Check for admin user
-  const adminCheck = () => {
-    return function(req, res, next) {
-      var appMetadata = req.user.profile._json.app_metadata || {};
-      var roles = appMetadata.roles || [];
+  const adminCheck = function(req, res, next) {
+    console.log(req.user);
+    next();
 
-      if (roles.indexOf('admin') != -1) {
-        next();
-      } else {
-        res.status(401).send('Unauthorized: no admin privileges');
-      }
-    }
+    // var appMetadata = req.user.profile._json.app_metadata || {};
+    // var roles = appMetadata.roles || [];
+
+    // if (roles.indexOf('admin') != -1) {
+    //   next();
+    // } else {
+    //   res.status(401).send('Unauthorized: no admin privileges');
+    // }
   }
 
   // GET API root
