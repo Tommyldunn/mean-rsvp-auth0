@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { AUTH_CONFIG } from './auth0-variables';
+import { AUTH_CONFIG } from './auth.variables';
 import { tokenNotExpired } from 'angular2-jwt';
 import { UserProfile } from './profile.model';
 
@@ -11,13 +11,14 @@ declare var auth0: any;
 @Injectable()
 export class AuthService {
   // Create Auth0 web auth instance
-  // @TODO: Update AUTH_CONFIG and remove .example extension in src/app/auth/auth0-variables.ts.example
+  // @TODO: Update AUTH_CONFIG and remove .SAMPLE from src/app/auth/auth.variables.SAMPLE.ts
   auth0 = new auth0.WebAuth({
     clientID: AUTH_CONFIG.CLIENT_ID,
     domain: AUTH_CONFIG.CLIENT_DOMAIN
   });
 
   userProfile: UserProfile;
+  isAdmin: boolean;
 
   // Create a stream of logged in status to communicate throughout app
   loggedIn: boolean;
@@ -75,7 +76,15 @@ export class AuthService {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('profile', JSON.stringify(profile));
     this.userProfile = profile;
+    this.isAdmin = this._checkIfAdmin(profile);
     this.setLoggedIn(true);
+  }
+
+  private _checkIfAdmin(profile) {
+    // Check if the user has admin role
+    const appMetadata = profile._json.app_metadata || {};
+    const roles = appMetadata.roles || [];
+    return roles.indexOf('admin') != -1;
   }
 
   logout() {

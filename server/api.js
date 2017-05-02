@@ -30,6 +30,20 @@ module.exports = function(app, config) {
     algorithms: ['RS256']
   });
 
+  // Check for admin user
+  const adminCheck = () => {
+    return function(req, res, next) {
+      var appMetadata = req.user.profile._json.app_metadata || {};
+      var roles = appMetadata.roles || [];
+
+      if (roles.indexOf('admin') != -1) {
+        next();
+      } else {
+        res.status(401).send('Unauthorized: no admin privileges');
+      }
+    }
+  }
+
   // GET API root
   app.get('/api/', (req, res) => {
     res.send('API works');
@@ -38,6 +52,11 @@ module.exports = function(app, config) {
   // GET sample authorized API route
   app.get('/api/authorized', jwtCheck, (req, res) => {
     res.send('Authorization successful');
+  });
+
+  // GET sample authorized admin-only API route
+  app.get('/api/admin', adminCheck, (req, res) => {
+    res.send('Admin authorization successful');
   });
 
   // GET all posts
