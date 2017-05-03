@@ -24,10 +24,15 @@ export class AuthService {
 
   constructor(private router: Router) {
     // If authenticated, set local profile property, admin status, and update login status subject
+    // If token is expired but user data still in localStorage, log out
+    const lsProfile = localStorage.getItem('profile');
+
     if (this.authenticated) {
-      this.userProfile = JSON.parse(localStorage.getItem('profile'));
+      this.userProfile = JSON.parse(lsProfile);
       this.isAdmin = localStorage.getItem('isAdmin') == 'true';
       this.setLoggedIn(true);
+    } else if (!this.authenticated && lsProfile) {
+      this.logout();
     }
   }
 
@@ -74,14 +79,14 @@ export class AuthService {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('profile', JSON.stringify(profile));
     this.userProfile = profile;
-    this.isAdmin = this._checkIfAdmin(profile);
+    this.isAdmin = this._checkAdmin(profile);
     localStorage.setItem('isAdmin', this.isAdmin.toString());
     this.setLoggedIn(true);
   }
 
-  private _checkIfAdmin(profile) {
+  private _checkAdmin(profile) {
     // Check if the user has admin role
-    const roles = profile[`${AUTH_CONFIG.NAMESPACE}roles`] || [];
+    const roles = profile[`${AUTH_CONFIG.NAMESPACE}`] || [];
     return roles.indexOf('admin') != -1;
   }
 

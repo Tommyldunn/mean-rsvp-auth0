@@ -15,5 +15,5 @@ export const AUTH_CONFIG: AuthConfig = {
   AUDIENCE: '[YOUR_AUTH0_API_AUDIENCE]', // likely http://localhost:3003/api/
   REDIRECT: `${ENV.BASE_URI}/callback`,
   SCOPE: 'openid profile',
-  NAMESPACE: '[AUTH0_RULES_CUSTOM_CLAIMS_NAMESPACE]' // likely http://myapp.com/
+  NAMESPACE: '[AUTH0_ROLES_CUSTOM_CLAIMS_NAMESPACE]' // likely http://myapp.com/roles
 };
