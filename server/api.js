@@ -7,6 +7,8 @@
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
 const axios = require('axios');
+const Event = require('./models/Event');
+const Rsvp = require('./models/Rsvp');
 
 const API = 'https://jsonplaceholder.typicode.com';
 
