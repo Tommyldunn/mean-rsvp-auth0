@@ -13,7 +13,7 @@ const eventSchema = new Schema({
   startDatetime: { type: Date, required: true },
   endDatetime: { type: Date, required: true },
   description: String,
-  public: { type: Boolean, required: true },
+  viewPublic: { type: Boolean, required: true },
   rsvps: Array
 });
 

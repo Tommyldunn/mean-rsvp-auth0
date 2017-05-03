@@ -46,7 +46,7 @@ module.exports = function(app, config) {
 
   // GET all public events
   app.get('/api/events', (req, res) => {
-    Event.find({public: true}, (err, events) => {
+    Event.find({viewPublic: true}, (err, events) => {
       let eventsArr = [];
       if (!events) {
         return res.status(400).send({ message: 'No events found.' });
