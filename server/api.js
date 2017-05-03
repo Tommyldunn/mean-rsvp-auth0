@@ -6,11 +6,8 @@
 
 const jwt = require('express-jwt');
 const jwks = require('jwks-rsa');
-const axios = require('axios');
 const Event = require('./models/Event');
 const Rsvp = require('./models/Rsvp');
-
-const API = 'https://jsonplaceholder.typicode.com';
 
 /*
  |--------------------------------------
@@ -47,6 +44,20 @@ module.exports = function(app, config) {
     res.send('API works');
   });
 
+  // GET all public events
+  app.get('/api/events', (req, res) => {
+    Event.find({public: true}, (err, events) => {
+      let eventsArr = [];
+      if (!events) {
+        return res.status(400).send({ message: 'No events found.' });
+      }
+      events.forEach((event) => {
+        eventsArr.push(event);
+      });
+      res.send(eventsArr);
+    });
+  });
+
   // GET sample authorized API route
   app.get('/api/authorized', jwtCheck, (req, res) => {
     res.send('Authorization successful');
@@ -55,19 +66,6 @@ module.exports = function(app, config) {
   // GET sample authorized API route
   app.get('/api/admin', jwtCheck, adminCheck, (req, res) => {
     res.send('Admin authorization successful');
-  });
-
-  // GET all posts
-  app.get('/api/posts', (req, res) => {
-    // Get posts from the mock api
-    // This should ideally be replaced with a service that connects to MongoDB
-    axios.get(`${API}/posts`)
-      .then(posts => {
-        res.status(200).json(posts.data);
-      })
-      .catch(error => {
-        res.status(500).send(error)
-      });
   });
 
 };

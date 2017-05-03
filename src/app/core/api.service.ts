@@ -11,33 +11,31 @@ export class ApiService {
   constructor(private http: Http, private authHttp: AuthHttp) { }
 
   getEvents$(): Observable<any[]> {
-    return this.authHttp
-      .get(`${ENV.BASE_API}`)
-      .map(this.handleSuccess)
-      .catch(this.handleError);
+    return this.http
+      .get(`${ENV.BASE_API}events`)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
   }
 
   getAuthorized$(): Observable<any> {
     return this.authHttp
       .get(`${ENV.BASE_API}authorized`)
-      .map(this.handleSuccess)
-      .catch(this.handleError);
+      .map(this._handleSuccess)
+      .catch(this._handleError);
   }
 
   getAdmin$(): Observable<any> {
     return this.authHttp
       .get(`${ENV.BASE_API}admin`)
-      .map(this.handleSuccess)
-      .catch(this.handleError);
+      .map(this._handleSuccess)
+      .catch(this._handleError);
   }
 
-  private handleSuccess(res: Response) {
-    console.log(res);
-    return res;
-    //return res.json();
+  private _handleSuccess(res: Response) {
+    return res.json();
   }
 
-  private handleError(err: Response | any) {
+  private _handleError(err: Response | any) {
     const errorMsg = err.message || 'Unable to retrieve data';
     return Observable.throw(errorMsg);
   }

@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    this.api.getEvents$().subscribe((res) => console.log(res));
     
   }
 
