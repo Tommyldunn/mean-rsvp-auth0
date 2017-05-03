@@ -2,13 +2,13 @@ import { RsvpModel } from './rsvp.model';
 
 export class EventModel {
   constructor(
-    public _id: string,
-    public title: string,
-    public location: string,
+    public _id: String,
+    public title: String,
+    public location: String,
     public startDatetime: Date,
     public endDatetime: Date,
-    public viewPublic: boolean,
-    public description?: string,
+    public viewPublic: Boolean,
+    public description?: String,
     public rsvps?: Array<RsvpModel>
   ) { }
 }
