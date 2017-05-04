@@ -36,6 +36,14 @@ export class ApiService {
       .catch(this._handleError);
   }
 
+  // GET all RSVPs for a specific user
+  getUserRsvps$(userId): Observable<RsvpModel[]> {
+    return this.authHttp
+      .get(`${ENV.BASE_API}rsvps/${userId}`)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
+
   private _handleSuccess(res: Response) {
     return res.json();
   }

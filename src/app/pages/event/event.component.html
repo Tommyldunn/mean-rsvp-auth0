@@ -1,10 +1,20 @@
-<div *ngIf="event">
+<div *ngIf="event && auth.authenticated">
   <h1 class="text-center" [innerHTML]="event.title"></h1>
-  <div class="event-info">
-    <p class="lead text-center">
-      <em>This event will take place at <strong>{{event.location}}</strong>,<br>
-      from <strong>{{event.startDatetime | date:'short'}}</strong> until <strong>{{event.endDatetime | date:'short'}}</strong>.</em>
-    </p>
-  </div>
+
+  <p class="event-info lead text-center">
+    <em>This event will take place at <strong>{{event.location}}</strong>,<br>
+    from <strong>{{event.startDatetime | date:'short'}}</strong> until <strong>{{event.endDatetime | date:'short'}}</strong>.</em>
+  </p>
+
   <p class="lead" [innerHTML]="event.description"></p>
+
+  <p>{{rsvpCount(event.rsvps.length)}} RSVPed to this event.</p>
+
+  <div *ngIf="userRsvp">
+    I am RSVPed to this event: {{userRsvp._id}}
+  </div>
+
+  <div *ngIf="auth.isAdmin">
+    I'm an admin
+  </div>
 </div>

@@ -14,7 +14,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   eventListSub: Subscription;
   eventList: EventModel[];
 
-  constructor(private auth: AuthService, private api: ApiService) { }
+  constructor(
+    private auth: AuthService,
+    private api: ApiService) { }
 
   ngOnInit() {
     this.authSub = this.auth.loggedIn$.subscribe((loggedIn) => {

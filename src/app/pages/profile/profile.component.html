@@ -1,3 +1,9 @@
-<p>
-  profile works!
-</p>
+<div *ngIf="auth.authenticated">
+  <h1 class="text-center">My RSVPs</h1>
+
+  <ul>
+    <li *ngFor="let rsvp of rsvpList">
+      RSVPed to <a [routerLink]="['/event', rsvp.eventId]">Event</a>
+    </li>
+  </ul>
+</div>

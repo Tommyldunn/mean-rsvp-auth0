@@ -58,6 +58,20 @@ module.exports = function(app, config) {
     });
   });
 
+  // GET list of a user's RSVPs
+  app.get('/api/rsvps/:userId', jwtCheck, (req, res) => {
+    Rsvp.find({userId: req.params.userId}, (err, rsvps) => {
+      let rsvpsArr = [];
+      if (!rsvps) {
+        return res.status(400).send({ message: 'No RSVPs found.' });
+      }
+      rsvps.forEach((rsvp) => {
+        rsvpsArr.push(rsvp);
+      });
+      res.send(rsvpsArr);
+    });
+  });
+
   // GET list of all events, public and private (admin only)
   app.get('/api/events/admin', jwtCheck, adminCheck, (req, res) => {
     Event.find({}, (err, events) => {

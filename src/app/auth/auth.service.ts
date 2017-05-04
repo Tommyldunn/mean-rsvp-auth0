@@ -15,7 +15,7 @@ export class AuthService {
     domain: AUTH_CONFIG.CLIENT_DOMAIN
   });
 
-  userProfile: object;
+  userProfile: any;
   isAdmin: boolean;
   // Check localStorage for redirect from auth guard
   private _authRedirect = localStorage.getItem('authRedirect');
