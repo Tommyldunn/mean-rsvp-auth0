@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../auth/auth.service';
 import { ApiService } from './../../core/api.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -11,15 +12,20 @@ import { RsvpModel } from './../../core/models/rsvp.model';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  pageTitle = 'Profile';
   authSub: Subscription;
   rsvpListSub: Subscription;
   rsvpList: RsvpModel[];
 
   constructor(
+    private title: Title,
     public auth: AuthService,
     private api: ApiService) { }
 
   ngOnInit() {
+    this.title.setTitle(this.pageTitle);
+
+    // DUMMY
     this.authSub = this.auth.loggedIn$.subscribe((loggedIn) => {
       if (loggedIn) {
         console.log('user is logged in!');

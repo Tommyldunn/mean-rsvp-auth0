@@ -13,8 +13,8 @@ import { RsvpModel } from './../../core/models/rsvp.model';
   styleUrls: ['./event.component.scss']
 })
 export class EventComponent implements OnInit, OnDestroy {
-  pageTitle: String;
-  id: String;
+  pageTitle: string;
+  id: string;
   routeSub: Subscription;
   eventSub: Subscription;
   event: EventModel;
@@ -38,6 +38,7 @@ export class EventComponent implements OnInit, OnDestroy {
           .subscribe((res) => {
             this.event = res;
             this.pageTitle = this.event.title;
+            this.title.setTitle(this.pageTitle);
             this.allRsvps = this.event.rsvps;
             this.userRsvp = this._getUserRsvp();
             console.log(this.event);

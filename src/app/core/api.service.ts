@@ -10,7 +10,10 @@ import { RsvpModel } from './models/rsvp.model';
 
 @Injectable()
 export class ApiService {
-  constructor(private http: Http, private authHttp: AuthHttp) { }
+  
+  constructor(
+    private http: Http,
+    private authHttp: AuthHttp) { }
 
   // GET list of public events (no RSVPs)
   getEvents$(): Observable<EventModel[]> {

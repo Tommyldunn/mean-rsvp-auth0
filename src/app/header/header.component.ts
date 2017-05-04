@@ -12,7 +12,9 @@ export class HeaderComponent implements OnInit {
   @Output() navToggled = new EventEmitter();
   navOpen = false;
 
-  constructor(private router: Router, public auth: AuthService) { }
+  constructor(
+    private router: Router,
+    public auth: AuthService) { }
 
   ngOnInit() {
     // if nav is open after routing, close it

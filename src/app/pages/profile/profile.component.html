@@ -1,5 +1,5 @@
 <div *ngIf="auth.authenticated">
-  <h1 class="text-center">My RSVPs</h1>
+  <h1 class="text-center">{{pageTitle}}</h1>
 
   <ul>
     <li *ngFor="let rsvp of rsvpList">
