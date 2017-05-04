@@ -1,7 +1,7 @@
 const isDev = () => window.location.hostname.indexOf('localhost') > -1;
 const getHost = () => {
-  let protocol = window.location.protocol;
-  let host = window.location.host;
+  const protocol = window.location.protocol;
+  const host = window.location.host;
   return `${protocol}//${host}`;
 };
 const getApiURI = () => isDev() ? 'http://localhost:3003/api/' : `${getHost()}/api/`;

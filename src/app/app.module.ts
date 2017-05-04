@@ -16,6 +16,7 @@ import { FooterComponent } from './footer/footer.component';
 import { CallbackComponent } from './pages/callback/callback.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { EventComponent } from './pages/event/event.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AdminComponent } from './pages/admin/admin.component';
     FooterComponent,
     CallbackComponent,
     ProfileComponent,
-    AdminComponent
+    AdminComponent,
+    EventComponent
   ],
   imports: [
     BrowserModule,

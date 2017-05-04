@@ -19,6 +19,13 @@ export class ApiService {
       .catch(this._handleError);
   }
 
+  getEventById$(id): Observable<EventModel> {
+    return this.authHttp
+      .get(`${ENV.BASE_API}event/${id}`)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
+
   getAuthorized$(): Observable<any> {
     return this.authHttp
       .get(`${ENV.BASE_API}authorized`)

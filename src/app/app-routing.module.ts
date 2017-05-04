@@ -6,6 +6,7 @@ import { AdminGuard } from './auth/admin.guard';
 // Page components
 import { HomeComponent } from './pages/home/home.component';
 import { CallbackComponent } from './pages/callback/callback.component';
+import { EventComponent } from './pages/event/event.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AdminComponent } from './pages/admin/admin.component';
 
@@ -17,6 +18,13 @@ const routes: Routes = [
   {
     path: 'callback',
     component: CallbackComponent
+  },
+  {
+    path: 'event/:id',
+    component: EventComponent,
+    canActivate: [
+      AuthGuard
+    ]
   },
   {
     path: 'profile',

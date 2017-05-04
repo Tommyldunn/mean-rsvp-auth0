@@ -31,7 +31,7 @@ export class AuthService {
 
     if (this.authenticated) {
       this.userProfile = JSON.parse(lsProfile);
-      this.isAdmin = localStorage.getItem('isAdmin') == 'true';
+      this.isAdmin = localStorage.getItem('isAdmin') === 'true';
       this.setLoggedIn(true);
     } else if (!this.authenticated && lsProfile) {
       this.logout();
