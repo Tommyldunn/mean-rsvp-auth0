@@ -11,7 +11,7 @@ const Rsvp = require('./models/Rsvp');
 
 /*
  |--------------------------------------
- | Routing
+ | Authentication Middleware
  |--------------------------------------
  */
 
@@ -38,6 +38,12 @@ module.exports = function(app, config) {
       res.status(401).send('Not authorized for admin access');
     }
   }
+
+/*
+ |--------------------------------------
+ | API Routes
+ |--------------------------------------
+ */
 
   // GET API root
   app.get('/api/', (req, res) => {
