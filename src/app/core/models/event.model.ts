@@ -1,5 +1,3 @@
-import { RsvpModel } from './rsvp.model';
-
 export class EventModel {
   constructor(
     public _id: String,
@@ -8,7 +6,6 @@ export class EventModel {
     public startDatetime: Date,
     public endDatetime: Date,
     public viewPublic: Boolean,
-    public description?: String,
-    public rsvps?: Array<RsvpModel>
+    public description?: String
   ) { }
 }
