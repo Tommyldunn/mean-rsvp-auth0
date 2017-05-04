@@ -44,9 +44,23 @@ module.exports = function(app, config) {
     res.send('API works');
   });
 
-  // GET all public events
+  // GET list of public events
   app.get('/api/events', (req, res) => {
     Event.find({viewPublic: true}, (err, events) => {
+      let eventsArr = [];
+      if (!events) {
+        return res.status(400).send({ message: 'No events found.' });
+      }
+      events.forEach((event) => {
+        eventsArr.push(event);
+      });
+      res.send(eventsArr);
+    });
+  });
+
+  // GET list of all events, public and private (admin only)
+  app.get('/api/events/admin', jwtCheck, adminCheck, (req, res) => {
+    Event.find({}, (err, events) => {
       let eventsArr = [];
       if (!events) {
         return res.status(400).send({ message: 'No events found.' });
@@ -75,16 +89,6 @@ module.exports = function(app, config) {
         res.send(event);
       });
     });
-  });
-
-  // GET sample authorized API route
-  app.get('/api/authorized', jwtCheck, (req, res) => {
-    res.send('Authorization successful');
-  });
-
-  // GET sample authorized API route
-  app.get('/api/admin', jwtCheck, adminCheck, (req, res) => {
-    res.send('Admin authorization successful');
   });
 
 };

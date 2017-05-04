@@ -12,6 +12,7 @@ import { RsvpModel } from './models/rsvp.model';
 export class ApiService {
   constructor(private http: Http, private authHttp: AuthHttp) { }
 
+  // GET list of public events (no RSVPs)
   getEvents$(): Observable<EventModel[]> {
     return this.http
       .get(`${ENV.BASE_API}events`)
@@ -19,6 +20,7 @@ export class ApiService {
       .catch(this._handleError);
   }
 
+  // GET an event by ID (with RSVPs)
   getEventById$(id): Observable<EventModel> {
     return this.authHttp
       .get(`${ENV.BASE_API}event/${id}`)
@@ -26,16 +28,10 @@ export class ApiService {
       .catch(this._handleError);
   }
 
-  getAuthorized$(): Observable<any> {
+  // GET all events (private and public) with all RSVPs (admin only)
+  getAdminEvents$(): Observable<EventModel[]> {
     return this.authHttp
-      .get(`${ENV.BASE_API}authorized`)
-      .map(this._handleSuccess)
-      .catch(this._handleError);
-  }
-
-  getAdmin$(): Observable<any> {
-    return this.authHttp
-      .get(`${ENV.BASE_API}admin`)
+      .get(`${ENV.BASE_API}events/admin`)
       .map(this._handleSuccess)
       .catch(this._handleError);
   }

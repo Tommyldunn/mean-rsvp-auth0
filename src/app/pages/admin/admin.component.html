@@ -1,3 +1,9 @@
 <div *ngIf="auth.isAdmin">
   <h1 class="text-center">Admin</h1>
+
+  <ul>
+    <li *ngFor="let event of eventList">
+      <a [routerLink]="['/event', event._id]">{{event.title}}</a> <span *ngIf="!event.viewPublic">(private)</span>
+    </li>
+  </ul>
 </div>

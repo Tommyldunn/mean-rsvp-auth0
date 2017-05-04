@@ -1,3 +1,10 @@
-<p>
-  event works!
-</p>
+<div *ngIf="event">
+  <h1 class="text-center" [innerHTML]="event.title"></h1>
+  <div class="event-info">
+    <p class="lead text-center">
+      <em>This event will take place at <strong>{{event.location}}</strong>,<br>
+      from <strong>{{event.startDatetime | date:'short'}}</strong> until <strong>{{event.endDatetime | date:'short'}}</strong>.</em>
+    </p>
+  </div>
+  <p class="lead" [innerHTML]="event.description"></p>
+</div>
