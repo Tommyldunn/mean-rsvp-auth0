@@ -50,9 +50,9 @@ module.exports = function(app, config) {
     res.send('API works');
   });
 
-  // GET list of public events
+  // GET list of public events starting in the future
   app.get('/api/events', (req, res) => {
-    Event.find({viewPublic: true}, (err, events) => {
+    Event.find({viewPublic: true, startDatetime: { $gte: new Date() }}, (err, events) => {
       let eventsArr = [];
       if (!events) {
         return res.status(400).send({ message: 'No events found.' });
