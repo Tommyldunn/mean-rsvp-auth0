@@ -49,7 +49,7 @@ export class EventComponent implements OnInit, OnDestroy {
   private _getUserRsvp() {
     if (this.allRsvps.length) {
       for (let i = 0; i < this.allRsvps.length; i++) {
-        let thisRsvp = this.allRsvps[i];
+        const thisRsvp = this.allRsvps[i];
 
         if (thisRsvp.userId === this.auth.userProfile.sub) {
           return thisRsvp;
