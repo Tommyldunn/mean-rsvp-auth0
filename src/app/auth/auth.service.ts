@@ -17,6 +17,8 @@ export class AuthService {
 
   userProfile: object;
   isAdmin: boolean;
+  // Check localStorage for redirect from auth guard
+  private _authRedirect = localStorage.getItem('authRedirect');
 
   // Create a stream of logged in status to communicate throughout app
   loggedIn: boolean;
@@ -43,6 +45,14 @@ export class AuthService {
   }
 
   login() {
+    // If no redirect already set in localStorage,
+    // set redirect to current route logging in from.
+    // If redirect exists in localStorage, set local prop
+    if (!localStorage.getItem('authRedirect')) {
+      localStorage.setItem('authRedirect', this.router.url);
+    } else {
+      this._authRedirect = localStorage.getItem('authRedirect');
+    }
     // Auth0 authorize request
     // Note: nonce is automatically generated: https://auth0.com/docs/libraries/auth0js/v8#using-nonce
     this.auth0.authorize({
@@ -60,9 +70,10 @@ export class AuthService {
         window.location.hash = '';
         this._getProfile(authResult);
       } else if (err) {
+        this._clearRedirect();
+        this.router.navigate(['/']);
         console.error(`Error: ${err.error}`);
       }
-      this.router.navigate(['/']);
     });
   }
 
@@ -70,6 +81,8 @@ export class AuthService {
     // Use access token to retrieve user's profile and set session
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
       this._setSession(authResult, profile);
+      this.router.navigate([this._authRedirect]);
+      this._clearRedirect();
     });
   }
 
@@ -90,15 +103,23 @@ export class AuthService {
     return roles.indexOf('admin') > -1;
   }
 
+  private _clearRedirect() {
+    // Remove auth redirect information
+    this._authRedirect = undefined;
+    localStorage.removeItem('authRedirect');
+  }
+
   logout() {
     // Remove tokens and profile and update login status subject
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
     localStorage.removeItem('isAdmin');
+    this._clearRedirect();
     this.userProfile = undefined;
     this.isAdmin = undefined;
     this.setLoggedIn(false);
+    this.router.navigate(['/']);
   }
 
   get authenticated() {

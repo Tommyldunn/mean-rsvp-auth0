@@ -14,6 +14,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { CallbackComponent } from './pages/callback/callback.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { AdminComponent } from './pages/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { CallbackComponent } from './pages/callback/callback.component';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    CallbackComponent
+    CallbackComponent,
+    ProfileComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
