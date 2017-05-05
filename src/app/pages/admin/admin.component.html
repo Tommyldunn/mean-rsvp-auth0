@@ -1,7 +1,11 @@
-<div *ngIf="auth.isAdmin && auth.authenticated">
-  <h1 class="text-center">{{pageTitle}}</h1>
+<h1 class="text-center">{{pageTitle}}</h1>
 
-  <ul>
+<p class="lead">Welcome, {{auth.userProfile.name}}!</p>
+
+<div class="admin-manageEvents">
+  <h2>All Events</h2>
+  <app-loading *ngIf="!eventList"></app-loading>
+  <ul *ngIf="eventList">
     <li *ngFor="let event of eventList">
       <a [routerLink]="['/event', event._id]">{{event.title}}</a> <span *ngIf="!event.viewPublic">(private)</span>
     </li>

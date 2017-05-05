@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-loading',
   template: `
-    <p>
-      loading Works!
-    </p>
+    <img src="/assets/images/loading.svg">
   `,
-  styles: []
+  styles: [`
+    :host() {
+      display: block;
+    }
+    img {
+      display: block;
+      margin: 20px auto;
+      width: 50px;
+    }
+  `]
 })
-export class LoadingComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class LoadingComponent {
 }

@@ -1,7 +1,11 @@
-<h1 class="text-center">{{pageTitle}}</h1>
+<app-loading *ngIf="!eventList"></app-loading>
 
-<ul>
-  <li *ngFor="let event of eventList">
-    <a [routerLink]="['/event', event._id]">{{event.title}}</a>
-  </li>
-</ul>
+<div *ngIf="eventList">
+  <h1 class="text-center">{{pageTitle}}</h1>
+
+  <ul>
+    <li *ngFor="let event of eventList">
+      <a [routerLink]="['/event', event._id]">{{event.title}}</a>
+    </li>
+  </ul>
+</div>

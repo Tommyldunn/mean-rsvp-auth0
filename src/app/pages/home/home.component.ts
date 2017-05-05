@@ -11,7 +11,7 @@ import { EventModel } from './../../core/models/event.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  pageTitle = 'Home';
+  pageTitle = 'Events';
   authSub: Subscription;
   eventListSub: Subscription;
   eventList: EventModel[];

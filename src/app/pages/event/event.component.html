@@ -1,3 +1,5 @@
+<app-loading *ngIf="!event"></app-loading>
+
 <div *ngIf="event && auth.authenticated">
   <h1 class="text-center" [innerHTML]="pageTitle"></h1>
 
