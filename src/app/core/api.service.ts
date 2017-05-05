@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 import { ENV } from './env.config';
-import { Http, RequestOptions, Response } from '@angular/http';
-import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -15,7 +15,7 @@ export class ApiService {
     private http: Http,
     private authHttp: AuthHttp) { }
 
-  // GET list of public events (no RSVPs)
+  // GET list of public, future events
   getEvents$(): Observable<EventModel[]> {
     return this.http
       .get(`${ENV.BASE_API}events`)
@@ -23,7 +23,7 @@ export class ApiService {
       .catch(this._handleError);
   }
 
-  // GET an event by ID (with RSVPs)
+  // GET an event by ID, with RSVPs (login required)
   getEventById$(id): Observable<EventModel> {
     return this.authHttp
       .get(`${ENV.BASE_API}event/${id}`)
@@ -31,7 +31,7 @@ export class ApiService {
       .catch(this._handleError);
   }
 
-  // GET all events (private and public) with all RSVPs (admin only)
+  // GET all events - private and public (admin only)
   getAdminEvents$(): Observable<EventModel[]> {
     return this.authHttp
       .get(`${ENV.BASE_API}events/admin`)
@@ -39,7 +39,7 @@ export class ApiService {
       .catch(this._handleError);
   }
 
-  // GET all RSVPs for a specific user
+  // GET all RSVPs for a specific user (login required)
   getUserRsvps$(userId): Observable<RsvpModel[]> {
     return this.authHttp
       .get(`${ENV.BASE_API}rsvps/${userId}`)
