@@ -23,18 +23,18 @@ export class ApiService {
       .catch(this._handleError);
   }
 
-  // GET an event by ID, with RSVPs (login required)
-  getEventById$(id): Observable<EventModel> {
-    return this.authHttp
-      .get(`${ENV.BASE_API}event/${id}`)
-      .map(this._handleSuccess)
-      .catch(this._handleError);
-  }
-
   // GET all events - private and public (admin only)
   getAdminEvents$(): Observable<EventModel[]> {
     return this.authHttp
       .get(`${ENV.BASE_API}events/admin`)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
+
+  // GET an event by ID, with RSVPs (login required)
+  getEventById$(id): Observable<EventModel> {
+    return this.authHttp
+      .get(`${ENV.BASE_API}event/${id}`)
       .map(this._handleSuccess)
       .catch(this._handleError);
   }
