@@ -3,9 +3,16 @@
 <div *ngIf="eventList">
   <h1 class="text-center">{{pageTitle}}</h1>
 
-  <ul>
-    <li *ngFor="let event of eventList">
-      <a [routerLink]="['/event', event._id]">{{event.title}} - {{utils.eventDates(event.startDatetime, event.endDatetime)}}</a>
-    </li>
-  </ul>
+  <div class="list-group">
+    <a
+      *ngFor="let event of eventList"
+      [routerLink]="['/event', event._id]"
+      class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1" [innerHTML]="event.title"></h5>
+        <small>{{utils.eventDates(event.startDatetime, event.endDatetime)}}</small>
+      </div>
+      <p class="mb-1"><strong>Location:</strong> {{event.location}}</p>
+    </a>
+  </div>
 </div>

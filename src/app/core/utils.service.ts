@@ -9,6 +9,21 @@ export class UtilsService {
   ) { }
 
   eventDates(start, end) {
+    // Display single-day events as "1/7/2018"
+    // Display multi-day events as "8/12/2017 - 8/13/2017"
+    const startDate = this.datePipe.transform(start, 'mediumDate');
+    const endDate = this.datePipe.transform(end, 'mediumDate');
+
+    if (startDate === endDate) {
+      return startDate;
+    } else {
+      return startDate + ' - ' + endDate;
+    }
+  }
+
+  eventDatesTimes(start, end) {
+    // Display single-day events as "1/7/2018, 5:30 PM - 7:30 PM"
+    // Display multi-day events as "8/12/2017, 8:00 PM - 8/13/2017, 10:00 AM"
     const startDate = this.datePipe.transform(start, 'shortDate');
     const startTime = this.datePipe.transform(start, 'shortTime');
     const endDate = this.datePipe.transform(end, 'shortDate');

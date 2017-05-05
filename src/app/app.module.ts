@@ -43,8 +43,8 @@ import { LoadingComponent } from './core/loading.component';
     Title,
     AuthService,
     ApiService,
-    UtilsService,
     DatePipe,
+    UtilsService,
     {
       provide: AuthHttp,
       useFactory: authHttpFactory,
