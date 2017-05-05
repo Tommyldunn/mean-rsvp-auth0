@@ -5,7 +5,7 @@
 
   <ul>
     <li *ngFor="let event of eventList">
-      <a [routerLink]="['/event', event._id]">{{event.title}}</a>
+      <a [routerLink]="['/event', event._id]">{{event.title}} - {{utils.eventDates(event.startDatetime, event.endDatetime)}}</a>
     </li>
   </ul>
 </div>

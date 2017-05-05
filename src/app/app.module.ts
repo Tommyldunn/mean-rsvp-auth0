@@ -1,9 +1,11 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { ApiService } from './core/api.service';
+import { UtilsService } from './core/utils.service';
 
 import { AuthService } from './auth/auth.service';
 import { AuthHttp } from 'angular2-jwt';
@@ -41,6 +43,8 @@ import { LoadingComponent } from './core/loading.component';
     Title,
     AuthService,
     ApiService,
+    UtilsService,
+    DatePipe,
     {
       provide: AuthHttp,
       useFactory: authHttpFactory,
