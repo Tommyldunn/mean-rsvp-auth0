@@ -45,6 +45,8 @@ module.exports = function(app, config) {
  |--------------------------------------
  */
 
+  const _eventListProjection = 'title startDatetime endDatetime location viewPublic';
+
   // GET API root
   app.get('/api/', (req, res) => {
     res.send('API works');
@@ -52,44 +54,38 @@ module.exports = function(app, config) {
 
   // GET list of public events starting in the future
   app.get('/api/events', (req, res) => {
-    Event.find({viewPublic: true, startDatetime: { $gte: new Date() }}, (err, events) => {
-      let eventsArr = [];
-      if (!events) {
-        return res.status(400).send({ message: 'No events found.' });
+    Event.find(
+      {viewPublic: true, startDatetime: { $gte: new Date() }},
+      _eventListProjection,
+      (err, events) => {
+        let eventsArr = [];
+        if (!events) {
+          return res.status(400).send({ message: 'No events found.' });
+        }
+        events.forEach((event) => {
+          eventsArr.push(event);
+        });
+        res.send(eventsArr);
       }
-      events.forEach((event) => {
-        eventsArr.push(event);
-      });
-      res.send(eventsArr);
-    });
-  });
-
-  // GET list of a user's RSVPs
-  app.get('/api/rsvps/:userId', jwtCheck, (req, res) => {
-    Rsvp.find({userId: req.params.userId}, (err, rsvps) => {
-      let rsvpsArr = [];
-      if (!rsvps) {
-        return res.status(400).send({ message: 'No RSVPs found.' });
-      }
-      rsvps.forEach((rsvp) => {
-        rsvpsArr.push(rsvp);
-      });
-      res.send(rsvpsArr);
-    });
+    );
   });
 
   // GET list of all events, public and private (admin only)
   app.get('/api/events/admin', jwtCheck, adminCheck, (req, res) => {
-    Event.find({}, (err, events) => {
-      let eventsArr = [];
-      if (!events) {
-        return res.status(400).send({ message: 'No events found.' });
+    Event.find(
+      {},
+      _eventListProjection,
+      (err, events) => {
+        let eventsArr = [];
+        if (!events) {
+          return res.status(400).send({ message: 'No events found.' });
+        }
+        events.forEach((event) => {
+          eventsArr.push(event);
+        });
+        res.send(eventsArr);
       }
-      events.forEach((event) => {
-        eventsArr.push(event);
-      });
-      res.send(eventsArr);
-    });
+    );
   });
 
   // GET event details (with RSVPs)
@@ -108,6 +104,20 @@ module.exports = function(app, config) {
         }
         res.send(event);
       });
+    });
+  });
+
+  // GET list of a user's RSVPs
+  app.get('/api/rsvps/:userId', jwtCheck, (req, res) => {
+    Rsvp.find({userId: req.params.userId}, (err, rsvps) => {
+      let rsvpsArr = [];
+      if (!rsvps) {
+        return res.status(400).send({ message: 'No RSVPs found.' });
+      }
+      rsvps.forEach((rsvp) => {
+        rsvpsArr.push(rsvp);
+      });
+      res.send(rsvpsArr);
     });
   });
 
