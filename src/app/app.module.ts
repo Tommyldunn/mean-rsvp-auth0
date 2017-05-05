@@ -17,6 +17,7 @@ import { CallbackComponent } from './pages/callback/callback.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { EventComponent } from './pages/event/event.component';
+import { LoadingComponent } from './core/loading.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { EventComponent } from './pages/event/event.component';
     CallbackComponent,
     ProfileComponent,
     AdminComponent,
-    EventComponent
+    EventComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
