@@ -11,6 +11,7 @@ import { RsvpModel } from './../../../core/models/rsvp.model';
 export class RsvpComponent implements OnInit {
   @Input() rsvps: RsvpModel[];
   userRsvp: RsvpModel;
+  totalAttending = 0;
 
   constructor(
     public auth: AuthService,
@@ -18,18 +19,21 @@ export class RsvpComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.userRsvp = this._getUserRsvp();
+    this._getUserRsvpAndGuests();
   }
 
-  private _getUserRsvp() {
+  private _getUserRsvpAndGuests() {
     if (this.rsvps.length) {
-      for (let i = 0; i < this.rsvps.length; i++) {
-        const thisRsvp = this.rsvps[i];
-
-        if (thisRsvp.userId === this.auth.userProfile.sub) {
-          return thisRsvp;
+      this.rsvps.forEach(rsvp => {
+        // If user ID is in RSVPs, set as user's RSVP
+        if (rsvp.userId === this.auth.userProfile.sub) {
+          this.userRsvp = rsvp;
         }
-      }
+        // Count total number of guests across all RSVPs
+        if (rsvp.guests) {
+          this.totalAttending += rsvp.guests;
+        }
+      });
     }
   }
 

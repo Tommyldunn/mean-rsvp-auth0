@@ -36,8 +36,10 @@ export class UtilsService {
     }
   }
 
-  rsvpDisplayCount(guests: number) {
-    const persons = guests === 1 ? ' person has' : ' people have';
+  displayCount(guests: number) {
+    // Example usage:
+    // {{displayCount(guests)}} attending this event
+    const persons = guests === 1 ? ' person is' : ' people are';
     return guests + persons;
   }
 

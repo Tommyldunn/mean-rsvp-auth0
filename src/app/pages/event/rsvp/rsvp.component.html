@@ -12,7 +12,7 @@
     <li class="list-group-item">
       <strong>Attending:</strong>{{utils.booleanToText(userRsvp.attending)}}
     </li>
-    <li *ngIf="userRsvp.attending && userRsvp.guests" class="list-group-item">
+    <li *ngIf="userRsvp.attending" class="list-group-item">
       <strong>Guests:</strong>{{userRsvp.guests}}
     </li>
     <li *ngIf="userRsvp.comments" class="list-group-item">
@@ -25,6 +25,6 @@
 
 </div>
 
-<div class="card-footer">
-  <small class="text-muted">{{utils.rsvpDisplayCount(rsvps.length)}} RSVPed to this event.</small>
+<div class="card-footer text-right">
+  <small class="text-muted">{{utils.displayCount(this.totalAttending)}} attending this event.</small>
 </div>
