@@ -121,4 +121,52 @@ module.exports = function(app, config) {
     });
   });
 
+  // POST a new RSVP
+  app.post('/api/rsvp/new', jwtCheck, (req, res) => {
+    Rsvp.findOne({eventId: req.body.eventId, userId: req.body.userId}, (err, existingRsvp) => {
+      if (existingRsvp) {
+        return res.status(409).send({message: 'You have already RSVPed to this event.'});
+      }
+      const rsvp = new Rsvp({
+        userId: req.body.userId,
+        name: req.body.name,
+        eventId: req.body.eventId,
+        attending: req.body.attending,
+        guests: req.body.guests,
+        comments: req.body.comments
+      });
+      rsvp.save((err) => {
+        if (err) {
+          res.status(500).send({message: err});
+        }
+        res.send(rsvp);
+      });
+    });
+  });
+
+  // PUT (edit) an existing RSVP
+  app.put('/api/rsvp/:id', jwtCheck, (req, res) => {
+    Rsvp.findById(req.params.id, (err, rsvp) => {
+      if (!rsvp) {
+        return res.status(400).send({message: 'RSVP not found.'});
+      }
+      if (rsvp.userId != req.user.sub) {
+        return res.status(401).send({message: 'You cannot edit someone else\'s RSVP.'});
+      }
+      rsvp.userId = req.body.userId || rsvp.userId;
+      rsvp.name = req.body.name || rsvp.name;
+      rsvp.eventId = rsvp.eventId; // user cannot change the event ID
+      rsvp.attending = rsvp.body.attending; // attending can be false, so it must come from req
+      rsvp.guests = rsvp.body.guests; // guests can be falsey, so it must come from req
+      rsvp.comments = rsvp.body.comments || rsvp.comments;
+
+      rsvp.save(err => {
+        if (err) {
+          res.status(500).send({message: err});
+        }
+        res.send(rsvp);
+      });
+    });
+  });
+
 };

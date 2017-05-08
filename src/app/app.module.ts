@@ -22,6 +22,7 @@ import { EventComponent } from './pages/event/event.component';
 import { LoadingComponent } from './core/loading.component';
 import { EventDetailComponent } from './pages/event/event-detail/event-detail.component';
 import { RsvpComponent } from './pages/event/rsvp/rsvp.component';
+import { RsvpFormComponent } from './pages/event/rsvp/rsvp-form/rsvp-form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RsvpComponent } from './pages/event/rsvp/rsvp.component';
     EventComponent,
     LoadingComponent,
     EventDetailComponent,
-    RsvpComponent
+    RsvpComponent,
+    RsvpFormComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-export class RsvpModel {
+class RsvpModel {
   constructor(
     public _id: string,
     public userId: string,
@@ -9,3 +9,16 @@ export class RsvpModel {
     public comments?: string
   ) { }
 }
+
+class NewRsvpModel {
+  constructor(
+    public userId: string,
+    public name: string,
+    public eventId: string,
+    public attending: boolean,
+    public guests?: number,
+    public comments?: string
+  ) { }
+}
+
+export { RsvpModel, NewRsvpModel };

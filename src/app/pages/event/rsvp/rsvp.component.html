@@ -29,7 +29,9 @@
 <!-- No RSVP yet -->
 <div *ngIf="!userRsvp">
   <div class="card-block">
-    <p class="lead">You have not RSVPed to this event yet.</p>
+    <p class="lead">You have not RSVPed to this event yet. Fill out the form below to respond:</p>
+
+    <app-rsvp-form [eventId]="eventId"></app-rsvp-form>
   </div>
 </div>
 

@@ -1,0 +1,70 @@
+<form>
+  <!-- Name -->
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input
+      id="name"
+      name="name"
+      type="text"
+      class="form-control"
+      [(ngModel)]="rsvp.name"
+      required>
+  </div>
+
+  <!-- Attending -->
+  <div class="form-group">
+    <label class="label-inline-group">Will you be attending?</label>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input
+          id="attending"
+          name="attending"
+          type="radio"
+          class="form-check-input"
+          (change)="changeAttendance()"
+          [value]="true"
+          [(ngModel)]="rsvp.attending"> Yes
+        </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input
+          id="attending"
+          name="attending"
+          type="radio"
+          class="form-check-input"
+          (change)="changeAttendance()"
+          [value]="false"
+          [(ngModel)]="rsvp.attending"> No
+        </label>
+    </div>
+  </div>
+
+  <!-- Guests -->
+  <div *ngIf="rsvp.attending" class="form-group">
+    <label for="guests">Guests Attending (including yourself):</label>
+    <!-- @TODO: validation -->
+    <input
+      id="guests"
+      name="guests"
+      type="number"
+      class="form-control"
+      step="1"
+      [min]="0"
+      [max]="10"
+      (change)="checkAttending()"
+      [value]="1"
+      [(ngModel)]="rsvp.guests">
+  </div>
+
+  <!-- Comments -->
+  <div class="form-group">
+    <label for="comments">Comments:</label>
+    <textarea
+      id="comments"
+      name="comments"
+      class="form-control"
+      rows="3"
+      [(ngModel)]="rsvp.comments"></textarea>
+  </div>
+</form>

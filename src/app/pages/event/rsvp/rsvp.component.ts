@@ -10,6 +10,7 @@ import { RsvpModel } from './../../../core/models/rsvp.model';
 })
 export class RsvpComponent implements OnInit {
   @Input() rsvps: RsvpModel[];
+  @Input() eventId: string;
   userRsvp: RsvpModel;
   totalAttending = 0;
 
