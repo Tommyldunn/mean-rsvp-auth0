@@ -33,7 +33,28 @@
   </div>
 </div>
 
+<!-- Admins can see full list of all RSVPs -->
+<div *ngIf="auth.isAdmin">
+  <div class="card-block">
+    <h3 class="card-title text-center">All RSVPs</h3>
+    <p class="lead">Admins can view all RSVPs to this event.</p>
+  </div>
+
+  <ul class="list-group list-group-flush">
+    <li
+      *ngFor="let rsvp of rsvps"
+      class="list-group-item"
+      [ngClass]="{'list-group-item-success': rsvp.attending, 'list-group-item-danger': !rsvp.attending}">
+      <p>
+        <strong>{{rsvp.name}}</strong> - {{utils.booleanToText(rsvp.attending)}}<br>
+        <span *ngIf="rsvp.attending">{{rsvp.guests}} guests</span>
+        <span *ngIf="rsvp.comments">{{rsvp.comments}}</span>
+      </p>
+    </li>
+  </ul>
+</div>
+
 <!-- Footer showing # of total attending guests -->
 <div class="card-footer text-right">
-  <small class="text-muted">{{utils.displayCount(this.totalAttending)}} attending this event.</small>
+  <small class="text-muted">{{utils.displayCount(this.totalAttending)}} attending this event so far.</small>
 </div>
