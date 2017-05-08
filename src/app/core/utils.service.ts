@@ -36,9 +36,13 @@ export class UtilsService {
     }
   }
 
-  rsvpDisplayCount(guests: Number) {
+  rsvpDisplayCount(guests: number) {
     const persons = guests === 1 ? ' person has' : ' people have';
     return guests + persons;
+  }
+
+  booleanToText(bool: boolean) {
+    return bool ? 'Yes' : 'No';
   }
 
 }

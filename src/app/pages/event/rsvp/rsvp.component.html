@@ -2,8 +2,27 @@
   <h2 class="card-title text-center">RSVP</h2>
 </div>
 
-<div class="card-block">
-  <p class="lead">RSVP to this event.</p>
+<div *ngIf="userRsvp">
+  <p class="card-block lead">You have RSVPed to this event.</p>
+
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <strong>Name:</strong>{{userRsvp.name}}
+    </li>
+    <li class="list-group-item">
+      <strong>Attending:</strong>{{utils.booleanToText(userRsvp.attending)}}
+    </li>
+    <li *ngIf="userRsvp.attending && userRsvp.guests" class="list-group-item">
+      <strong>Guests:</strong>{{userRsvp.guests}}
+    </li>
+    <li *ngIf="userRsvp.comments" class="list-group-item">
+      <strong>Comments:</strong><span [innerHTML]="userRsvp.comments"></span>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="!userRsvp" class="card-block">
+
 </div>
 
 <div class="card-footer">
