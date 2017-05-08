@@ -1,0 +1,15 @@
+<div class="card-block">
+  <h2 class="card-title text-center">Event Details</h2>
+</div>
+<ul class="list-group list-group-flush">
+  <li class="list-group-item">
+    <strong>When:&nbsp;</strong>{{utils.eventDatesTimes(event.startDatetime, event.endDatetime)}}
+  </li>
+  <li class="list-group-item">
+    <strong>Where:&nbsp;</strong>{{event.location}}
+  </li>
+</ul>
+
+<div class="card-block">
+  <p class="lead" [innerHTML]="event.description"></p>
+</div>

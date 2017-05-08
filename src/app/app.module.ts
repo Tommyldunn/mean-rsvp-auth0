@@ -20,6 +20,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { EventComponent } from './pages/event/event.component';
 import { LoadingComponent } from './core/loading.component';
+import { EventDetailComponent } from './pages/event/event-detail/event-detail.component';
+import { RsvpComponent } from './pages/event/rsvp/rsvp.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { LoadingComponent } from './core/loading.component';
     ProfileComponent,
     AdminComponent,
     EventComponent,
-    LoadingComponent
+    LoadingComponent,
+    EventDetailComponent,
+    RsvpComponent
   ],
   imports: [
     BrowserModule,

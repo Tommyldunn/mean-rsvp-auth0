@@ -1,46 +1,43 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <div *ngIf="isLoaded">
-  <!-- Event -->
-  <div *ngIf="event" class="card text-center">
+  <h1 class="text-center">{{pageTitle}}</h1>
 
+  <!-- Event -->
+  <div *ngIf="event" class="card">
+
+    <!-- Card tabs -->
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <a class="nav-link active">Details</a>
+          <a
+            class="nav-link"
+            [routerLink]="[]"
+            [queryParams]="{tab: 'details'}"
+            [ngClass]="{'active': tabIs('details')}">Details</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link">RSVP</a>
+          <a
+            class="nav-link"
+            [routerLink]="[]"
+            [queryParams]="{tab: 'rsvp'}"
+            [ngClass]="{'active': tabIs('rsvp')}">RSVP</a>
         </li>
       </ul>
     </div>
 
-    <div class="card-block">
-      <h1 class="card-title" [innerHTML]="event.title"></h1>
-      <p class="event-info lead text-center">
-        <strong>Location:</strong> {{event.location}}
-        {{utils.eventDatesTimes(event.startDatetime, event.endDatetime)}}
-      </p>
+    <app-event-detail
+      *ngIf="tabIs('details')"
+      [event]="event"></app-event-detail>
 
-      <p class="lead" [innerHTML]="event.description"></p>
+    <app-rsvp
+      *ngIf="tabIs('rsvp')"
+      [rsvps]="rsvps"></app-rsvp>
 
-      <p>{{utils.rsvpDisplayCount(event.rsvps.length)}} RSVPed to this event.</p>
-
-      <div *ngIf="userRsvp">
-        I am RSVPed to this event: {{userRsvp._id}}
-      </div>
-
-      <div *ngIf="auth.isAdmin">
-        I'm an admin
-      </div>
-    </div>
   </div>
 
   <!-- Error loading events -->
-  <div *ngIf="error">
-    <h1 class="text-center">{{pageTitle}}</h1>
-    <p class="alert alert-danger">
-    <strong>Oops!</strong> There was an error retrieving details for this event. 
+  <p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> There was an error retrieving information for this event. 
   </p>
-  </div>
 </div>

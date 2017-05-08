@@ -17,12 +17,13 @@ export class EventComponent implements OnInit, OnDestroy {
   pageTitle: string;
   id: string;
   routeSub: Subscription;
+  tabSub: Subscription;
   eventSub: Subscription;
   event: EventModel;
-  userRsvp: RsvpModel;
-  allRsvps: RsvpModel[];
+  rsvps: RsvpModel[];
   loading: boolean;
   error: boolean;
+  tab: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,8 +33,11 @@ export class EventComponent implements OnInit, OnDestroy {
     private title: Title) { }
 
   ngOnInit() {
+    this.tab = 'details';
+
+    // Set event ID from route params and subscribe
     this.routeSub = this.route.params
-      .subscribe((params) => {
+      .subscribe(params => {
         this.id = params['id'];
 
         // GET event by ID
@@ -43,8 +47,7 @@ export class EventComponent implements OnInit, OnDestroy {
             res => {
               this.event = res;
               this._setPageTitle(this.event.title);
-              this.allRsvps = this.event.rsvps;
-              this.userRsvp = this._getUserRsvp();
+              this.rsvps = this.event.rsvps;
               this.loading = false;
               console.log(this.event);
             },
@@ -56,6 +59,12 @@ export class EventComponent implements OnInit, OnDestroy {
             }
           );
       });
+
+      // Subscribe to query params to watch for tab changes
+      this.tabSub = this.route.queryParams
+        .subscribe(queryParams => {
+          this.tab = queryParams['tab'] || 'details';
+        });
   }
 
   private _setPageTitle(title: string) {
@@ -63,24 +72,17 @@ export class EventComponent implements OnInit, OnDestroy {
     this.title.setTitle(title);
   }
 
-  private _getUserRsvp() {
-    if (this.allRsvps.length) {
-      for (let i = 0; i < this.allRsvps.length; i++) {
-        const thisRsvp = this.allRsvps[i];
-
-        if (thisRsvp.userId === this.auth.userProfile.sub) {
-          return thisRsvp;
-        }
-      }
-    }
-  }
-
   get isLoaded() {
     return this.loading === false;
   }
 
+  tabIs(tabName: string) {
+    return this.tab === tabName;
+  }
+
   ngOnDestroy() {
     this.routeSub.unsubscribe();
+    this.tabSub.unsubscribe();
     this.eventSub.unsubscribe();
   }
 
