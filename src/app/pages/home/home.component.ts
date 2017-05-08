@@ -14,6 +14,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   pageTitle = 'Events';
   eventListSub: Subscription;
   eventList: EventModel[];
+  loading: boolean;
+  error: boolean;
 
   constructor(
     private title: Title,
@@ -25,9 +27,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.eventListSub = this.api
       .getEvents$()
-      .subscribe((res) => {
-        this.eventList = res;
-      });
+      .subscribe(
+        res => {
+          this.eventList = res;
+          this.loading = false;
+        },
+        err => {
+          console.error(err);
+          this.loading = false;
+          this.error = true;
+        }
+      );
+  }
+
+  get isLoaded() {
+    return this.loading === false;
   }
 
   ngOnDestroy() {

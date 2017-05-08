@@ -1,9 +1,10 @@
-<app-loading *ngIf="!eventList"></app-loading>
+<h1 class="text-center">{{pageTitle}}</h1>
 
-<div *ngIf="eventList">
-  <h1 class="text-center">{{pageTitle}}</h1>
+<app-loading *ngIf="loading"></app-loading>
 
-  <div class="list-group">
+<div *ngIf="isLoaded">
+  <!-- Events listing -->
+  <div *ngIf="eventList" class="list-group">
     <a
       *ngFor="let event of eventList"
       [routerLink]="['/event', event._id]"
@@ -15,4 +16,10 @@
       <p class="mb-1"><strong>Location:</strong> {{event.location}}</p>
     </a>
   </div>
+
+  <!-- Error loading events -->
+  <p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> There was an error retrieving event data. 
+  </p>
+
 </div>
