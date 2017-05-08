@@ -45,13 +45,13 @@ export class AuthService {
   }
 
   login() {
+    // If redirect exists in localStorage, set local prop.
     // If no redirect already set in localStorage,
     // set redirect to current route logging in from.
-    // If redirect exists in localStorage, set local prop
-    if (!localStorage.getItem('authRedirect')) {
-      localStorage.setItem('authRedirect', this.router.url);
-    } else {
+    if (localStorage.getItem('authRedirect')) {
       this._authRedirect = localStorage.getItem('authRedirect');
+    } else {
+      localStorage.setItem('authRedirect', this.router.url);
     }
     // Auth0 authorize request
     // Note: nonce is automatically generated: https://auth0.com/docs/libraries/auth0js/v8#using-nonce

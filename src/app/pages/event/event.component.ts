@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../auth/auth.service';
+import { ApiService } from './../../core/api.service';
+import { UtilsService } from './../../core/utils.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { ApiService } from './../../core/api.service';
 import { EventModel } from './../../core/models/event.model';
 import { RsvpModel } from './../../core/models/rsvp.model';
 
@@ -20,12 +21,15 @@ export class EventComponent implements OnInit, OnDestroy {
   event: EventModel;
   userRsvp: RsvpModel;
   allRsvps: RsvpModel[];
+  loading: boolean;
+  error: boolean;
 
   constructor(
-    public auth: AuthService,
     private route: ActivatedRoute,
+    public auth: AuthService,
     private api: ApiService,
-    public title: Title) { }
+    public utils: UtilsService,
+    private title: Title) { }
 
   ngOnInit() {
     this.routeSub = this.route.params
@@ -35,15 +39,28 @@ export class EventComponent implements OnInit, OnDestroy {
         // GET event by ID
         this.eventSub = this.api
           .getEventById$(this.id)
-          .subscribe((res) => {
-            this.event = res;
-            this.pageTitle = this.event.title;
-            this.title.setTitle(this.pageTitle);
-            this.allRsvps = this.event.rsvps;
-            this.userRsvp = this._getUserRsvp();
-            console.log(this.event);
-          });
+          .subscribe(
+            res => {
+              this.event = res;
+              this._setPageTitle(this.event.title);
+              this.allRsvps = this.event.rsvps;
+              this.userRsvp = this._getUserRsvp();
+              this.loading = false;
+              console.log(this.event);
+            },
+            err => {
+              console.error(err);
+              this.loading = false;
+              this.error = true;
+              this._setPageTitle('Event Details');
+            }
+          );
       });
+  }
+
+  private _setPageTitle(title: string) {
+    this.pageTitle = title;
+    this.title.setTitle(title);
   }
 
   private _getUserRsvp() {
@@ -58,9 +75,8 @@ export class EventComponent implements OnInit, OnDestroy {
     }
   }
 
-  rsvpCount(guests: Number) {
-    const persons = guests === 1 ? ' person has' : ' people have';
-    return guests + persons;
+  get isLoaded() {
+    return this.loading === false;
   }
 
   ngOnDestroy() {

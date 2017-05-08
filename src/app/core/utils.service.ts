@@ -36,4 +36,9 @@ export class UtilsService {
     }
   }
 
+  rsvpDisplayCount(guests: Number) {
+    const persons = guests === 1 ? ' person has' : ' people have';
+    return guests + persons;
+  }
+
 }
