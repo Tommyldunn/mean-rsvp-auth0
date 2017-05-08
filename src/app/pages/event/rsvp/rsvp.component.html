@@ -2,8 +2,9 @@
   <h2 class="card-title text-center">RSVP</h2>
 </div>
 
+<!-- User has RSVPed -->
 <div *ngIf="userRsvp">
-  <p class="card-block lead">You have RSVPed to this event.</p>
+  <p class="card-block lead">You have responded to this event with the following information:</p>
 
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
@@ -19,12 +20,20 @@
       <strong>Comments:</strong><span [innerHTML]="userRsvp.comments"></span>
     </li>
   </ul>
+
+  <div class="card-block">
+    <button class="btn btn-info">Edit My RSVP</button>
+  </div>
 </div>
 
-<div *ngIf="!userRsvp" class="card-block">
-
+<!-- No RSVP yet -->
+<div *ngIf="!userRsvp">
+  <div class="card-block">
+    <p class="lead">You have not RSVPed to this event yet.</p>
+  </div>
 </div>
 
+<!-- Footer showing # of total attending guests -->
 <div class="card-footer text-right">
   <small class="text-muted">{{utils.displayCount(this.totalAttending)}} attending this event.</small>
 </div>
