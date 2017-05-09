@@ -61,7 +61,6 @@
   <!-- Guests -->
   <div *ngIf="formRsvp.attending" class="form-group">
     <label for="guests">Guests Attending (including yourself):</label>
-    <!-- @TODO: validation -->
     <input
       id="guests"
       name="guests"
@@ -70,9 +69,16 @@
       class="form-control"
       (change)="changeGuestsSetAttending()"
       maxlength="1"
-      [value]="1"
+      [required]="formRsvp.attending"
       #guests="ngModel"
       [(ngModel)]="formRsvp.guests">
+    <div
+      *ngIf="guests.errors && (guests.dirty || guests.touched)"
+      class="small text-danger formErrors">
+      <div [hidden]="!guests.errors.required">
+        Guests required if attending the event.
+      </div>
+    </div>
   </div>
 
   <!-- Comments -->
