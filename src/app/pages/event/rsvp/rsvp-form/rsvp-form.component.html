@@ -7,7 +7,7 @@
       name="name"
       type="text"
       class="form-control"
-      [(ngModel)]="rsvp.name"
+      [(ngModel)]="formRsvp.name"
       required>
   </div>
 
@@ -21,9 +21,9 @@
           name="attending"
           type="radio"
           class="form-check-input"
-          (change)="changeAttendance()"
+          (change)="changeAttendanceSetGuests()"
           [value]="true"
-          [(ngModel)]="rsvp.attending"> Yes
+          [(ngModel)]="formRsvp.attending"> Yes
         </label>
     </div>
     <div class="form-check form-check-inline">
@@ -33,15 +33,15 @@
           name="attending"
           type="radio"
           class="form-check-input"
-          (change)="changeAttendance()"
+          (change)="changeAttendanceSetGuests()"
           [value]="false"
-          [(ngModel)]="rsvp.attending"> No
+          [(ngModel)]="formRsvp.attending"> No
         </label>
     </div>
   </div>
 
   <!-- Guests -->
-  <div *ngIf="rsvp.attending" class="form-group">
+  <div *ngIf="formRsvp.attending" class="form-group">
     <label for="guests">Guests Attending (including yourself):</label>
     <!-- @TODO: validation -->
     <input
@@ -52,9 +52,9 @@
       step="1"
       [min]="0"
       [max]="10"
-      (change)="checkAttending()"
+      (change)="checkGuestsSetAttending()"
       [value]="1"
-      [(ngModel)]="rsvp.guests">
+      [(ngModel)]="formRsvp.guests">
   </div>
 
   <!-- Comments -->
@@ -65,6 +65,6 @@
       name="comments"
       class="form-control"
       rows="3"
-      [(ngModel)]="rsvp.comments"></textarea>
+      [(ngModel)]="formRsvp.comments"></textarea>
   </div>
 </form>

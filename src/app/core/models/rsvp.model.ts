@@ -1,24 +1,11 @@
-class RsvpModel {
-  constructor(
-    public _id: string,
-    public userId: string,
-    public name: string,
-    public eventId: string,
-    public attending: boolean,
-    public guests?: number,
-    public comments?: string
-  ) { }
-}
-
-class NewRsvpModel {
+export class RsvpModel {
   constructor(
     public userId: string,
     public name: string,
     public eventId: string,
     public attending: boolean,
+    public _id?: string, // _id is present if editing or returning from DB
     public guests?: number,
     public comments?: string
   ) { }
 }
-
-export { RsvpModel, NewRsvpModel };

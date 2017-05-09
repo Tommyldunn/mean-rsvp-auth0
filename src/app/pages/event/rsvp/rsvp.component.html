@@ -6,7 +6,7 @@
 <div *ngIf="userRsvp">
   <p class="card-block lead">You have responded to this event with the following information:</p>
 
-  <ul class="list-group list-group-flush">
+  <ul class="list-group list-group-flush" *ngIf="!showEditForm">
     <li class="list-group-item">
       <strong>Name:</strong>{{userRsvp.name}}
     </li>
@@ -22,7 +22,15 @@
   </ul>
 
   <div class="card-block">
-    <button class="btn btn-info">Edit My RSVP</button>
+    <button
+      class="btn btn-info"
+      [ngClass]="{'btn-info': !showEditForm, 'btn-warning': showEditForm}"
+      (click)="toggleEditForm()">{{editBtnText}}</button>
+
+    <app-rsvp-form
+      *ngIf="showEditForm"
+      [eventId]="eventId"
+      [rsvp]="userRsvp"></app-rsvp-form>
   </div>
 </div>
 

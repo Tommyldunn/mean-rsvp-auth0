@@ -13,11 +13,12 @@ export class RsvpComponent implements OnInit {
   @Input() eventId: string;
   userRsvp: RsvpModel;
   totalAttending = 0;
+  showEditForm = false;
+  editBtnText = 'Edit RSVP';
 
   constructor(
     public auth: AuthService,
-    public utils: UtilsService
-    ) { }
+    public utils: UtilsService) { }
 
   ngOnInit() {
     this._getUserRsvpAndGuests();
@@ -36,6 +37,11 @@ export class RsvpComponent implements OnInit {
         }
       });
     }
+  }
+
+  toggleEditForm() {
+    this.showEditForm = !this.showEditForm;
+    this.editBtnText = this.showEditForm ? 'Cancel Edit' : 'Edit RSVP';
   }
 
 }

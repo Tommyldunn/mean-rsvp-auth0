@@ -44,7 +44,27 @@ export class UtilsService {
   }
 
   booleanToText(bool: boolean) {
+    // Change a boolean to 'Yes' or 'No' string
     return bool ? 'Yes' : 'No';
+  }
+
+  search(array: any[], query: string) {
+    // match query to string values
+    // @TODO: support dates too
+    const lQuery = query.toLowerCase();
+
+    if (!query) {
+      return array;
+    } else if (array) {
+      const filteredArray = array.filter(item => {
+        for (const key in item) {
+          if ((typeof item[key] === 'string') && (item[key].toLowerCase().indexOf(lQuery) !== -1)) {
+            return true;
+          }
+        }
+      });
+      return filteredArray;
+    }
   }
 
 }
