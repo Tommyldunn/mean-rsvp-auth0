@@ -9,7 +9,8 @@ export class NumberFieldDirective {
 
   constructor(private el: ElementRef) { }
 
-  @HostListener('keydown', ['$event']) onKeyDown(e: KeyboardEvent) {
+  @HostListener('keydown', ['$event'])
+  onKeyDown(e: KeyboardEvent) {
     const current: string = this.el.nativeElement.value;
     const next: string = current.concat(e.key);
 
