@@ -22,10 +22,12 @@
   </ul>
 
   <div class="card-block">
-    <button
-      class="btn btn-info"
-      [ngClass]="{'btn-info': !showEditForm, 'btn-warning': showEditForm}"
-      (click)="toggleEditForm()">{{editBtnText}}</button>
+    <p>
+      <button
+        class="btn btn-info"
+        [ngClass]="{'btn-info': !showEditForm, 'btn-warning': showEditForm}"
+        (click)="toggleEditForm()">{{editBtnText}}</button>
+    </p>
 
     <app-rsvp-form
       *ngIf="showEditForm"
@@ -40,7 +42,9 @@
   <div class="card-block">
     <p class="lead">You have not RSVPed to this event yet. Fill out the form below to respond:</p>
 
-    <app-rsvp-form [eventId]="eventId"></app-rsvp-form>
+    <app-rsvp-form
+      [eventId]="eventId"
+      (submitRsvp)="onSubmitRsvp($event)"></app-rsvp-form>
   </div>
 </div>
 
@@ -56,16 +60,16 @@
       *ngFor="let rsvp of rsvps"
       class="list-group-item"
       [ngClass]="{'list-group-item-success': rsvp.attending, 'list-group-item-danger': !rsvp.attending}">
-      <p>
+      <div>
         <strong>{{rsvp.name}}</strong> - {{utils.booleanToText(rsvp.attending)}}<br>
-        <span *ngIf="rsvp.attending">{{rsvp.guests}} guests</span>
-        <span *ngIf="rsvp.comments">{{rsvp.comments}}</span>
-      </p>
+        <span *ngIf="rsvp.attending">Guests: {{rsvp.guests}}</span>
+        <p *ngIf="rsvp.comments">{{rsvp.comments}}</p>
+      </div>
     </li>
   </ul>
 </div>
 
 <!-- Footer showing # of total attending guests -->
 <div class="card-footer text-right">
-  <small class="text-muted">{{utils.displayCount(this.totalAttending)}} attending this event so far.</small>
+  <small class="text-muted">{{utils.displayCount(totalAttending)}} attending this event so far.</small>
 </div>

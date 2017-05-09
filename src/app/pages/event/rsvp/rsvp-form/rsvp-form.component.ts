@@ -1,3 +1,4 @@
+import { Response } from '@angular/http';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from './../../../../auth/auth.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -16,7 +17,8 @@ export class RsvpFormComponent implements OnInit {
   @Output() submitRsvp = new EventEmitter();
   isEdit: boolean;
   formRsvp: RsvpModel;
-  submitRsvpSub: Subscription
+  submitRsvpSub: Subscription;
+  submitting: boolean;
 
   constructor(
     private auth: AuthService,
@@ -71,42 +73,35 @@ export class RsvpFormComponent implements OnInit {
   }
 
   onSubmit() {
-    let eventObj: any = {
-      rsvp: null,
-      error: null
-    };
+    this.submitting = true;
 
     if (!this.isEdit) {
       this.submitRsvpSub = this.api
         .postRsvp$(this.formRsvp)
         .subscribe(
-          res => {
-            eventObj.rsvp = res;
-            this.submitRsvp.emit(eventObj);
-          },
-          err => {
-            eventObj.error = err;
-            this.submitRsvp.emit(eventObj);
-            console.error(err);
-            // @TODO: handle error in some visible way
-          }
+          this._handleSubmitSuccess.bind(this),
+          this._handleSubmitError.bind(this)
         );
     } else {
       this.submitRsvpSub = this.api
         .editRsvp$(this.rsvp._id, this.formRsvp)
         .subscribe(
-          res => {
-            eventObj.rsvp = res;
-            this.submitRsvp.emit(eventObj);
-          },
-          err => {
-            eventObj.error = err;
-            this.submitRsvp.emit(eventObj);
-            console.error(err);
-            // @TODO: handle error in some visible way
-          }
+          this._handleSubmitSuccess.bind(this),
+          this._handleSubmitError.bind(this)
         );
     }
+  }
+
+  private _handleSubmitSuccess(res) {
+    this.submitRsvp.emit({rsvp: res});
+    this.submitting = false;
+  }
+
+  private _handleSubmitError(err) {
+    this.submitRsvp.emit({error: err});
+    console.error(err);
+    this.submitting = false;
+    // @TODO: handle error in some visible way
   }
 
 }

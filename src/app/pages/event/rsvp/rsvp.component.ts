@@ -12,7 +12,7 @@ export class RsvpComponent implements OnInit {
   @Input() rsvps: RsvpModel[];
   @Input() eventId: string;
   userRsvp: RsvpModel;
-  totalAttending = 0;
+  totalAttending: number;
   showEditForm = false;
   editBtnText = 'Edit RSVP';
 
@@ -38,7 +38,7 @@ export class RsvpComponent implements OnInit {
   }
 
   private _getRsvp(updated?: boolean) {
-    this.totalAttending = 0;
+    let guests = 0;
 
     this.rsvps.forEach((rsvp, i) => {
       // If user ID is in RSVPs, set as user's RSVP
@@ -50,10 +50,12 @@ export class RsvpComponent implements OnInit {
         }
       }
       // Count total number of guests across all RSVPs
-      if (rsvp.guests) {
-        this.totalAttending += rsvp.guests;
+      if (this.rsvps[i].guests) {
+        guests += this.rsvps[i].guests;
       }
     });
+
+    this.totalAttending = guests;
   }
 
 }
