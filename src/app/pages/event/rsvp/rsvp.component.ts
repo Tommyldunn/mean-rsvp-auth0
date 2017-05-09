@@ -9,7 +9,7 @@ import { RsvpModel } from './../../../core/models/rsvp.model';
   styleUrls: ['./rsvp.component.scss']
 })
 export class RsvpComponent implements OnInit {
-  @Input() rsvps: RsvpModel[];
+  @Input() rsvps: RsvpModel[] = [];
   @Input() eventId: string;
   userRsvp: RsvpModel;
   totalAttending: number;
@@ -24,8 +24,8 @@ export class RsvpComponent implements OnInit {
     this._getRsvp();
   }
 
-  toggleEditForm() {
-    this.showEditForm = !this.showEditForm;
+  toggleEditForm(setVal?: boolean) {
+    this.showEditForm = setVal !== undefined ? setVal : !this.showEditForm;
     this.editBtnText = this.showEditForm ? 'Cancel Edit' : 'Edit RSVP';
   }
 
@@ -33,19 +33,32 @@ export class RsvpComponent implements OnInit {
     if (e.rsvp) {
       this.userRsvp = e.rsvp;
       this._getRsvp(true);
-      this.toggleEditForm();
     }
   }
 
-  private _getRsvp(updated?: boolean) {
+  private _getRsvp(changed?: boolean) {
     let guests = 0;
 
+    // If RSVP matching user ID is already
+    // in RSVP array, set as initial RSVP
+    const _initialUserRsvp = this.rsvps.filter(rsvp => {
+        return rsvp.userId === this.auth.userProfile.sub;
+      })[0];
+
+    // If user has not RSVPed before and has
+    // made a change, push new RSVP to array
+    if (!_initialUserRsvp && this.userRsvp && changed) {
+      this.rsvps.push(this.userRsvp);
+    }
+    
+    // If user has an existing RSVP
     this.rsvps.forEach((rsvp, i) => {
-      // If user ID is in RSVPs, set as user's RSVP
-      if (rsvp.userId === this.auth.userProfile.sub) {
-        if (updated) { 
+      if (_initialUserRsvp) {
+        if (changed) {
+          // If user edited their RSVP, update array with edited data
           this.rsvps[i] = this.userRsvp;
         } else {
+          // If no changes were made, set local user RSVP property
           this.userRsvp = rsvp;
         }
       }
@@ -56,6 +69,7 @@ export class RsvpComponent implements OnInit {
     });
 
     this.totalAttending = guests;
+    this.toggleEditForm(false);
   }
 
 }

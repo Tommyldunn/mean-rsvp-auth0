@@ -93,12 +93,20 @@ export class RsvpFormComponent implements OnInit {
   }
 
   private _handleSubmitSuccess(res) {
-    this.submitRsvp.emit({rsvp: res});
+    let eventObj = {
+      isEdit: this.isEdit,
+      rsvp: res
+    };
+    this.submitRsvp.emit(eventObj);
     this.submitting = false;
   }
 
   private _handleSubmitError(err) {
-    this.submitRsvp.emit({error: err});
+    let eventObj = {
+      isEdit: this.isEdit,
+      error: err
+    };
+    this.submitRsvp.emit(eventObj);
     console.error(err);
     this.submitting = false;
     // @TODO: handle error in some visible way

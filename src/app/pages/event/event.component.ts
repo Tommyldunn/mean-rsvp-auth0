@@ -20,7 +20,7 @@ export class EventComponent implements OnInit, OnDestroy {
   tabSub: Subscription;
   eventSub: Subscription;
   event: EventModel;
-  rsvps: RsvpModel[];
+  rsvps: RsvpModel[] = [];
   loading: boolean;
   error: boolean;
   tab: string;

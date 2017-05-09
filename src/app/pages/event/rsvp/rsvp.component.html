@@ -6,7 +6,7 @@
 <div *ngIf="userRsvp">
   <p class="card-block lead">You have responded to this event with the following information:</p>
 
-  <ul class="list-group list-group-flush" *ngIf="!showEditForm">
+  <ul *ngIf="!showEditForm" class="list-group list-group-flush">
     <li class="list-group-item">
       <strong>Name:</strong>{{userRsvp.name}}
     </li>

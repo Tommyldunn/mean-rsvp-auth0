@@ -23,7 +23,8 @@
           class="form-check-input"
           (change)="changeAttendanceSetGuests()"
           [value]="true"
-          [(ngModel)]="formRsvp.attending"> Yes
+          [(ngModel)]="formRsvp.attending"
+          required> Yes
         </label>
     </div>
     <div class="form-check form-check-inline">
@@ -35,7 +36,8 @@
           class="form-check-input"
           (change)="changeAttendanceSetGuests()"
           [value]="false"
-          [(ngModel)]="formRsvp.attending"> No
+          [(ngModel)]="formRsvp.attending"
+          required> No
         </label>
     </div>
   </div>
