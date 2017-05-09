@@ -19,16 +19,21 @@ export class RsvpFormComponent implements OnInit {
 
   ngOnInit() {
     this.isEdit = !!this.rsvp;
+    this._setFormRsvp();
+  }
 
+  private _setFormRsvp() {
     if (!this.isEdit) {
-      // if creating a new RSVP, create new RsvpModel with prefill data
+      // If creating a new RSVP,
+      // create new RsvpModel with default data
       this.formRsvp = new RsvpModel(
         this.auth.userProfile.sub,
         '',
         this.eventId,
         null);
     } else {
-      // if editing existing RSVP, create new RsvpModel from existing data
+      // If editing an existing RSVP,
+      // create new RsvpModel from existing data
       this.formRsvp = new RsvpModel(
         this.rsvp.userId,
         this.rsvp.name,
@@ -42,6 +47,8 @@ export class RsvpFormComponent implements OnInit {
   }
 
   changeAttendanceSetGuests() {
+    // If attendance changed to yes, set guests: 1
+    // If attendance changed to no, set guests: 0
     if (this.formRsvp.attending && !this.formRsvp.guests) {
       this.formRsvp.guests = 1;
     } else if (!this.formRsvp.attending && this.formRsvp.guests) {
@@ -49,7 +56,8 @@ export class RsvpFormComponent implements OnInit {
     }
   }
 
-  checkGuestsSetAttending() {
+  changeGuestsSetAttending() {
+    // If guests changed to 0, set attending: false
     if (this.formRsvp.attending && !this.formRsvp.guests) {
       this.formRsvp.attending = false;
     }
