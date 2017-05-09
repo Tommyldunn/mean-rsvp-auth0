@@ -53,7 +53,7 @@ export class RsvpComponent implements OnInit {
     
     // If user has an existing RSVP
     this.rsvps.forEach((rsvp, i) => {
-      if (_initialUserRsvp) {
+      if (rsvp.userId === this.auth.userProfile.sub) {
         if (changed) {
           // If user edited their RSVP, update array with edited data
           this.rsvps[i] = this.userRsvp;
