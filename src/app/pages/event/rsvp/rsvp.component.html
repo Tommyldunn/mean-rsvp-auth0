@@ -30,7 +30,8 @@
     <app-rsvp-form
       *ngIf="showEditForm"
       [eventId]="eventId"
-      [rsvp]="userRsvp"></app-rsvp-form>
+      [rsvp]="userRsvp"
+      (submitRsvp)="onSubmitRsvp($event)"></app-rsvp-form>
   </div>
 </div>
 

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from './../../../../auth/auth.service';
+import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../../core/api.service';
 import { EventModel } from './../../../../core/models/event.model';
 import { RsvpModel } from './../../../../core/models/rsvp.model';
@@ -12,8 +13,10 @@ import { RsvpModel } from './../../../../core/models/rsvp.model';
 export class RsvpFormComponent implements OnInit {
   @Input() eventId: string;
   @Input() rsvp: RsvpModel;
+  @Output() submitRsvp = new EventEmitter();
   isEdit: boolean;
   formRsvp: RsvpModel;
+  submitRsvpSub: Subscription
 
   constructor(
     private auth: AuthService,
@@ -68,26 +71,39 @@ export class RsvpFormComponent implements OnInit {
   }
 
   onSubmit() {
+    let eventObj: any = {
+      rsvp: null,
+      error: null
+    };
+
     if (!this.isEdit) {
-      this.api
+      this.submitRsvpSub = this.api
         .postRsvp$(this.formRsvp)
         .subscribe(
           res => {
-            this.rsvp = res;
+            eventObj.rsvp = res;
+            this.submitRsvp.emit(eventObj);
           },
           err => {
+            eventObj.error = err;
+            this.submitRsvp.emit(eventObj);
             console.error(err);
+            // @TODO: handle error in some visible way
           }
         );
     } else {
-      this.api
+      this.submitRsvpSub = this.api
         .editRsvp$(this.rsvp._id, this.formRsvp)
         .subscribe(
           res => {
-            this.rsvp = res;
+            eventObj.rsvp = res;
+            this.submitRsvp.emit(eventObj);
           },
           err => {
+            eventObj.error = err;
+            this.submitRsvp.emit(eventObj);
             console.error(err);
+            // @TODO: handle error in some visible way
           }
         );
     }

@@ -21,27 +21,39 @@ export class RsvpComponent implements OnInit {
     public utils: UtilsService) { }
 
   ngOnInit() {
-    this._getUserRsvpAndGuests();
-  }
-
-  private _getUserRsvpAndGuests() {
-    if (this.rsvps.length) {
-      this.rsvps.forEach(rsvp => {
-        // If user ID is in RSVPs, set as user's RSVP
-        if (rsvp.userId === this.auth.userProfile.sub) {
-          this.userRsvp = rsvp;
-        }
-        // Count total number of guests across all RSVPs
-        if (rsvp.guests) {
-          this.totalAttending += rsvp.guests;
-        }
-      });
-    }
+    this._getRsvp();
   }
 
   toggleEditForm() {
     this.showEditForm = !this.showEditForm;
     this.editBtnText = this.showEditForm ? 'Cancel Edit' : 'Edit RSVP';
+  }
+
+  onSubmitRsvp(e) {
+    if (e.rsvp) {
+      this.userRsvp = e.rsvp;
+      this._getRsvp(true);
+      this.toggleEditForm();
+    }
+  }
+
+  private _getRsvp(updated?: boolean) {
+    this.totalAttending = 0;
+
+    this.rsvps.forEach((rsvp, i) => {
+      // If user ID is in RSVPs, set as user's RSVP
+      if (rsvp.userId === this.auth.userProfile.sub) {
+        if (updated) { 
+          this.rsvps[i] = this.userRsvp;
+        } else {
+          this.userRsvp = rsvp;
+        }
+      }
+      // Count total number of guests across all RSVPs
+      if (rsvp.guests) {
+        this.totalAttending += rsvp.guests;
+      }
+    });
   }
 
 }
