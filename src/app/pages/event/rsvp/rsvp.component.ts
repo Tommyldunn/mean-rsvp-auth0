@@ -74,7 +74,7 @@ export class RsvpComponent implements OnInit {
         guests += this.rsvps[i].guests;
       }
     });
-    
+
     // Set updated guest count
     this.totalAttending = guests;
   }

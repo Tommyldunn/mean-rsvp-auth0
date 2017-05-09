@@ -93,7 +93,7 @@ export class RsvpFormComponent implements OnInit {
   }
 
   private _handleSubmitSuccess(res) {
-    let eventObj = {
+    const eventObj = {
       isEdit: this.isEdit,
       rsvp: res
     };
@@ -102,7 +102,7 @@ export class RsvpFormComponent implements OnInit {
   }
 
   private _handleSubmitError(err) {
-    let eventObj = {
+    const eventObj = {
       isEdit: this.isEdit,
       error: err
     };

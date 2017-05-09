@@ -23,6 +23,7 @@ import { LoadingComponent } from './core/loading.component';
 import { EventDetailComponent } from './pages/event/event-detail/event-detail.component';
 import { RsvpComponent } from './pages/event/rsvp/rsvp.component';
 import { RsvpFormComponent } from './pages/event/rsvp/rsvp-form/rsvp-form.component';
+import { NumberFieldDirective } from './core/forms/number-field.directive';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { RsvpFormComponent } from './pages/event/rsvp/rsvp-form/rsvp-form.compon
     LoadingComponent,
     EventDetailComponent,
     RsvpComponent,
-    RsvpFormComponent
+    RsvpFormComponent,
+    NumberFieldDirective
   ],
   imports: [
     BrowserModule,

@@ -7,8 +7,24 @@
       name="name"
       type="text"
       class="form-control"
+      minlength="3"
+      maxlength="24"
+      #name="ngModel"
       [(ngModel)]="formRsvp.name"
       required>
+    <div
+      *ngIf="name.errors && (name.dirty || name.touched)"
+      class="small text-danger formErrors">
+      <div [hidden]="!name.errors.required">
+        Name is required.
+      </div>
+      <div [hidden]="!name.errors.minlength">
+        Name must be 3 characters or more.
+      </div>
+      <div [hidden]="!name.errors.maxlength">
+        Name must be 24 characters or less.
+      </div>
+    </div>
   </div>
 
   <!-- Attending -->
@@ -49,13 +65,13 @@
     <input
       id="guests"
       name="guests"
-      type="number"
+      type="text"
+      numberField="true"
       class="form-control"
-      step="1"
-      [min]="0"
-      [max]="10"
       (change)="changeGuestsSetAttending()"
+      maxlength="1"
       [value]="1"
+      #guests="ngModel"
       [(ngModel)]="formRsvp.guests">
   </div>
 
