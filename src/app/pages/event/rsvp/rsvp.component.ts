@@ -21,7 +21,7 @@ export class RsvpComponent implements OnInit {
     public utils: UtilsService) { }
 
   ngOnInit() {
-    this._getRsvp();
+    this._updateRsvpState();
   }
 
   toggleEditForm(setVal?: boolean) {
@@ -32,13 +32,12 @@ export class RsvpComponent implements OnInit {
   onSubmitRsvp(e) {
     if (e.rsvp) {
       this.userRsvp = e.rsvp;
-      this._getRsvp(true);
+      this._updateRsvpState(true);
+      this.toggleEditForm(false);
     }
   }
 
-  private _getRsvp(changed?: boolean) {
-    let guests = 0;
-
+  private _updateRsvpState(changed?: boolean) {
     // If RSVP matching user ID is already
     // in RSVP array, set as initial RSVP
     const _initialUserRsvp = this.rsvps.filter(rsvp => {
@@ -50,26 +49,34 @@ export class RsvpComponent implements OnInit {
     if (!_initialUserRsvp && this.userRsvp && changed) {
       this.rsvps.push(this.userRsvp);
     }
-    
-    // If user has an existing RSVP
+    this._setUserRsvpGetAttending(changed);
+  }
+
+  private _setUserRsvpGetAttending(changed?: boolean) {
+    // Iterate over RSVPs to get/set user's RSVP
+    // and get total number of attending guests
+    let guests = 0;
+
     this.rsvps.forEach((rsvp, i) => {
+      // If user has an existing RSVP
       if (rsvp.userId === this.auth.userProfile.sub) {
         if (changed) {
           // If user edited their RSVP, update array with edited data
           this.rsvps[i] = this.userRsvp;
         } else {
           // If no changes were made, set local user RSVP property
+          // (This applies on ngOnInit)
           this.userRsvp = rsvp;
         }
       }
-      // Count total number of guests across all RSVPs
+      // Count total number of guests who have RSVPed
       if (this.rsvps[i].guests) {
         guests += this.rsvps[i].guests;
       }
     });
-
+    
+    // Set updated guest count
     this.totalAttending = guests;
-    this.toggleEditForm(false);
   }
 
 }
