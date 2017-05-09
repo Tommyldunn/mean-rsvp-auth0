@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from './../../../../auth/auth.service';
+import { ApiService } from './../../../../core/api.service';
 import { EventModel } from './../../../../core/models/event.model';
 import { RsvpModel } from './../../../../core/models/rsvp.model';
 
@@ -11,11 +12,12 @@ import { RsvpModel } from './../../../../core/models/rsvp.model';
 export class RsvpFormComponent implements OnInit {
   @Input() eventId: string;
   @Input() rsvp: RsvpModel;
-  @Output() submitRsvp = new EventEmitter();
   isEdit: boolean;
   formRsvp: RsvpModel;
 
-  constructor(private auth: AuthService) { }
+  constructor(
+    private auth: AuthService,
+    private api: ApiService) { }
 
   ngOnInit() {
     this.isEdit = !!this.rsvp;
@@ -30,7 +32,9 @@ export class RsvpFormComponent implements OnInit {
         this.auth.userProfile.sub,
         '',
         this.eventId,
-        null);
+        null,
+        0,
+        '');
     } else {
       // If editing an existing RSVP,
       // create new RsvpModel from existing data
@@ -39,9 +43,9 @@ export class RsvpFormComponent implements OnInit {
         this.rsvp.name,
         this.rsvp.eventId,
         this.rsvp.attending,
-        this.rsvp._id,
-        this.rsvp.guests || undefined,
-        this.rsvp.comments || undefined
+        this.rsvp.guests || 0,
+        this.rsvp.comments || '',
+        this.rsvp._id
       );
     }
   }
@@ -60,6 +64,32 @@ export class RsvpFormComponent implements OnInit {
     // If guests changed to 0, set attending: false
     if (this.formRsvp.attending && !this.formRsvp.guests) {
       this.formRsvp.attending = false;
+    }
+  }
+
+  onSubmit() {
+    if (!this.isEdit) {
+      this.api
+        .postRsvp$(this.formRsvp)
+        .subscribe(
+          res => {
+            this.rsvp = res;
+          },
+          err => {
+            console.error(err);
+          }
+        );
+    } else {
+      this.api
+        .editRsvp$(this.rsvp._id, this.formRsvp)
+        .subscribe(
+          res => {
+            this.rsvp = res;
+          },
+          err => {
+            console.error(err);
+          }
+        );
     }
   }
 

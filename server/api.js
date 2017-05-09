@@ -156,9 +156,14 @@ module.exports = function(app, config) {
       rsvp.userId = req.body.userId || rsvp.userId;
       rsvp.name = req.body.name || rsvp.name;
       rsvp.eventId = rsvp.eventId; // user cannot change the event ID
-      rsvp.attending = rsvp.body.attending; // attending can be false, so it must come from req
-      rsvp.guests = rsvp.body.guests; // guests can be falsey, so it must come from req
-      rsvp.comments = rsvp.body.comments || rsvp.comments;
+      rsvp.attending = req.body.attending; // attending can be false, so it must come from req
+      rsvp.guests = req.body.guests; // guests can be falsey, so it must come from req
+
+      if (req.body.comments) {
+        rsvp.comments = req.body.comments;
+      } else {
+        rsvp.comments = '';
+      }
 
       rsvp.save(err => {
         if (err) {

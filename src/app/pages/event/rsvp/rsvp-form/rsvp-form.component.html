@@ -1,4 +1,4 @@
-<form>
+<form (ngSubmit)="onSubmit()" #rsvpForm="ngForm">
   <!-- Name -->
   <div class="form-group">
     <label for="name">Name</label>
@@ -66,5 +66,9 @@
       class="form-control"
       rows="3"
       [(ngModel)]="formRsvp.comments"></textarea>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary" [disabled]="!rsvpForm.form.valid">Submit</button>
   </div>
 </form>

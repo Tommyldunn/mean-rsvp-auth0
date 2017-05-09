@@ -7,8 +7,8 @@ export class EventModel {
     public startDatetime: Date,
     public endDatetime: Date,
     public viewPublic: boolean,
-    public _id?: string, // _id is present if editing or returning from DB
     public description?: string,
-    public rsvps?: Array<RsvpModel>
+    public rsvps?: Array<RsvpModel>,
+    public _id?: string, // _id is present if editing or returning from DB
   ) { }
 }
