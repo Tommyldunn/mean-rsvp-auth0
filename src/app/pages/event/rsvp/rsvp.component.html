@@ -38,7 +38,7 @@
 <!-- No RSVP yet -->
 <div *ngIf="!userRsvp">
   <div class="card-block">
-    <p class="lead">You have not RSVPed to this event yet. Fill out the form below to respond:</p>
+    <p class="lead">Fill out the form below to respond:</p>
 
     <app-rsvp-form
       [eventId]="eventId"
@@ -46,17 +46,18 @@
   </div>
 </div>
 
+<!-- All RSVPs -->
 <div class="card-block text-right">
   <button (click)="toggleShowRsvps()" class="btn btn-link btn-sm">{{showRsvpsText}}</button>
 </div>
 
-<!-- All RSVPs -->
 <div *ngIf="showAllRsvps">
   <div class="card-block">
     <h3 class="card-title text-center">RSVPs</h3>
+    <p *ngIf="!rsvps.length" class="lead">There are currently no RSVPs for this event.</p>
   </div>
 
-  <ul class="list-group list-group-flush">
+  <ul *ngIf="rsvps.length" class="list-group list-group-flush">
     <li class="list-group-item list-group-item-success justify-content-between">
       <strong>Attending</strong>
       <span class="badge badge-success badge-pill">{{totalAttending}}</span>
@@ -66,7 +67,7 @@
       class="list-group-item small">
       {{rsvp.name}} {{utils.showPlusOnes(rsvp.guests)}}
       <p *ngIf="auth.isAdmin && rsvp.comments" class="d-flex w-100">
-        {{rsvp.comments}}
+        <em [innerHTML]="rsvp.comments"></em>
       </p>
     </li>
     <li class="list-group-item list-group-item-danger justify-content-between">
@@ -77,7 +78,7 @@
       class="list-group-item small">
       {{rsvp.name}}
       <p *ngIf="auth.isAdmin && rsvp.comments" class="d-flex w-100">
-        {{rsvp.comments}}
+        <em [innerHTML]="rsvp.comments"></em>
       </p>
     </li>
   </ul>

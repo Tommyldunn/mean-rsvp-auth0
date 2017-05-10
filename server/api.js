@@ -121,6 +121,70 @@ module.exports = function(app, config) {
     });
   });
 
+  // POST a new event
+  app.post('/api/event/new', jwtCheck, adminCheck, (req, res) => {
+    Event.findOne({title: req.body.title, location: req.body.location}, (err, existingEvent) => {
+      if (existingEvent) {
+        return res.status(409).send({message: 'You have already created an event with this title at this location.'});
+      }
+      const event = new Event({
+        title: req.body.title,
+        location: req.body.location,
+        startDatetime: req.body.startDatetime,
+        endDatetime: req.body.endDatetime,
+        description: req.body.description,
+        viewPublic: req.body.viewPublic
+      });
+      event.save((err) => {
+        if (err) {
+          res.status(500).send({message: err});
+        }
+        res.send(event);
+      });
+    });
+  });
+
+  // PUT (edit) an existing event
+  app.put('/api/event/:id', jwtCheck, adminCheck, (req, res) => {
+    Event.findById(req.params.id, (err, event) => {
+      if (!event) {
+        return res.status(400).send({message: 'Event not found.'});
+      }
+      event.title = req.body.title || event.title;
+      event.location = req.body.location || event.location;
+      event.startDatetime = req.body.startDatetime || event.startDatetime;
+      event.endDatetime = req.body.endDatetime || event.endDatetime;
+      event.viewPublic = req.body.viewPublic; // viewPublic can be false, so it must come from req
+      event.description = req.body.description || '';
+
+      event.save(err => {
+        if (err) {
+          res.status(500).send({message: err});
+        }
+        res.send(event);
+      });
+    });
+  });
+
+  // DELETE an event and all associated RSVPs
+  app.delete('/api/event/:id', jwtCheck, adminCheck, (req, res) => {
+    Event.findById(req.params.id, (err, event) => {
+      if (!event) {
+        return res.status(400).send({message: 'Event not found.'});
+      }
+      Rsvp.find({eventId: req.params.id}, (err, rsvps) => {
+        if (rsvps) {
+          rsvps.forEach((rsvp) => {
+            rsvp.remove();
+          });
+        }
+        event.remove(err => {
+          res.status(200).end();
+        });
+      });
+    });
+  });
+
   // POST a new RSVP
   app.post('/api/rsvp/new', jwtCheck, (req, res) => {
     Rsvp.findOne({eventId: req.body.eventId, userId: req.body.userId}, (err, existingRsvp) => {
@@ -158,12 +222,7 @@ module.exports = function(app, config) {
       rsvp.eventId = rsvp.eventId; // user cannot change the event ID
       rsvp.attending = req.body.attending; // attending can be false, so it must come from req
       rsvp.guests = req.body.guests; // guests can be falsey, so it must come from req
-
-      if (req.body.comments) {
-        rsvp.comments = req.body.comments;
-      } else {
-        rsvp.comments = '';
-      }
+      rsvp.comments = req.body.comments || '';
 
       rsvp.save(err => {
         if (err) {
