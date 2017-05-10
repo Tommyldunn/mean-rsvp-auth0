@@ -22,9 +22,10 @@ export class FilterSortService {
     }
   }
 
-  search(array: any[], query: string) {
+  search(array: any[], query: string, excludeProps?: string|Array<string>) {
     // match query to strings
     // match query to Date objects or ISO UTC strings
+    // optionally exclude properties from being searched
     const lQuery = query.toLowerCase();
     const dateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/; // ISO UTC
 
@@ -33,19 +34,21 @@ export class FilterSortService {
     } else if (array) {
       const filteredArray = array.filter(item => {
         for (const key in item) {
-          if (
-            !item[key].toString().match(dateRegex) &&
-            typeof item[key] === 'string' &&
-            item[key].toLowerCase().indexOf(lQuery) !== -1
-          ) {
-            return true;
-          } else if (
-            (item[key] instanceof Date || item[key].toString().match(dateRegex)) &&
-            // https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html
-            // matching 'mediumDate' format
-            this.datePipe.transform(item[key], 'mediumDate').toLowerCase().indexOf(lQuery) !== -1
-          ) {
-            return true;
+          if (!excludeProps || excludeProps.indexOf(key) === -1) {
+            if (
+              typeof item[key] === 'string' &&
+              !item[key].match(dateRegex) &&
+              item[key].toLowerCase().indexOf(lQuery) !== -1
+            ) {
+              return true;
+            } else if (
+              (item[key] instanceof Date || item[key].toString().match(dateRegex)) &&
+              // https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html
+              // matching 'mediumDate' format
+              this.datePipe.transform(item[key], 'mediumDate').toLowerCase().indexOf(lQuery) !== -1
+            ) {
+              return true;
+            }
           }
         }
       });

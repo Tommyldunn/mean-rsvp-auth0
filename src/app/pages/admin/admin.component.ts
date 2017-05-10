@@ -52,7 +52,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   searchEvents() {
-    this.filteredEvents = this.fs.search(this.eventList, this.query);
+    this.filteredEvents = this.fs.search(this.eventList, this.query, '_id');
   }
 
   resetQuery() {
