@@ -39,6 +39,30 @@ export class ApiService {
       .catch(this._handleError);
   }
 
+  // POST new event (admin only)
+  postEvent$(event): Observable<EventModel> {
+    return this.authHttp
+      .post(`${ENV.BASE_API}event/new`, event)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
+
+  // PUT existing event (admin only)
+  editEvent$(id, event): Observable<EventModel> {
+    return this.authHttp
+      .put(`${ENV.BASE_API}event/${id}`, event)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
+
+  // DELETE existing event and all associated RSVPs (admin only)
+  deleteEvent$(id): Observable<any> {
+    return this.authHttp
+      .delete(`${ENV.BASE_API}event/${id}`)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
+
   // GET all RSVPs for a specific user (login required)
   getUserRsvps$(userId): Observable<RsvpModel[]> {
     return this.authHttp

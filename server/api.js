@@ -214,7 +214,7 @@ module.exports = function(app, config) {
       if (!rsvp) {
         return res.status(400).send({message: 'RSVP not found.'});
       }
-      if (rsvp.userId != req.user.sub) {
+      if (rsvp.userId !== req.user.sub) {
         return res.status(401).send({message: 'You cannot edit someone else\'s RSVP.'});
       }
       rsvp.userId = req.body.userId || rsvp.userId;
