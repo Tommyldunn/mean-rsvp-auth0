@@ -1,13 +1,42 @@
 <h1 class="text-center">{{pageTitle}}</h1>
 
-<p class="lead">Welcome, {{auth.userProfile.name}}!</p>
+<app-loading *ngIf="loading"></app-loading>
 
-<div class="admin-manageEvents">
-  <h2>Manage Events</h2>
-  <app-loading *ngIf="!eventList"></app-loading>
-  <ul *ngIf="eventList">
-    <li *ngFor="let event of eventList">
-      <a [routerLink]="['/event', event._id]">{{event.title}}</a> <span *ngIf="!event.viewPublic">(private)</span>
-    </li>
-  </ul>
+<div *ngIf="isLoaded">
+  <p class="lead">Welcome, {{auth.userProfile.name}}!</p>
+
+  <!-- Events listing -->
+  <div *ngIf="eventList" class="list-group">
+    <a
+      *ngFor="let event of eventList"
+      [routerLink]="['/event', event._id]"
+      class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1" [innerHTML]="event.title"></h5>
+        <div class="event-icons">
+          <img
+            *ngIf="!event.viewPublic"
+            class="event-icon"
+            title="Private"
+            src="/assets/images/eye.svg">
+          <img
+            *ngIf="utils.eventPast(event.endDatetime)"
+            class="event-icon"
+            title="Event is over"
+            src="/assets/images/calendar.svg">
+        </div>
+      </div>
+      <p class="mb-1">
+        <strong>Date:</strong> {{utils.eventDates(event.startDatetime, event.endDatetime)}}<br>
+        <strong>Location:</strong> {{event.location}}
+      </p>
+    </a>
+  </div>
+
+  <!-- Error loading events -->
+  <p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> There was an error retrieving event data. 
+  </p>
+
 </div>
+

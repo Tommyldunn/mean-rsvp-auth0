@@ -4,36 +4,43 @@
   <h1 class="text-center">{{pageTitle}}</h1>
 
   <!-- Event -->
-  <div *ngIf="event" class="card">
-
-    <!-- Event tabs -->
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="[]"
-            [queryParams]="{tab: 'details'}"
-            [ngClass]="{'active': tabIs('details')}">Details</a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="[]"
-            [queryParams]="{tab: 'rsvp'}"
-            [ngClass]="{'active': tabIs('rsvp')}">RSVP</a>
-        </li>
-      </ul>
+  <div *ngIf="event">
+    
+    <div *ngIf="eventPast" class="alert alert-danger">
+      <strong>This event is over.</strong>
     </div>
 
-    <app-event-detail
-      *ngIf="tabIs('details')"
-      [event]="event"></app-event-detail>
+    <div class="card">
+      <!-- Event tabs -->
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="[]"
+              [queryParams]="{tab: 'details'}"
+              [ngClass]="{'active': tabIs('details')}">Details</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="[]"
+              [queryParams]="{tab: 'rsvp'}"
+              [ngClass]="{'active': tabIs('rsvp')}">RSVP</a>
+          </li>
+        </ul>
+      </div>
 
-    <app-rsvp
-      *ngIf="tabIs('rsvp')"
-      [rsvps]="rsvps"
-      [eventId]="event._id"></app-rsvp>
+      <app-event-detail
+        *ngIf="tabIs('details')"
+        [event]="event"></app-event-detail>
+
+      <app-rsvp
+        *ngIf="tabIs('rsvp')"
+        [rsvps]="rsvps"
+        [eventPast]="eventPast"
+        [eventId]="event._id"></app-rsvp>
+    </div>
 
   </div>
 

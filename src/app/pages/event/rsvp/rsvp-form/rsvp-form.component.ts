@@ -58,7 +58,7 @@ export class RsvpFormComponent implements OnInit {
   changeAttendanceSetGuests() {
     // If attendance changed to yes, set guests: 1
     // If attendance changed to no, set guests: 0
-    if (this.formRsvp.attending && (!this.formRsvp.guests || this.formRsvp.guests == 0)) {
+    if (this.formRsvp.attending && !this.formRsvp.guests) {
       this.formRsvp.guests = 1;
     } else if (!this.formRsvp.attending) {
       this.formRsvp.guests = 0;
@@ -67,7 +67,7 @@ export class RsvpFormComponent implements OnInit {
 
   changeGuestsSetAttending() {
     // If guests changed to 0, set attending: false
-    if (this.formRsvp.attending && (this.formRsvp.guests == 0)) {
+    if (this.formRsvp.attending && !this.formRsvp.guests) {
       this.formRsvp.attending = false;
     }
   }

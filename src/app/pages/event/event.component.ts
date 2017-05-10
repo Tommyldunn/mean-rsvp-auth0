@@ -24,6 +24,7 @@ export class EventComponent implements OnInit, OnDestroy {
   loading: boolean;
   error: boolean;
   tab: string;
+  eventPast: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +50,7 @@ export class EventComponent implements OnInit, OnDestroy {
               this._setPageTitle(this.event.title);
               this.rsvps = this.event.rsvps;
               this.loading = false;
+              this.eventPast = this.utils.eventPast(this.event.endDatetime);
               console.log(this.event);
             },
             err => {

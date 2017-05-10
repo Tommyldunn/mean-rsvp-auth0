@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[numberField]'
+  selector: '[appNumberField]'
 })
 export class NumberFieldDirective {
   private _regex: RegExp = new RegExp(/^[0-9]*$/g);

@@ -3,7 +3,6 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <div *ngIf="isLoaded">
-  <!-- Events listing -->
   <div *ngIf="eventList" class="list-group">
     <a
       *ngFor="let event of eventList"

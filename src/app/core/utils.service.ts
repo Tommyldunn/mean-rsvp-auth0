@@ -7,7 +7,7 @@ export class UtilsService {
   constructor(
     private datePipe: DatePipe) { }
 
-  eventDates(start, end) {
+  eventDates(start, end): string {
     // Display single-day events as "1/7/2018"
     // Display multi-day events as "8/12/2017 - 8/13/2017"
     const startDate = this.datePipe.transform(start, 'mediumDate');
@@ -20,7 +20,7 @@ export class UtilsService {
     }
   }
 
-  eventDatesTimes(start, end) {
+  eventDatesTimes(start, end): string {
     // Display single-day events as "1/7/2018, 5:30 PM - 7:30 PM"
     // Display multi-day events as "8/12/2017, 8:00 PM - 8/13/2017, 10:00 AM"
     const startDate = this.datePipe.transform(start, 'shortDate');
@@ -35,21 +35,28 @@ export class UtilsService {
     }
   }
 
-  displayCount(guests: number) {
+  eventPast(eventEnd): boolean {
+    // Check if event has already ended
+    const now = new Date();
+    const then = new Date(eventEnd.toString());
+    return now >= then;
+  }
+
+  displayCount(guests: number): string {
     // Example usage:
     // {{displayCount(guests)}} attending this event
-    const persons = guests === 1 ? ' person is' : ' people are';
+    const persons = guests === 1 ? ' person' : ' people';
     return guests + persons;
   }
 
-  showPlusOnes(guests: number) {
+  showPlusOnes(guests: number): string {
     // If bringing additional guest(s), show as "+n"
     if (guests > 1) {
       return `+${guests - 1}`;
     }
   }
 
-  booleanToText(bool: boolean) {
+  booleanToText(bool: boolean): string {
     // Change a boolean to 'Yes' or 'No' string
     return bool ? 'Yes' : 'No';
   }

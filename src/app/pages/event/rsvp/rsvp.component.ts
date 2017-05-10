@@ -11,8 +11,10 @@ import { RsvpModel } from './../../../core/models/rsvp.model';
 export class RsvpComponent implements OnInit {
   @Input() rsvps: RsvpModel[] = [];
   @Input() eventId: string;
+  @Input() eventPast: boolean;
   userRsvp: RsvpModel;
   totalAttending: number;
+  footerTense: string;
   showEditForm = false;
   editBtnText = 'Edit My RSVP';
   showAllRsvps = false;
@@ -24,6 +26,7 @@ export class RsvpComponent implements OnInit {
 
   ngOnInit() {
     this._updateRsvpState();
+    this.footerTense = !this.eventPast ? 'plan to attend this event.' : 'attended this event.'; 
   }
 
   toggleEditForm(setVal?: boolean) {
