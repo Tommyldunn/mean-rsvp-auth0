@@ -96,4 +96,42 @@ export class UtilsService {
     }
   }
 
+  orderBy(array: any[], prop: string) {
+    // Order an array of objects by a property
+    // Supports string and number values
+    let sortedArray;
+    if (!array || !array.length) {
+      return array;
+    }
+    if (typeof array[0][prop] === 'string') {
+      sortedArray = array.sort((a, b) => {
+        const itemA = a[prop].toLowerCase();
+        const itemB = b[prop].toLowerCase();
+        if (itemA < itemB) return -1;
+        if (itemA > itemB) return 1;
+        return 0;
+      });
+    }
+    else if (typeof array[0][prop] === 'number') {
+      sortedArray = array.sort((a, b) => {
+        return a[prop] - b[prop];
+      });
+    }
+    else {
+      sortedArray = array;
+    }
+    return sortedArray;
+  }
+
+  orderByDate(array: any[], prop: string) {
+    // Order an array of objects by a property
+    // Supports date values
+    const sortedArray = array.sort((a, b) => {
+      const dateA = new Date(a[prop]).getTime();
+      const dateB = new Date(b[prop]).getTime();
+      return dateA - dateB;
+    });
+    return sortedArray;
+  }
+
 }
