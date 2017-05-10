@@ -25,7 +25,6 @@ import { EventDetailComponent } from './pages/event/event-detail/event-detail.co
 import { RsvpComponent } from './pages/event/rsvp/rsvp.component';
 import { RsvpFormComponent } from './pages/event/rsvp/rsvp-form/rsvp-form.component';
 import { NumberFieldDirective } from './core/forms/numberField.directive';
-import { SearchComponent } from './core/search/search.component';
 
 @NgModule({
   declarations: [
@@ -41,8 +40,7 @@ import { SearchComponent } from './core/search/search.component';
     EventDetailComponent,
     RsvpComponent,
     RsvpFormComponent,
-    NumberFieldDirective,
-    SearchComponent
+    NumberFieldDirective
   ],
   imports: [
     BrowserModule,
