@@ -28,7 +28,7 @@ export class RsvpComponent implements OnInit {
 
   ngOnInit() {
     this._updateRsvpState();
-    this.footerTense = !this.eventPast ? 'plan to attend this event.' : 'attended this event.'; 
+    this.footerTense = !this.eventPast ? 'plan to attend this event.' : 'attended this event.';
   }
 
   toggleEditForm(setVal?: boolean) {

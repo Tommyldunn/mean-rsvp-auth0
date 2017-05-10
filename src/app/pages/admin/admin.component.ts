@@ -16,8 +16,10 @@ export class AdminComponent implements OnInit, OnDestroy {
   pageTitle = 'Admin';
   eventsSub: Subscription;
   eventList: EventModel[];
+  filteredEvents: EventModel[];
   loading: boolean;
   error: boolean;
+  query = '';
 
   constructor(
     private title: Title,
@@ -34,6 +36,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       .subscribe(
         res => {
           this.eventList = res;
+          this.filteredEvents = res;
           this.loading = false;
         },
         err => {
@@ -46,6 +49,19 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   get isLoaded() {
     return this.loading === false;
+  }
+
+  searchEvents() {
+    this.filteredEvents = this.fs.search(this.eventList, this.query);
+  }
+
+  resetQuery() {
+    this.query = '';
+    this.filteredEvents = this.eventList;
+  }
+
+  get noSearchResults() {
+    return this.eventList && !this.filteredEvents.length && this.query && !this.error;
   }
 
   ngOnDestroy() {

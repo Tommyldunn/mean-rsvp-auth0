@@ -6,31 +6,53 @@
   <p class="lead">Welcome, {{auth.userProfile.name}}! You can administer events below.</p>
 
   <!-- Events listing -->
-  <div *ngIf="eventList" class="list-group">
-    <a
-      *ngFor="let event of fs.orderByDate(eventList, 'startDatetime')"
-      [routerLink]="['/event', event._id]"
-      class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1" [innerHTML]="event.title"></h5>
-        <div class="event-icons">
-          <img
-            *ngIf="!event.viewPublic"
-            class="event-icon"
-            title="Private"
-            src="/assets/images/eye.svg">
-          <img
-            *ngIf="utils.eventPast(event.endDatetime)"
-            class="event-icon"
-            title="Event is over"
-            src="/assets/images/calendar.svg">
+  <div *ngIf="eventList">
+    
+    <!-- Search events -->
+    <section class="home-search input-group">
+      <label class="input-group-addon" for="search">Search</label>
+
+      <input
+        id="search"
+        type="text"
+        class="form-control"
+        [(ngModel)]="query"
+        (keyup)="searchEvents()" />
+
+      <span class="input-group-btn">
+        <button
+          class="btn btn-danger"
+          (click)="resetQuery()"
+          [disabled]="!query">&times;</button>
+      </span>
+    </section>
+
+    <section class="list-group">
+      <a
+        *ngFor="let event of fs.orderByDate(filteredEvents, 'startDatetime')"
+        [routerLink]="['/event', event._id]"
+        class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1" [innerHTML]="event.title"></h5>
+          <div class="event-icons">
+            <img
+              *ngIf="!event.viewPublic"
+              class="event-icon"
+              title="Private"
+              src="/assets/images/eye.svg">
+            <img
+              *ngIf="utils.eventPast(event.endDatetime)"
+              class="event-icon"
+              title="Event is over"
+              src="/assets/images/calendar.svg">
+          </div>
         </div>
-      </div>
-      <p class="mb-1">
-        <strong>Date:</strong> {{utils.eventDates(event.startDatetime, event.endDatetime)}}<br>
-        <strong>Location:</strong> {{event.location}}
-      </p>
-    </a>
+        <p class="mb-1">
+          <strong>Date:</strong> {{utils.eventDates(event.startDatetime, event.endDatetime)}}<br>
+          <strong>Location:</strong> {{event.location}}
+        </p>
+      </a>
+    </section>
   </div>
 
   <!-- Error loading events -->

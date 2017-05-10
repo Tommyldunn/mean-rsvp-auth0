@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 @Injectable()
 export class FilterSortService {
 
-  constructor() { }
+  constructor(private datePipe: DatePipe) { }
 
   filter(array: any[], property: string, value: any) {
     // return values with specific key/value pair
@@ -22,16 +23,28 @@ export class FilterSortService {
   }
 
   search(array: any[], query: string) {
-    // match query to string values
-    // @TODO: support dates too
+    // match query to strings
+    // match query to Date objects or ISO UTC strings
     const lQuery = query.toLowerCase();
+    const dateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/; // ISO UTC
 
     if (!query) {
       return array;
     } else if (array) {
       const filteredArray = array.filter(item => {
         for (const key in item) {
-          if ((typeof item[key] === 'string') && (item[key].toLowerCase().indexOf(lQuery) !== -1)) {
+          if (
+            !item[key].toString().match(dateRegex) &&
+            typeof item[key] === 'string' &&
+            item[key].toLowerCase().indexOf(lQuery) !== -1
+          ) {
+            return true;
+          } else if (
+            (item[key] instanceof Date || item[key].toString().match(dateRegex)) &&
+            // https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html
+            // matching 'mediumDate' format
+            this.datePipe.transform(item[key], 'mediumDate').toLowerCase().indexOf(lQuery) !== -1
+          ) {
             return true;
           }
         }
@@ -52,24 +65,22 @@ export class FilterSortService {
         const itemA = a[prop].toLowerCase();
         const itemB = b[prop].toLowerCase();
         if (!reverse) {
-          if (itemA < itemB) return -1;
-          if (itemA > itemB) return 1;
+          if (itemA < itemB) { return -1; }
+          if (itemA > itemB) { return 1; }
           return 0;
         } else {
-          if (itemA > itemB) return -1;
-          if (itemA < itemB) return 1;
+          if (itemA > itemB) { return -1; }
+          if (itemA < itemB) { return 1; }
           return 0;
         }
       });
-    }
-    else if (typeof array[0][prop] === 'number') {
+    } else if (typeof array[0][prop] === 'number') {
       sortedArray = array.sort((a, b) => {
         const itemA = a[prop];
         const itemB = b[prop];
         return !reverse ? itemA - itemB : itemB - itemA;
       });
-    }
-    else {
+    } else {
       sortedArray = array;
     }
     return sortedArray;
@@ -84,6 +95,10 @@ export class FilterSortService {
       return !reverse ? dateA - dateB : dateB - dateA;
     });
     return sortedArray;
+  }
+
+  private _checkDate(date: any) {
+    return Object.prototype.toString.call(date) === '[object Date]';
   }
 
 }
