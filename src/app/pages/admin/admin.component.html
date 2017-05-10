@@ -8,7 +8,7 @@
   <!-- Events listing -->
   <div *ngIf="eventList" class="list-group">
     <a
-      *ngFor="let event of utils.orderByDate(eventList, 'startDatetime')"
+      *ngFor="let event of fs.orderByDate(eventList, 'startDatetime')"
       [routerLink]="['/event', event._id]"
       class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex w-100 justify-content-between">

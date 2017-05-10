@@ -70,7 +70,7 @@
       <span class="badge badge-success badge-pill">{{totalAttending}}</span>
     </li>
     <li
-      *ngFor="let rsvp of utils.filter(rsvps, 'attending', true)"
+      *ngFor="let rsvp of fs.filter(rsvps, 'attending', true)"
       class="list-group-item small">
       {{rsvp.name}} {{utils.showPlusOnes(rsvp.guests)}}
       <p *ngIf="auth.isAdmin && rsvp.comments" class="d-flex w-100">
@@ -81,7 +81,7 @@
       <strong>Not Attending</strong>
     </li>
     <li
-      *ngFor="let rsvp of utils.filter(rsvps, 'attending', false)"
+      *ngFor="let rsvp of fs.filter(rsvps, 'attending', false)"
       class="list-group-item small">
       {{rsvp.name}}
       <p *ngIf="auth.isAdmin && rsvp.comments" class="d-flex w-100">

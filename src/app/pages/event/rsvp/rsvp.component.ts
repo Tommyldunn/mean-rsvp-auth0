@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from './../../../auth/auth.service';
 import { UtilsService } from './../../../core/utils.service';
+import { FilterSortService } from './../../../core/filter-sort.service';
 import { RsvpModel } from './../../../core/models/rsvp.model';
 
 @Component({
@@ -22,7 +23,8 @@ export class RsvpComponent implements OnInit {
 
   constructor(
     public auth: AuthService,
-    public utils: UtilsService) { }
+    public utils: UtilsService,
+    public fs: FilterSortService) { }
 
   ngOnInit() {
     this._updateRsvpState();

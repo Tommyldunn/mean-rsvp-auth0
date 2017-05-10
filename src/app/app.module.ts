@@ -6,6 +6,7 @@ import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { ApiService } from './core/api.service';
 import { UtilsService } from './core/utils.service';
+import { FilterSortService } from './core/filter-sort.service';
 
 import { AuthService } from './auth/auth.service';
 import { AuthHttp } from 'angular2-jwt';
@@ -53,6 +54,7 @@ import { NumberFieldDirective } from './core/forms/numberField.directive';
     ApiService,
     DatePipe,
     UtilsService,
+    FilterSortService,
     {
       provide: AuthHttp,
       useFactory: authHttpFactory,
