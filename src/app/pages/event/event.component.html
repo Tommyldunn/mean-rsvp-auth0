@@ -2,16 +2,15 @@
 
 <div *ngIf="isLoaded">
   <h1 class="text-center">{{pageTitle}}</h1>
-
   <!-- Event -->
   <div *ngIf="event">
-    
-    <div *ngIf="eventPast" class="alert alert-danger">
+    <!-- Event is over -->
+    <p *ngIf="eventPast" class="alert alert-danger">
       <strong>This event is over.</strong>
-    </div>
+    </p>
 
     <div class="card">
-      <!-- Event tabs -->
+      <!-- Event tab navigation -->
       <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
           <li class="nav-item">
@@ -31,17 +30,18 @@
         </ul>
       </div>
 
+      <!-- Event detail tab -->
       <app-event-detail
         *ngIf="tabIs('details')"
         [event]="event"></app-event-detail>
 
+      <!-- Event RSVP tab -->
       <app-rsvp
         *ngIf="tabIs('rsvp')"
         [rsvps]="rsvps"
         [eventPast]="eventPast"
         [eventId]="event._id"></app-rsvp>
     </div>
-
   </div>
 
   <!-- Error loading events -->
