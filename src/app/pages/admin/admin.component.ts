@@ -61,7 +61,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   get noSearchResults() {
-    return this.eventList && !this.filteredEvents.length && this.query && !this.error;
+    return !this.filteredEvents.length && this.query;
   }
 
   ngOnDestroy() {

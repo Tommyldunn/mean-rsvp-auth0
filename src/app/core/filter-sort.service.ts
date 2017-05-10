@@ -100,8 +100,4 @@ export class FilterSortService {
     return sortedArray;
   }
 
-  private _checkDate(date: any) {
-    return Object.prototype.toString.call(date) === '[object Date]';
-  }
-
 }

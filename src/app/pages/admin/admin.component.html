@@ -9,7 +9,7 @@
   <div *ngIf="eventList">
     
     <!-- Search events -->
-    <section class="search input-group">
+    <section class="search input-group mb-3">
       <label class="input-group-addon" for="search">Search</label>
 
       <input
@@ -26,6 +26,11 @@
           [disabled]="!query">&times;</button>
       </span>
     </section>
+
+    <!-- No search results -->
+    <p *ngIf="noSearchResults" class="alert alert-warning">
+      No event found for <em class="text-danger">{{query}}</em>, sorry!
+    </p>
 
     <!-- Events listing -->
     <section class="list-group">
