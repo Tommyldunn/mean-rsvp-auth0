@@ -41,7 +41,7 @@
           [value]="true"
           [(ngModel)]="formRsvp.attending"
           required> Yes
-        </label>
+      </label>
     </div>
     <div class="form-check form-check-inline">
       <label class="form-check-label">
@@ -54,7 +54,7 @@
           [value]="false"
           [(ngModel)]="formRsvp.attending"
           required> No
-        </label>
+      </label>
     </div>
   </div>
 
@@ -97,6 +97,6 @@
     <button
       type="submit"
       class="btn btn-primary"
-      [disabled]="!rsvpForm.form.valid || submitting">Submit</button>
+      [disabled]="!rsvpForm.form.valid || submitting">Submit RSVP</button>
   </div>
 </form>

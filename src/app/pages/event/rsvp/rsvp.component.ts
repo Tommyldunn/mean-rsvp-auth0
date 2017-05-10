@@ -14,7 +14,9 @@ export class RsvpComponent implements OnInit {
   userRsvp: RsvpModel;
   totalAttending: number;
   showEditForm = false;
-  editBtnText = 'Edit RSVP';
+  editBtnText = 'Edit My RSVP';
+  showAllRsvps = false;
+  showRsvpsText = 'View All RSVPs';
 
   constructor(
     public auth: AuthService,
@@ -27,6 +29,11 @@ export class RsvpComponent implements OnInit {
   toggleEditForm(setVal?: boolean) {
     this.showEditForm = setVal !== undefined ? setVal : !this.showEditForm;
     this.editBtnText = this.showEditForm ? 'Cancel Edit' : 'Edit RSVP';
+  }
+
+  toggleShowRsvps() {
+    this.showAllRsvps = !this.showAllRsvps;
+    this.showRsvpsText = this.showAllRsvps ? 'Hide RSVPs' : 'Show All RSVPs';
   }
 
   onSubmitRsvp(e) {

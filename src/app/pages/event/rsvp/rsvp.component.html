@@ -22,12 +22,10 @@
   </ul>
 
   <div class="card-block">
-    <p>
-      <button
-        class="btn btn-info"
-        [ngClass]="{'btn-info': !showEditForm, 'btn-warning': showEditForm}"
-        (click)="toggleEditForm()">{{editBtnText}}</button>
-    </p>
+    <button
+      class="btn btn-info"
+      [ngClass]="{'btn-info': !showEditForm, 'btn-warning': showEditForm}"
+      (click)="toggleEditForm()">{{editBtnText}}</button>
 
     <app-rsvp-form
       *ngIf="showEditForm"
@@ -48,23 +46,39 @@
   </div>
 </div>
 
-<!-- Admins can see full list of all RSVPs -->
-<div *ngIf="auth.isAdmin">
+<div class="card-block text-right">
+  <button (click)="toggleShowRsvps()" class="btn btn-link btn-sm">{{showRsvpsText}}</button>
+</div>
+
+<!-- All RSVPs -->
+<div *ngIf="showAllRsvps">
   <div class="card-block">
-    <h3 class="card-title text-center">All RSVPs</h3>
-    <p class="lead">Admins can view all RSVPs to this event.</p>
+    <h3 class="card-title text-center">RSVPs</h3>
   </div>
 
   <ul class="list-group list-group-flush">
+    <li class="list-group-item list-group-item-success justify-content-between">
+      <strong>Attending</strong>
+      <span class="badge badge-success badge-pill">{{totalAttending}}</span>
+    </li>
     <li
-      *ngFor="let rsvp of rsvps"
-      class="list-group-item"
-      [ngClass]="{'list-group-item-success': rsvp.attending, 'list-group-item-danger': !rsvp.attending}">
-      <div>
-        <strong>{{rsvp.name}}</strong> - {{utils.booleanToText(rsvp.attending)}}<br>
-        <span *ngIf="rsvp.attending">Guests: {{rsvp.guests}}</span>
-        <p *ngIf="rsvp.comments">{{rsvp.comments}}</p>
-      </div>
+      *ngFor="let rsvp of utils.filter(rsvps, 'attending', true)"
+      class="list-group-item small">
+      {{rsvp.name}} {{utils.showPlusOnes(rsvp.guests)}}
+      <p *ngIf="auth.isAdmin && rsvp.comments" class="d-flex w-100">
+        {{rsvp.comments}}
+      </p>
+    </li>
+    <li class="list-group-item list-group-item-danger justify-content-between">
+      <strong>Not Attending</strong>
+    </li>
+    <li
+      *ngFor="let rsvp of utils.filter(rsvps, 'attending', false)"
+      class="list-group-item small">
+      {{rsvp.name}}
+      <p *ngIf="auth.isAdmin && rsvp.comments" class="d-flex w-100">
+        {{rsvp.comments}}
+      </p>
     </li>
   </ul>
 </div>

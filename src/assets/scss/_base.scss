@@ -15,6 +15,12 @@ button {
   cursor: pointer; 
 }
 
+/*-- Link Buttons --*/
+
+.btn-link:focus {
+  box-shadow: none !important;
+}
+
 /*-- Forms --*/
 
 input[type="text"],

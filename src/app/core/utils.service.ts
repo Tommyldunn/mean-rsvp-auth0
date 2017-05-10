@@ -5,8 +5,7 @@ import { DatePipe } from '@angular/common';
 export class UtilsService {
 
   constructor(
-    private datePipe: DatePipe
-  ) { }
+    private datePipe: DatePipe) { }
 
   eventDates(start, end) {
     // Display single-day events as "1/7/2018"
@@ -43,9 +42,32 @@ export class UtilsService {
     return guests + persons;
   }
 
+  showPlusOnes(guests: number) {
+    // If bringing additional guest(s), show as "+n"
+    if (guests > 1) {
+      return `+${guests - 1}`;
+    }
+  }
+
   booleanToText(bool: boolean) {
     // Change a boolean to 'Yes' or 'No' string
     return bool ? 'Yes' : 'No';
+  }
+
+  filter(array: any[], property: string, value: any) {
+    // return values with specific key/value pair
+    if (!property || value === undefined) {
+      return array;
+    } else if (array) {
+      const filteredArray = array.filter(item => {
+        for (const key in item) {
+          if (key === property && item[key] === value) {
+            return true;
+          }
+        }
+      });
+      return filteredArray;
+    }
   }
 
   search(array: any[], query: string) {
