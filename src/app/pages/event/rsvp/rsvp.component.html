@@ -10,9 +10,9 @@
 
 <ng-template [ngIf]="isLoaded">
   <ng-template [ngIf]="!eventPast && rsvps">
-    
+
     <!-- User has RSVPed -->
-    <div *ngIf="userRsvp">
+    <ng-template [ngIf]="userRsvp">
       <p class="card-block lead">You have responded to this event with the following information:</p>
 
       <ul *ngIf="!showEditForm" class="list-group list-group-flush">
@@ -42,7 +42,7 @@
           [rsvp]="userRsvp"
           (submitRsvp)="onSubmitRsvp($event)"></app-rsvp-form>
       </div>
-    </div>
+    </ng-template>
 
     <!-- No RSVP yet -->
     <div *ngIf="!userRsvp" class="card-block">
@@ -59,7 +59,7 @@
     <button (click)="toggleShowRsvps()" class="btn btn-link btn-sm">{{showRsvpsText}}</button>
   </div>
 
-  <div *ngIf="showAllRsvps">
+  <ng-template [ngIf]="showAllRsvps">
     <div class="card-block">
       <h3 class="card-title text-center">RSVPs</h3>
       <p *ngIf="!rsvps.length" class="lead">There are currently no RSVPs for this event.</p>
@@ -90,7 +90,7 @@
         </p>
       </li>
     </ul>
-  </div>
+  </ng-template>
 
   <!-- Error loading RSVPs -->
   <div *ngIf="error" class="card-block">
