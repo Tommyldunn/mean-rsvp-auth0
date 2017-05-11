@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../core/api.service';
-import { EventModel } from './../../../core/models/event.model';
+import { EventModel, FormEventModel } from './../../../core/models/event.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-form',
@@ -12,14 +13,16 @@ export class EventFormComponent implements OnInit {
   @Input() event: EventModel;
   @Input() isEdit: boolean;
   @Output() submitEvent = new EventEmitter();
-  formEvent: EventModel;
+  dateRegex = new RegExp(/^\d{1,2}\/\d{1,2}\/\d{4}$/g);
+  formEvent: FormEventModel;
   submitEventSub: Subscription;
   error: boolean;
   submitting: boolean;
   submitBtnText: string;
 
   constructor(
-    private api: ApiService) { }
+    private api: ApiService,
+    private datePipe: DatePipe) {}
 
   ngOnInit() {
     this.isEdit = !!this.event;
@@ -29,20 +32,21 @@ export class EventFormComponent implements OnInit {
 
   private _setFormEvent() {
     if (!this.isEdit) {
-      // If creating a new event, create
-      // new EventModel with default data
-      this.formEvent = new EventModel(null, null, null, null, null);
+      // If creating a new event, create new
+      // FormEventModel with default null data
+      this.formEvent = new FormEventModel(null, null, null, null, null, null, null);
     } else {
       // If editing an existing event,
       // create new EventModel from existing data
-      this.formEvent = new EventModel(
+      this.formEvent = new FormEventModel(
         this.event.title,
         this.event.location,
-        this.event.startDatetime,
-        this.event.endDatetime,
+        this.datePipe.transform(this.event.startDatetime, 'shortDate'),
+        this.datePipe.transform(this.event.startDatetime, 'shortTime'),
+        this.datePipe.transform(this.event.endDatetime, 'shortDate'),
+        this.datePipe.transform(this.event.endDatetime, 'shortTime'),
         this.event.viewPublic,
-        this.event.description || '',
-        this.event._id
+        this.event.description || ''
       );
     }
   }

@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { ApiService } from './core/api.service';
 import { UtilsService } from './core/utils.service';
 import { FilterSortService } from './core/filter-sort.service';
+import { NumberFieldDirective } from './core/forms/numberField.directive';
+import { ValidateDateDirective } from './core/forms/validateDate.directive';
 
 import { AuthService } from './auth/auth.service';
 import { AuthHttp } from 'angular2-jwt';
@@ -24,7 +26,6 @@ import { LoadingComponent } from './core/loading.component';
 import { EventDetailComponent } from './pages/event/event-detail/event-detail.component';
 import { RsvpComponent } from './pages/event/rsvp/rsvp.component';
 import { RsvpFormComponent } from './pages/event/rsvp/rsvp-form/rsvp-form.component';
-import { NumberFieldDirective } from './core/forms/numberField.directive';
 import { CreateEventComponent } from './pages/admin/create-event/create-event.component';
 import { UpdateEventComponent } from './pages/admin/update-event/update-event.component';
 import { EventFormComponent } from './pages/admin/event-form/event-form.component';
@@ -46,7 +47,8 @@ import { EventFormComponent } from './pages/admin/event-form/event-form.componen
     NumberFieldDirective,
     CreateEventComponent,
     UpdateEventComponent,
-    EventFormComponent
+    EventFormComponent,
+    ValidateDateDirective
   ],
   imports: [
     BrowserModule,

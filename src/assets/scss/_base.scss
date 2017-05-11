@@ -35,7 +35,9 @@ textarea {
   padding-top: 6px;
 }
 .ng-invalid.ng-dirty,
-.ng-invalid.ng-dirty:focus {
+.ng-invalid.ng-dirty:focus,
+.ng-invalid.ng-touched,
+.ng-invalid.ng-touched:focus {
   border-color: #D9534E !important;
 }
 

@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" #eventForm="ngForm">
+<form (ngSubmit)="onSubmit()" #eventForm="ngForm" novalidate>
   <!-- Title -->
   <div class="form-group">
     <label for="title">Title</label>
@@ -48,6 +48,34 @@
       </div>
       <div [hidden]="!location.errors.minlength">
         Location must be 3 characters or more.
+      </div>
+    </div>
+  </div>
+
+  <!-- Start date -->
+  <div class="form-group">
+    <label for="startDate">Start Date</label>
+    <input
+      id="startDate"
+      name="startDate"
+      type="text"
+      class="form-control"
+      maxlength="10"
+      appDateField
+      #startDate="ngModel"
+      [(ngModel)]="formEvent.startDate"
+      required>
+    <div
+      *ngIf="startDate.errors && (startDate.dirty || startDate.touched)"
+      class="small text-danger formErrors">
+      <div [hidden]="!startDate.errors.required">
+        Start date is required.
+      </div>
+      <div [hidden]="!startDate.errors.minlength">
+        Start date must be 10 characters.
+      </div>
+      <div [hidden]="!startDate.errors.date">
+        Enter a <strong>valid</strong> date at least one day <strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.
       </div>
     </div>
   </div>
