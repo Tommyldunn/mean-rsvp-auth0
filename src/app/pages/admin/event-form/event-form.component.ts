@@ -16,19 +16,21 @@ export class EventFormComponent implements OnInit {
   submitEventSub: Subscription;
   error: boolean;
   submitting: boolean;
+  submitBtnText: string;
 
   constructor(
     private api: ApiService) { }
 
   ngOnInit() {
     this.isEdit = !!this.event;
+    this.submitBtnText = this.isEdit ? 'Update Event' : 'Create Event';
     this._setFormEvent();
   }
 
   private _setFormEvent() {
     if (!this.isEdit) {
-      // If creating a new event,
-      // create new EventModel with default data
+      // If creating a new event, create
+      // new EventModel with default data
       this.formEvent = new EventModel(null, null, null, null, null);
     } else {
       // If editing an existing event,

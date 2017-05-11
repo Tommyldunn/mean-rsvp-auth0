@@ -27,6 +27,31 @@
     </div>
   </div>
 
+  <!-- Location -->
+  <div class="form-group">
+    <label for="location">Location</label>
+    <input
+      id="location"
+      name="location"
+      type="text"
+      class="form-control"
+      minlength="3"
+      maxlength="200"
+      #location="ngModel"
+      [(ngModel)]="formEvent.location"
+      required>
+    <div
+      *ngIf="location.errors && (location.dirty || location.touched)"
+      class="small text-danger formErrors">
+      <div [hidden]="!location.errors.required">
+        Location is required.
+      </div>
+      <div [hidden]="!location.errors.minlength">
+        Location must be 3 characters or more.
+      </div>
+    </div>
+  </div>
+
   <!-- View Public -->
   <div class="form-group">
     <label class="label-inline-group">List event publicly?</label>
@@ -65,6 +90,7 @@
       class="form-control"
       rows="3"
       #description="ngModel"
+      maxlength="1000"
       [(ngModel)]="formEvent.description"></textarea>
   </div>
 
@@ -73,11 +99,11 @@
     <button
       type="submit"
       class="btn btn-primary"
-      [disabled]="!eventForm.form.valid || submitting">Submit Event</button>
+      [disabled]="!eventForm.form.valid || submitting">{{submitBtnText}}</button>
     
     <!-- API submission error -->
     <p *ngIf="error" class="mt-3 alert alert-danger">
-      <strong>Error:</strong> There was a problem submitting your response. Please try again.
+      <strong>Error:</strong> There was a problem submitting the event. Please try again.
     </p>
   </div>
 </form>
