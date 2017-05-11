@@ -40,9 +40,9 @@ export class ApiService {
   }
 
   // GET RSVPs by event ID (login required)
-  getRsvpsByEventId$(id): Observable<RsvpModel[]> {
+  getRsvpsByEventId$(eventId): Observable<RsvpModel[]> {
     return this.authHttp
-      .get(`${ENV.BASE_API}event/${id}/rsvps`)
+      .get(`${ENV.BASE_API}event/${eventId}/rsvps`)
       .map(this._handleSuccess)
       .catch(this._handleError);
   }
@@ -93,14 +93,14 @@ export class ApiService {
       .put(`${ENV.BASE_API}rsvp/${id}`, rsvp)
       .map(this._handleSuccess)
       .catch(this._handleError);
-    }
+  }
 
   private _handleSuccess(res: Response) {
     return res.json();
   }
 
   private _handleError(err: Response | any) {
-    const errorMsg = err.message || 'Unable to retrieve data';
+    const errorMsg = err.message || 'Error: Unable to complete request.';
     return Observable.throw(errorMsg);
   }
 
