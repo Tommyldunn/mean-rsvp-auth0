@@ -46,6 +46,7 @@ module.exports = function(app, config) {
  */
 
   const _eventListProjection = 'title startDatetime endDatetime viewPublic';
+  const _rsvpEventsProjection = 'title startDatetime endDatetime';
 
   // GET API root
   app.get('/api/', (req, res) => {
@@ -108,17 +109,24 @@ module.exports = function(app, config) {
     });
   });
 
-  // GET list of a user's RSVPs
-  app.get('/api/rsvps/:userId', jwtCheck, (req, res) => {
-    Rsvp.find({userId: req.params.userId}, (err, rsvps) => {
-      let rsvpsArr = [];
+  // GET list of events user has RSVPed to
+  app.get('/api/events/:userId', jwtCheck, (req, res) => {
+    Rsvp.find({userId: req.params.userId}, 'eventId', (err, rsvps) => {
+      const eventIdsArr = rsvps.map(rsvp => rsvp.eventId);
+      let eventsArr = [];
+
       if (err) { res.send({message: err}); }
       if (rsvps) {
-        rsvps.forEach((rsvp) => {
-          rsvpsArr.push(rsvp);
+        Event.find({_id: {$in: eventIdsArr}}, _rsvpEventsProjection, (err, events) => {
+          if (err) { res.send({message: err}); }
+          if (events) {
+            events.forEach(event => {
+              eventsArr.push(event);
+            });
+          }
+          res.send(eventsArr);
         });
       }
-      res.send(rsvpsArr);
     });
   });
 

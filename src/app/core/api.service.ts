@@ -71,10 +71,10 @@ export class ApiService {
       .catch(this._handleError);
   }
 
-  // GET all RSVPs for a specific user (login required)
-  getUserRsvps$(userId): Observable<RsvpModel[]> {
+  // GET all events a specific user has RSVPed to (login required)
+  getUserEvents$(userId): Observable<RsvpModel[]> {
     return this.authHttp
-      .get(`${ENV.BASE_API}rsvps/${userId}`)
+      .get(`${ENV.BASE_API}events/${userId}`)
       .map(this._handleSuccess)
       .catch(this._handleError);
   }

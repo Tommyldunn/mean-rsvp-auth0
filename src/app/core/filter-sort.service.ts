@@ -22,12 +22,14 @@ export class FilterSortService {
     }
   }
 
-  search(array: any[], query: string, excludeProps?: string|Array<string>) {
+  search(array: any[], query: string, excludeProps?: string|Array<string>, dateFormat?: string) {
     // match query to strings
     // match query to Date objects or ISO UTC strings
     // optionally exclude properties from being searched
+    // if matching dates, can optionally pass in date format string
     const lQuery = query.toLowerCase();
     const dateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/; // ISO UTC
+    const dateF = dateFormat ? dateFormat : 'medium';
 
     if (!query) {
       return array;
@@ -44,8 +46,8 @@ export class FilterSortService {
             } else if (
               (item[key] instanceof Date || item[key].toString().match(dateRegex)) &&
               // https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html
-              // matching 'mediumDate' format
-              this.datePipe.transform(item[key], 'mediumDate').toLowerCase().indexOf(lQuery) !== -1
+              // matching date format string passed in as param (or default to 'medium')
+              this.datePipe.transform(item[key], dateF).toLowerCase().indexOf(lQuery) !== -1
             ) {
               return true;
             }

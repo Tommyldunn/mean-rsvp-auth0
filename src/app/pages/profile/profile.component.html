@@ -2,10 +2,13 @@
 
 <div class="profile-rsvps">
   <h2>My RSVPs</h2>
-  <app-loading *ngIf="!rsvpList"></app-loading>
-  <ul *ngIf="rsvpList">
-    <li *ngFor="let rsvp of rsvpList">
-      <a [routerLink]="['/event', rsvp.eventId]" [queryParams]="{tab: 'rsvp'}">View RSVP</a>
+  <app-loading *ngIf="!eventList"></app-loading>
+  <ul *ngIf="eventList">
+    <li *ngFor="let event of eventList">
+      <a
+        [routerLink]="['/event', event._id]"
+        [queryParams]="{tab: 'rsvp'}"
+        [innerHTML]="event.title"></a>
     </li>
   </ul>
 </div>

@@ -14,8 +14,8 @@ import { RsvpModel } from './../../core/models/rsvp.model';
 export class ProfileComponent implements OnInit, OnDestroy {
   pageTitle = 'Profile';
   authSub: Subscription;
-  rsvpListSub: Subscription;
-  rsvpList: RsvpModel[];
+  eventListSub: Subscription;
+  eventList: RsvpModel[];
 
   constructor(
     private title: Title,
@@ -34,18 +34,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.rsvpListSub = this.api
-      .getUserRsvps$(this.auth.userProfile.sub)
-      .subscribe((res) => {
-        this.rsvpList = res;
-        console.log(this.rsvpList);
-      });
+    this.eventListSub = this.api
+      .getUserEvents$(this.auth.userProfile.sub)
+      .subscribe(
+        res => {
+          this.eventList = res;
+        },
+        err => {
+          
+        }
+      );
 
   }
 
   ngOnDestroy() {
     this.authSub.unsubscribe();
-    this.rsvpListSub.unsubscribe();
+    this.eventListSub.unsubscribe();
   }
 
 }
