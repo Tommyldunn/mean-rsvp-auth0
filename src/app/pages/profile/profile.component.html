@@ -1,14 +1,24 @@
 <h1 class="text-center">{{pageTitle}}</h1>
+<p class="lead">Hello, {{auth.userProfile.name}}!</p>
 
 <div class="profile-rsvps">
-  <h2>My RSVPs</h2>
+  <h2 class="text-center">RSVPs</h2>
+
+  <p class="lead">You have RSVPed for the following upcoming events:</p>
   <app-loading *ngIf="!eventList"></app-loading>
-  <ul *ngIf="eventList">
-    <li *ngFor="let event of eventList">
-      <a
-        [routerLink]="['/event', event._id]"
-        [queryParams]="{tab: 'rsvp'}"
-        [innerHTML]="event.title"></a>
-    </li>
-  </ul>
+
+  <!-- Events listing -->
+  <div *ngIf="eventList" class="list-group">
+    <a
+      *ngFor="let event of fs.orderByDate(eventList, 'startDatetime')"
+      [routerLink]="['/event', event._id]"
+      [queryParams]="{tab: 'rsvp'}"
+      class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1" [innerHTML]="event.title"></h5>
+        <small>{{utils.eventDates(event.startDatetime, event.endDatetime)}}</small>
+      </div>
+      <small class="mb-1">View/Change RSVP</small>
+    </a>
+  </div>
 </div>

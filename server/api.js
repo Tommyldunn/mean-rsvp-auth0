@@ -109,7 +109,7 @@ module.exports = function(app, config) {
     });
   });
 
-  // GET list of events user has RSVPed to
+  // GET list of upcoming events user has RSVPed to
   app.get('/api/events/:userId', jwtCheck, (req, res) => {
     Rsvp.find({userId: req.params.userId}, 'eventId', (err, rsvps) => {
       const eventIdsArr = rsvps.map(rsvp => rsvp.eventId);
@@ -117,7 +117,9 @@ module.exports = function(app, config) {
 
       if (err) { res.send({message: err}); }
       if (rsvps) {
-        Event.find({_id: {$in: eventIdsArr}}, _rsvpEventsProjection, (err, events) => {
+        Event.find(
+          {_id: {$in: eventIdsArr}, endDatetime: { $gt: new Date() }},
+          _rsvpEventsProjection, (err, events) => {
           if (err) { res.send({message: err}); }
           if (events) {
             events.forEach(event => {
