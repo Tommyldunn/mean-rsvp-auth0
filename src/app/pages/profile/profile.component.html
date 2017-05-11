@@ -5,7 +5,7 @@
   <app-loading *ngIf="!rsvpList"></app-loading>
   <ul *ngIf="rsvpList">
     <li *ngFor="let rsvp of rsvpList">
-      RSVPed to <a [routerLink]="['/event', rsvp.eventId]">Event</a>
+      <a [routerLink]="['/event', rsvp.eventId]" [queryParams]="{tab: 'rsvp'}">View RSVP</a>
     </li>
   </ul>
 </div>

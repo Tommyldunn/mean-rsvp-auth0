@@ -1,5 +1,3 @@
-import { RsvpModel } from './rsvp.model';
-
 export class EventModel {
   constructor(
     public title: string,
