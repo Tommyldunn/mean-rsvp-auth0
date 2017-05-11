@@ -13,7 +13,7 @@ export class EventFormComponent implements OnInit {
   @Input() event: EventModel;
   @Input() isEdit: boolean;
   @Output() submitEvent = new EventEmitter();
-  dateRegex = new RegExp(/^\d{1,2}\/\d{1,2}\/\d{4}$/g);
+  timeRegex = new RegExp(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))/g);
   formEvent: FormEventModel;
   submitEventSub: Subscription;
   error: boolean;
