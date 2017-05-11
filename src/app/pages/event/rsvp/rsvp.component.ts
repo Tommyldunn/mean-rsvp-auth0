@@ -1,18 +1,23 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AuthService } from './../../../auth/auth.service';
+import { ApiService } from './../../../core/api.service';
 import { UtilsService } from './../../../core/utils.service';
 import { FilterSortService } from './../../../core/filter-sort.service';
 import { RsvpModel } from './../../../core/models/rsvp.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-rsvp',
   templateUrl: './rsvp.component.html',
   styleUrls: ['./rsvp.component.scss']
 })
-export class RsvpComponent implements OnInit {
-  @Input() rsvps: RsvpModel[] = [];
+export class RsvpComponent implements OnInit, OnDestroy {
   @Input() eventId: string;
   @Input() eventPast: boolean;
+  rsvpsSub: Subscription;
+  rsvps: RsvpModel[];
+  loading: boolean;
+  error: boolean;
   userRsvp: RsvpModel;
   totalAttending: number;
   footerTense: string;
@@ -23,12 +28,27 @@ export class RsvpComponent implements OnInit {
 
   constructor(
     public auth: AuthService,
+    private api: ApiService,
     public utils: UtilsService,
     public fs: FilterSortService) { }
 
   ngOnInit() {
-    this._updateRsvpState();
     this.footerTense = !this.eventPast ? 'plan to attend this event.' : 'attended this event.';
+    this.loading = true;
+    this.rsvpsSub = this.api
+      .getRsvpsByEventId$(this.eventId)
+      .subscribe(
+        res => {
+          this.rsvps = res;
+          this._updateRsvpState();
+          this.loading = false;
+        },
+        err => {
+          console.error(err);
+          this.loading = false;
+          this.error = true;
+        }
+      );
   }
 
   toggleEditForm(setVal?: boolean) {
@@ -56,8 +76,8 @@ export class RsvpComponent implements OnInit {
         return rsvp.userId === this.auth.userProfile.sub;
       })[0];
 
-    // If user has not RSVPed before and has
-    // made a change, push new RSVP to array
+    // If user has not RSVPed before and has made
+    // a change, push new RSVP to local RSVPs store
     if (!_initialUserRsvp && this.userRsvp && changed) {
       this.rsvps.push(this.userRsvp);
     }
@@ -89,6 +109,14 @@ export class RsvpComponent implements OnInit {
 
     // Set updated guest count
     this.totalAttending = guests;
+  }
+
+  get isLoaded() {
+    return this.loading === false;
+  }
+
+  ngOnDestroy() {
+    this.rsvpsSub.unsubscribe();
   }
 
 }

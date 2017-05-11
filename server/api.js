@@ -88,22 +88,26 @@ module.exports = function(app, config) {
     );
   });
 
-  // GET event details (with RSVPs)
+  // GET event details
   app.get('/api/event/:id', jwtCheck, (req, res) => {
     Event.findById(req.params.id, (err, event) => {
-      if (err) { res.send(err); }
+      if (!event) {
+        return res.status(400).send({ message: 'Event not found.' });
+      }
+      res.send(event);
+    });
+  });
 
-      // Add associated RSVPs to event data
-      Rsvp.find({eventId: req.params.id}, (err, rsvps) => {
-        let rsvpsArr = [];
-        if (rsvps) {
-          rsvps.forEach((rsvp) => {
-            rsvpsArr.push(rsvp);
-          });
-          event.rsvps = rsvpsArr;
-        }
-        res.send(event);
-      });
+  // GET RSVPs by event ID
+  app.get('/api/event/:id/rsvps', jwtCheck, (req, res) => {
+    Rsvp.find({eventId: req.params.id}, (err, rsvps) => {
+      let rsvpsArr = [];
+      if (rsvps) {
+        rsvps.forEach((rsvp) => {
+          rsvpsArr.push(rsvp);
+        });
+      }
+      res.send(rsvpsArr);
     });
   });
 

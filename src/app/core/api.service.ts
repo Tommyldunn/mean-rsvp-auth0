@@ -31,10 +31,18 @@ export class ApiService {
       .catch(this._handleError);
   }
 
-  // GET an event by ID, with RSVPs (login required)
+  // GET an event by ID (login required)
   getEventById$(id): Observable<EventModel> {
     return this.authHttp
       .get(`${ENV.BASE_API}event/${id}`)
+      .map(this._handleSuccess)
+      .catch(this._handleError);
+  }
+
+  // GET RSVPs by event ID (login required)
+  getRsvpsByEventId$(id): Observable<RsvpModel[]> {
+    return this.authHttp
+      .get(`${ENV.BASE_API}event/${id}/rsvps`)
       .map(this._handleSuccess)
       .catch(this._handleError);
   }

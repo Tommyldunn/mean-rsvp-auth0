@@ -48,7 +48,6 @@ export class EventComponent implements OnInit, OnDestroy {
             res => {
               this.event = res;
               this._setPageTitle(this.event.title);
-              this.rsvps = this.event.rsvps;
               this.loading = false;
               this.eventPast = this.utils.eventPast(this.event.endDatetime);
               console.log(this.event);

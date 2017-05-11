@@ -13,8 +13,7 @@ const eventSchema = new Schema({
   startDatetime: { type: Date, required: true },
   endDatetime: { type: Date, required: true },
   description: String,
-  viewPublic: { type: Boolean, required: true },
-  rsvps: Array
+  viewPublic: { type: Boolean, required: true }
 });
 
 module.exports = mongoose.model('Event', eventSchema);
