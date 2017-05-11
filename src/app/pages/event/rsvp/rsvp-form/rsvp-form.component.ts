@@ -36,11 +36,9 @@ export class RsvpFormComponent implements OnInit {
       // create new RsvpModel with default data
       this.formRsvp = new RsvpModel(
         this.auth.userProfile.sub,
-        '',
+        this.auth.userProfile.name,
         this.eventId,
-        null,
-        0,
-        '');
+        null);
     } else {
       // If editing an existing RSVP,
       // create new RsvpModel from existing data
