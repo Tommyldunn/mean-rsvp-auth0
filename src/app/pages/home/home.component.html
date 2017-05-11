@@ -1,8 +1,8 @@
 <h1 class="text-center">{{pageTitle}}</h1>
 <app-loading *ngIf="loading"></app-loading>
 
-<div *ngIf="isLoaded">
-  <div *ngIf="eventList">
+<ng-template [ngIf]="isLoaded">
+  <ng-template [ngIf]="eventList">
 
     <!-- Search events -->
     <section class="search input-group mb-3">
@@ -40,11 +40,11 @@
         </div>
       </a>
     </div>
-  </div>
+  </ng-template>
 
   <!-- Error loading events -->
   <p *ngIf="error" class="alert alert-danger">
     <strong>Oops!</strong> There was an error retrieving event data. 
   </p>
 
-</div>
+</ng-template>

@@ -15,9 +15,10 @@ import { RsvpModel } from './../../core/models/rsvp.model';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   pageTitle = 'Profile';
-  authSub: Subscription;
   eventListSub: Subscription;
   eventList: RsvpModel[];
+  loading: boolean;
+  error: boolean;
 
   constructor(
     private title: Title,
@@ -29,30 +30,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.title.setTitle(this.pageTitle);
 
-    // DUMMY
-    this.authSub = this.auth.loggedIn$.subscribe((loggedIn) => {
-      if (loggedIn) {
-        console.log('user is logged in!');
-      } else {
-        console.log('user logged out!');
-      }
-    });
-
     this.eventListSub = this.api
       .getUserEvents$(this.auth.userProfile.sub)
       .subscribe(
         res => {
           this.eventList = res;
+          this.loading = false;
         },
         err => {
-
+          this.loading = false;
+          this.error = true;
         }
       );
+  }
 
+  get isLoaded() {
+    return this.loading === false;
   }
 
   ngOnDestroy() {
-    this.authSub.unsubscribe();
     this.eventListSub.unsubscribe();
   }
 

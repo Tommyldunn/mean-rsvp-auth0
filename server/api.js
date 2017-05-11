@@ -46,7 +46,6 @@ module.exports = function(app, config) {
  */
 
   const _eventListProjection = 'title startDatetime endDatetime viewPublic';
-  const _rsvpEventsProjection = 'title startDatetime endDatetime';
 
   // GET API root
   app.get('/api/', (req, res) => {
@@ -113,6 +112,7 @@ module.exports = function(app, config) {
   app.get('/api/events/:userId', jwtCheck, (req, res) => {
     Rsvp.find({userId: req.params.userId}, 'eventId', (err, rsvps) => {
       const eventIdsArr = rsvps.map(rsvp => rsvp.eventId);
+      const _rsvpEventsProjection = 'title startDatetime endDatetime';
       let eventsArr = [];
 
       if (err) { res.send({message: err}); }
