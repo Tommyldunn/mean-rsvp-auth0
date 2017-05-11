@@ -52,77 +52,110 @@
     </div>
   </div>
 
-  <!-- Start date -->
-  <div class="form-group">
-    <label for="startDate">Start Date</label>
-    <input
-      id="startDate"
-      name="startDate"
-      type="text"
-      class="form-control"
-      maxlength="10"
-      appDateField
-      #startDate="ngModel"
-      [(ngModel)]="formEvent.startDate"
-      required>
-    <div
-      *ngIf="startDate.errors && (startDate.dirty || startDate.touched)"
-      class="small text-danger formErrors">
-      <div [hidden]="!startDate.errors.required">
-        Start date is required.
+  <div class="row">
+    <!-- Start date -->
+    <div class="form-group col-sm-12 col-md-6">
+      <label for="startDate">Start Date</label>
+      <input
+        id="startDate"
+        name="startDate"
+        type="text"
+        class="form-control"
+        maxlength="10"
+        appDateField
+        #startDate="ngModel"
+        [(ngModel)]="formEvent.startDate"
+        required>
+      <div
+        *ngIf="startDate.errors && (startDate.dirty || startDate.touched)"
+        class="small text-danger formErrors">
+        <div [hidden]="!startDate.errors.required">
+          Start date is required.
+        </div>
+        <div [hidden]="!startDate.errors.date">
+          Enter a <strong>valid</strong> date at least one day <strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.
+        </div>
       </div>
-      <div [hidden]="!startDate.errors.date">
-        Enter a <strong>valid</strong> date at least one day <strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.
+    </div>
+
+    <!-- Start time -->
+    <div class="form-group col-sm-12 col-md-6">
+      <label for="startTime">Start Time</label>
+      <input
+        id="startTime"
+        name="startTime"
+        type="text"
+        class="form-control"
+        maxlength="10"
+        [pattern]="timeRegex"
+        #startTime="ngModel"
+        [(ngModel)]="formEvent.startTime"
+        [disabled]="!startDate.valid"
+        required>
+      <div
+        *ngIf="startTime.errors && (startTime.dirty || startTime.touched)"
+        class="small text-danger formErrors">
+        <div [hidden]="!startTime.errors.required">
+          Start time is required.
+        </div>
+        <div [hidden]="!startTime.errors.pattern">
+          Start time should be in the format <strong>H:MM AM/PM</strong>.
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Start time -->
-  <div *ngIf="startDate.valid" class="form-group">
-    <label for="startTime">Start Time</label>
-    <input
-      id="startTime"
-      name="startTime"
-      type="text"
-      class="form-control"
-      maxlength="10"
-      [pattern]="timeRegex"
-      #startTime="ngModel"
-      [(ngModel)]="formEvent.startTime"
-      required>
-    <div
-      *ngIf="startTime.errors && (startTime.dirty || startTime.touched)"
-      class="small text-danger formErrors">
-      <div [hidden]="!startTime.errors.required">
-        Start time is required.
-      </div>
-      <div [hidden]="!startTime.errors.pattern">
-        Start time should be in the format <strong>H:MM AM/PM</strong>.
+  <div class="row">
+    <!-- End date -->
+    <div class="form-group col-sm-12 col-md-6">
+      <label for="endDate">End Date</label>
+      <input
+        id="endDate"
+        name="endDate"
+        type="text"
+        class="form-control"
+        maxlength="10"
+        appDateField
+        #endDate="ngModel"
+        [value]="startDate.valid ? formEvent.startDate : null"
+        [(ngModel)]="formEvent.endDate"
+        [disabled]="!startDate.valid || !startTime.valid"
+        required>
+      <div
+        *ngIf="endDate.errors && (endDate.dirty || endDate.touched)"
+        class="small text-danger formErrors">
+        <div [hidden]="!endDate.errors.required">
+          End date is required.
+        </div>
+        <div [hidden]="!endDate.errors.date">
+          Enter a <strong>valid</strong> date at least one day <strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- End date -->
-  <div class="form-group">
-    <label for="endDate">End Date</label>
-    <input
-      id="endDate"
-      name="endDate"
-      type="text"
-      class="form-control"
-      maxlength="10"
-      appDateField
-      #endDate="ngModel"
-      [(ngModel)]="formEvent.endDate"
-      required>
-    <div
-      *ngIf="endDate.errors && (endDate.dirty || endDate.touched)"
-      class="small text-danger formErrors">
-      <div [hidden]="!endDate.errors.required">
-        End date is required.
-      </div>
-      <div [hidden]="!endDate.errors.date">
-        Enter a <strong>valid</strong> date at least one day <strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.
+    <!-- End time -->
+    <div class="form-group col-sm-12 col-md-6">
+      <label for="endTime">End Time</label>
+      <input
+        id="endTime"
+        name="endTime"
+        type="text"
+        class="form-control"
+        maxlength="10"
+        [pattern]="timeRegex"
+        #endTime="ngModel"
+        [(ngModel)]="formEvent.endTime"
+        [disabled]="!endDate.valid"
+        required>
+      <div
+        *ngIf="endTime.errors && (endTime.dirty || endTime.touched)"
+        class="small text-danger formErrors">
+        <div [hidden]="!endTime.errors.required">
+          End time is required.
+        </div>
+        <div [hidden]="!endTime.errors.pattern">
+          End time should be in the format <strong>H:MM AM/PM</strong>.
+        </div>
       </div>
     </div>
   </div>
