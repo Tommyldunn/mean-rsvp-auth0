@@ -51,8 +51,23 @@ export class EventFormComponent implements OnInit {
     }
   }
 
+  _convertFormEvent() {
+    // Convert form event startDate/startTime and endDate/endTime
+    // to JS dates and populate a new EventModel to for submission
+    // return new EventModel(
+    //   this.formEvent.title,
+    //   this.formEvent.location,
+    //   // convert startDatetime,
+    //   // convert endDatetime,
+    //   this.formEvent.viewPublic,
+    //   this.formEvent.description || '',
+    //   this.event._id || ''
+    // );
+  }
+
   onSubmit() {
     this.submitting = true;
+    //this.submitEventObj = this._convertFormEvent(this.formEvent);
 
     if (!this.isEdit) {
       this.submitEventSub = this.api
