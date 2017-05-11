@@ -98,5 +98,10 @@
       type="submit"
       class="btn btn-primary"
       [disabled]="!rsvpForm.form.valid || submitting">Submit RSVP</button>
+    
+    <!-- API submission error -->
+    <p *ngIf="error" class="mt-3 alert alert-danger">
+      <strong>Error:</strong> There was a problem submitting your response. Please try again.
+    </p>
   </div>
 </form>

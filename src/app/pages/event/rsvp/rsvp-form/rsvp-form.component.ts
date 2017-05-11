@@ -19,6 +19,7 @@ export class RsvpFormComponent implements OnInit {
   formRsvp: RsvpModel;
   submitRsvpSub: Subscription;
   submitting: boolean;
+  error: boolean;
 
   constructor(
     private auth: AuthService,
@@ -98,6 +99,7 @@ export class RsvpFormComponent implements OnInit {
       rsvp: res
     };
     this.submitRsvp.emit(eventObj);
+    this.error = false;
     this.submitting = false;
   }
 
@@ -109,7 +111,7 @@ export class RsvpFormComponent implements OnInit {
     this.submitRsvp.emit(eventObj);
     console.error(err);
     this.submitting = false;
-    // @TODO: handle error in some visible way
+    this.error = true;
   }
 
 }
