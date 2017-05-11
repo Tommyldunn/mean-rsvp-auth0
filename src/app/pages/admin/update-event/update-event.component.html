@@ -1,0 +1,14 @@
+<h1 class="text-center">{{pageTitle}}</h1>
+
+<app-loading *ngIf="loading"></app-loading>
+
+<ng-template [ngIf]="isLoaded">
+  <!-- Event form -->
+  <app-event-form
+    [event]="event"></app-event-form>
+
+  <!-- Delete event -->
+  <p>
+    <button class="btn btn-danger" (click)="deleteEvent()">Delete Event</button>
+  </p>
+</ng-template>

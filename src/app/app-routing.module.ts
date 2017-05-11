@@ -9,6 +9,8 @@ import { CallbackComponent } from './pages/callback/callback.component';
 import { EventComponent } from './pages/event/event.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { CreateEventComponent } from './pages/admin/create-event/create-event.component';
+import { UpdateEventComponent } from './pages/admin/update-event/update-event.component';
 
 const routes: Routes = [
   {
@@ -35,10 +37,23 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    component: AdminComponent,
     canActivate: [
       AuthGuard,
       AdminGuard
+    ],
+    children: [
+      {
+        path: '',
+        component: AdminComponent
+      },
+      {
+        path: 'event/new',
+        component: CreateEventComponent
+      },
+      {
+        path: 'event/update/:id',
+        component: UpdateEventComponent
+      }
     ]
   },
   {

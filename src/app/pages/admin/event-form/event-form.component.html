@@ -1,0 +1,84 @@
+<form (ngSubmit)="onSubmit()" #eventForm="ngForm">
+  <!-- Title -->
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input
+      id="title"
+      name="title"
+      type="text"
+      class="form-control"
+      minlength="3"
+      maxlength="24"
+      #title="ngModel"
+      [(ngModel)]="formEvent.title"
+      required>
+    <div
+      *ngIf="title.errors && (title.dirty || title.touched)"
+      class="small text-danger formErrors">
+      <div [hidden]="!title.errors.required">
+        Title is required.
+      </div>
+      <div [hidden]="!name.errors.minlength">
+        Title must be 3 characters or more.
+      </div>
+      <div [hidden]="!name.errors.maxlength">
+        Title must be 24 characters or less.
+      </div>
+    </div>
+  </div>
+
+  <!-- View Public -->
+  <div class="form-group">
+    <label class="label-inline-group">List event publicly?</label>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input
+          id="viewPublic"
+          name="viewPublic"
+          type="radio"
+          class="form-check-input"
+          [value]="true"
+          [(ngModel)]="formEvent.viewPublic"
+          required> Yes
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input
+          id="viewPublic"
+          name="viewPublic"
+          type="radio"
+          class="form-check-input"
+          [value]="false"
+          [(ngModel)]="formEvent.viewPublic"
+          required> No
+      </label>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="form-group">
+    <label for="description">Description:</label>
+    <textarea
+      id="description"
+      name="description"
+      class="form-control"
+      rows="3"
+      #description="ngModel"
+      [(ngModel)]="formEvent.description"></textarea>
+  </div>
+
+  <!-- Submit -->
+  <div class="form-group">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="!eventForm.form.valid || submitting">Submit Event</button>
+    
+    <!-- API submission error -->
+    <p *ngIf="error" class="mt-3 alert alert-danger">
+      <strong>Error:</strong> There was a problem submitting your response. Please try again.
+    </p>
+  </div>
+</form>
+
