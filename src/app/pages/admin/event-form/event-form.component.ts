@@ -80,6 +80,12 @@ export class EventFormComponent implements OnInit {
       .valueChanges
       .subscribe(data => this.onValueChanged(data));
 
+    if (this.isEdit) {
+      for (var i in this.eventForm.controls) {
+        this.eventForm.controls[i].markAsTouched();
+      }
+    }
+
     this.onValueChanged();
   }
 
@@ -97,6 +103,7 @@ export class EventFormComponent implements OnInit {
   startTimeDisabled: boolean;
   endDateDisabled: boolean;
   endTimeDisabled: boolean;
+  submitDisabled = true;
 
   validationMessages = {
     title: {
@@ -138,12 +145,14 @@ export class EventFormComponent implements OnInit {
   };
 
   onValueChanged(data?: any) {
+    const form = this.eventForm;
     console.log('value changed in form', data, this.eventForm);
 
-    if (!this.eventForm) { return; }
-    const form = this.eventForm;
+    if (!form) { return; }
 
     // Manage disabled states
+    // https://github.com/angular/angular/issues/11271#issuecomment-289806196
+    // Calling .enable() triggers a maximum call stack error
     const startDate = form.controls['startDate'];
     const startTime = form.controls['startTime'];
     const endDate = form.controls['endDate'];
@@ -151,6 +160,7 @@ export class EventFormComponent implements OnInit {
     this.startTimeDisabled = startDate.invalid;
     this.endDateDisabled = startDate.invalid || startTime.invalid;
     this.endTimeDisabled = startDate.invalid || startTime.invalid || endDate.invalid;
+    this.submitDisabled = form.invalid;
 
     for (const field in this.formErrors) {
       // Clear previous error message (if any)
@@ -201,9 +211,8 @@ export class EventFormComponent implements OnInit {
     // );
   }
 
-  onSubmit(eventForm) {
+  onSubmit() {
     this.submitting = true;
-    console.log(eventForm);
     //this.submitEventObj = this._convertFormEvent(this.formEvent);
 
     // if (!this.isEdit) {

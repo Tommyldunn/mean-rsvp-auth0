@@ -1,4 +1,4 @@
-<form [formGroup]="eventForm" (ngSubmit)="onSubmit(eventForm)" novalidate>
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" novalidate>
   <!-- Title -->
   <div class="form-group">
     <label for="title">Title</label>
@@ -158,7 +158,8 @@
   <div class="form-group">
     <button
       type="submit"
-      class="btn btn-primary">{{submitBtnText}}</button>
+      class="btn btn-primary"
+      [attr.disabled]="submitDisabled || submitting ? '' : null">{{submitBtnText}}</button>
       <!--[disabled]="eventForm.invalid || submitting"-->
     
     <!-- API submission error -->
