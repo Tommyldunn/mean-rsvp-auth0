@@ -7,6 +7,7 @@ import { EventModel, FormEventModel } from './../../../core/models/event.model';
 import { DatePipe } from '@angular/common';
 import { dateValidator } from './../../../core/forms/validateDate.factory';
 import { dateRangeValidator } from './../../../core/forms/validateDateRange.factory';
+import { timeRegex } from './../../../core/forms/regex.factory';
 import { EventFormService } from './event-form.service';
 
 @Component({
@@ -111,7 +112,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
         startTime: [this.formEvent.startTime, [
           Validators.required,
           Validators.maxLength(8),
-          Validators.pattern(this.ef.timeRegex)
+          Validators.pattern(timeRegex)
         ]],
         endDate: [this.formEvent.endDate, [
           Validators.required,

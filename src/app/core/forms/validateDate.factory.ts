@@ -1,17 +1,16 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { dateRegex } from './regex.factory';
 
 export function dateValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
     const dateStr = control.value;
     // Length of months (will update for leap years)
     const monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
-    // Check for basic mm/dd/yyyy pattern
-    const formatRegex = new RegExp(/^(\d{2}|\d{1})\/(\d{2}|\d{1})\/\d{4}$/);
     // Object to return if date is invalid
     const invalidObj = { 'date': true };
 
-    // First check for m/d/yyyy format
-    if (!formatRegex.test(dateStr)) {
+    // First check for m/d/yyyy or mm/dd/yyyy format
+    if (!dateRegex.test(dateStr)) {
       return invalidObj;
     }
 

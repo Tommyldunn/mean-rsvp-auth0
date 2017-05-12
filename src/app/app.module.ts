@@ -8,7 +8,6 @@ import { ApiService } from './core/api.service';
 import { UtilsService } from './core/utils.service';
 import { FilterSortService } from './core/filter-sort.service';
 import { NumberFieldDirective } from './core/forms/numberField.directive';
-import { ValidateDateDirective } from './core/forms/validateDate.directive';
 
 import { AuthService } from './auth/auth.service';
 import { AuthHttp } from 'angular2-jwt';
@@ -47,8 +46,7 @@ import { EventFormComponent } from './pages/admin/event-form/event-form.componen
     NumberFieldDirective,
     CreateEventComponent,
     UpdateEventComponent,
-    EventFormComponent,
-    ValidateDateDirective
+    EventFormComponent
   ],
   imports: [
     BrowserModule,

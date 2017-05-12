@@ -22,7 +22,7 @@ export class EventFormService {
     },
     startTime: {
       required: 'Start time is <strong>required</strong>.',
-      pattern: 'Start time must be in the format <strong>H:MM AM/PM</strong>.',
+      pattern: 'Start time must be a <strong>valid</strong> time in the format <strong>H:MM AM/PM</strong>.',
       maxlength: 'Start time must be 8 characters or less.'
     },
     endDate: {
@@ -33,7 +33,7 @@ export class EventFormService {
     },
     endTime: {
       required: 'End time is <strong>required</strong>.',
-      pattern: 'End time must be in the format <strong>H:MM AM/PM</strong>.',
+      pattern: 'End time must be a <strong>valid</strong> time in the format <strong>H:MM AM/PM</strong>.',
       maxlength: 'End time must be 8 characters or less.'
     },
     viewPublic: {

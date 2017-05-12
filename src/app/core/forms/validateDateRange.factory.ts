@@ -1,5 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 import { stringsToDate } from './stringsToDate.factory';
+import { dateRegex, timeRegex } from './regex.factory';
 
 export function dateRangeValidator(c: AbstractControl) {
   const startDate = c.get('startDate').value;
@@ -8,11 +9,16 @@ export function dateRangeValidator(c: AbstractControl) {
   const endTime = c.get('endTime').value;
   // Object to return if date is invalid
   const invalidObj = { 'dateRange': true };
-  const startDatetime = stringsToDate(startDate, startTime);
-  const endDatetime = stringsToDate(endDate, endTime);
+  let startDatetime;
+  let endDatetime;
 
-  if (endDatetime >= startDatetime) {
-    return null;
+  if (dateRegex.test(startDate) && dateRegex.test(endDate) && (timeRegex.test(startTime)) && timeRegex.test(endTime)) {
+    startDatetime = stringsToDate(startDate, startTime);
+    endDatetime = stringsToDate(endDate, endTime);
+
+    if (endDatetime >= startDatetime) {
+      return null;
+    }
   }
   return invalidObj;
 }
