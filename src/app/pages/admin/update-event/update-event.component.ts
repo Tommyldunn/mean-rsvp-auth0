@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../../auth/auth.service';
 import { ApiService } from './../../../core/api.service';
 import { UtilsService } from './../../../core/utils.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { EventModel } from './../../../core/models/event.model';
 
@@ -17,12 +17,16 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
   id: string;
   routeSub: Subscription;
   eventSub: Subscription;
+  confirmDelete: string;
   deleteSub: Subscription;
   event: EventModel;
   loading: boolean;
+  submitting: boolean;
   error: boolean;
+  deleteErr: boolean;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     public auth: AuthService,
     private api: ApiService,
@@ -55,19 +59,20 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
       });
   }
 
-  onSubmitEvent(e) {
-    
-  }
+  removeEvent() {
+    this.submitting = true;
 
-  deleteEvent() {
     this.deleteSub = this.api
       .deleteEvent$(this.id)
       .subscribe(
         res => {
-
+          this.submitting = false;
+          this.deleteErr = false;
+          this.router.navigate(['/admin']);
         },
         err => {
-
+          this.submitting = false;
+          this.deleteErr = true;
         }
       );
   }
