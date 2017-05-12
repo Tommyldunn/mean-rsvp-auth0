@@ -15,7 +15,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
   @Input() event: EventModel;
   @Input() isEdit: boolean;
   @Output() submitEvent = new EventEmitter();
-  timeRegex = new RegExp(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))/i);
+  timeRegex = new RegExp(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))/);
   eventForm: FormGroup;
   formEvent: FormEventModel;
   formErrors = {
@@ -153,13 +153,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
     this.formChangeSub = this.eventForm
       .valueChanges
       .subscribe(data => this.onValueChanged(data));
-
-    // If editing, mark fields as touched to trigger validation
-    if (this.isEdit) {
-      for (const field in this.eventForm.controls) {
-        this.eventForm.controls[field].markAsTouched();
-      }
-    }
 
     this.onValueChanged();
   }
