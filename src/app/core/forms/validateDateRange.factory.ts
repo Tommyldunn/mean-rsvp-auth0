@@ -1,4 +1,5 @@
 import { AbstractControl } from '@angular/forms';
+import { stringsToDate } from './stringsToDate.factory';
 
 export function dateRangeValidator(c: AbstractControl) {
   const startDate = c.get('startDate').value;
@@ -7,25 +8,11 @@ export function dateRangeValidator(c: AbstractControl) {
   const endTime = c.get('endTime').value;
   // Object to return if date is invalid
   const invalidObj = { 'dateRange': true };
-  const startDatetime = _stringsToDate(startDate, startTime);
-  const endDatetime = _stringsToDate(endDate, endTime);
+  const startDatetime = stringsToDate(startDate, startTime);
+  const endDatetime = stringsToDate(endDate, endTime);
 
   if (endDatetime >= startDatetime) {
     return null;
   }
   return invalidObj;
-}
-
-function _stringsToDate(dateStr: string, timeStr: string) {
-  const timeArr = timeStr.split(/[\s:]+/);
-  const date = new Date(dateStr);
-  let hour = +timeArr[0];
-  const min = +timeArr[1];
-  const pm = timeArr[2].toLowerCase() === 'pm';
-
-  if (pm) { hour += 12; }
-  date.setHours(hour);
-  date.setMinutes(min);
-
-  return date;
 }

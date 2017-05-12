@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { stringsToDate } from './../../../core/forms/stringsToDate.factory';
 
 @Injectable()
 export class EventFormService {
@@ -43,21 +44,8 @@ export class EventFormService {
     }
   };
   timeRegex = new RegExp(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))/);
+  stringsToDate = stringsToDate;
 
   constructor() { }
-
-  stringsToDate(dateStr: string, timeStr: string) {
-    const timeArr = timeStr.split(/[\s:]+/);
-    const date = new Date(dateStr);
-    let hour = +timeArr[0];
-    const min = +timeArr[1];
-    const pm = timeArr[2].toLowerCase() === 'pm';
-
-    if (pm) { hour += 12; }
-    date.setHours(hour);
-    date.setMinutes(min);
-
-    return date;
-  }
 
 }
