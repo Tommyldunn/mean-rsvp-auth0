@@ -31,7 +31,9 @@
     </div>
   </div>
 
-  <div formGroupName="datesGroup">
+  <div
+    formGroupName="datesGroup"
+    [ngClass]="{'has-danger': datesAllValid && eventForm.get('datesGroup').errors}">
     <div class="row">
       <!-- Start date -->
       <div class="form-group col-sm-12 col-md-6">
@@ -103,9 +105,9 @@
       </div>
     </div>
 
-    <!--<p *ngIf="badDateRange" class="alert alert-danger">
-      <strong>Dates out of range:</strong> This event ends before it begins. Please double-check the start / end dates and times.
-    </p>-->
+    <p *ngIf="datesAllValid && eventForm.get('datesGroup').errors" class="alert alert-danger">
+        <strong>Dates out of range:</strong> This event ends before it begins. Please double-check the start / end dates and times.
+    </p>
   </div>
 
   <!-- View Public -->

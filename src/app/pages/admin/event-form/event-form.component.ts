@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../core/api.service';
@@ -25,18 +25,19 @@ export class EventFormComponent implements OnInit, OnDestroy {
   formErrors = {
     title: '',
     location: '',
+    viewPublic: '',
+    description: '',
     datesGroup: {
       startDate: '',
       startTime: '',
       endDate: '',
       endTime: '',
-    },
-    viewPublic: '',
-    description: ''
+    }
   };
   startTimeDisabled: boolean;
   endDateDisabled: boolean;
   endTimeDisabled: boolean;
+  datesAllValid: boolean;
   submitDisabled = true;
   formChangeSub: Subscription;
   // Form submission
@@ -128,7 +129,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     // Subscribe to form value changes
     this.formChangeSub = this.eventForm
       .valueChanges
-      .subscribe(data => this.onValueChanged(data));
+      .subscribe(data => this._onValueChanged(data));
 
     // Touch fields to trigger immediate validation
     // in case editing an event that is no longer valid
@@ -139,10 +140,10 @@ export class EventFormComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.onValueChanged();
+    this._onValueChanged();
   }
 
-  onValueChanged(data?: any) {
+  private _onValueChanged(data?: any) {
     if (!this.eventForm) { return; }
     const form = this.eventForm;
     const datesGroup = form.controls['datesGroup'];
@@ -157,13 +158,13 @@ export class EventFormComponent implements OnInit, OnDestroy {
     this.startTimeDisabled = startDate.invalid;
     this.endDateDisabled = startDate.invalid || startTime.invalid;
     this.endTimeDisabled = startDate.invalid || startTime.invalid || endDate.invalid;
+    this.datesAllValid = startDate.valid && startTime.valid && endDate.valid && endTime.valid;
     this.submitDisabled = form.invalid;
-
-    console.log(this.eventForm);
 
     // Check validation and set errors
     for (const field in this.formErrors) {
-      if (typeof field === 'string') {
+      if (field !== 'datesGroup') {
+        //this._setValidationMessages(form, this.formErrors);
         // Clear previous error message (if any)
         this.formErrors[field] = '';
         const control = form.get(field);
@@ -176,7 +177,20 @@ export class EventFormComponent implements OnInit, OnDestroy {
           }
         }
       } else {
-        console.log(field);
+        const datesGroupErrors = this.formErrors['datesGroup'];
+
+        for (const dateField in datesGroupErrors) {
+          datesGroupErrors[dateField] = '';
+          const control = datesGroup.get(dateField);
+
+          if (control && (control.dirty || control.touched) && !control.valid) {
+            const messages = this.ef.validationMessages[dateField];
+            
+            for (const key in control.errors) {
+              datesGroupErrors[dateField] += messages[key] + '<br>';
+            }
+          }
+        }
       }
     }
   }
