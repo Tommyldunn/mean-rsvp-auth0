@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../core/api.service';
 import { EventModel, FormEventModel } from './../../../core/models/event.model';
 import { DatePipe } from '@angular/common';
+import { customDateValidator } from './../../../core/forms/validateDate.factory';
 
 @Component({
   selector: 'app-event-form',
@@ -14,13 +16,16 @@ export class EventFormComponent implements OnInit {
   @Input() isEdit: boolean;
   @Output() submitEvent = new EventEmitter();
   timeRegex = new RegExp(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))/g);
+  eventForm: FormGroup;
   formEvent: FormEventModel;
+  formChangeSub: Subscription;
   submitEventSub: Subscription;
   error: boolean;
   submitting: boolean;
   submitBtnText: string;
 
   constructor(
+    private fb: FormBuilder,
     private api: ApiService,
     private datePipe: DatePipe) {}
 
@@ -28,6 +33,131 @@ export class EventFormComponent implements OnInit {
     this.isEdit = !!this.event;
     this.submitBtnText = this.isEdit ? 'Update Event' : 'Create Event';
     this._setFormEvent();
+    this.buildForm();
+  }
+
+  buildForm() {
+    this.eventForm = this.fb.group({
+      title: [this.formEvent.title, [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(24)
+        ]
+      ],
+      location: [this.formEvent.location, [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(200)
+        ]
+      ],
+      startDate: [this.formEvent.startDate, [
+          Validators.required,
+          Validators.maxLength(10),
+          customDateValidator()
+        ]
+      ],
+      startTime: [this.formEvent.startTime, [
+          Validators.required,
+          Validators.maxLength(8),
+          Validators.pattern(this.timeRegex)
+        ]
+      ],
+      endDate: [this.formEvent.endDate, [
+          Validators.required,
+          Validators.maxLength(10),
+          customDateValidator()
+        ]
+      ],
+      endTime: [this.formEvent.endTime, [
+          Validators.required,
+          Validators.maxLength(8),
+          Validators.pattern(this.timeRegex)
+        ]
+      ],
+      viewPublic: [this.formEvent.viewPublic, [
+          Validators.required
+        ]
+      ],
+      description: [this.formEvent.description, [
+          Validators.maxLength(1000)
+        ]
+      ],
+    });
+
+    this.formChangeSub = this.eventForm
+      .valueChanges
+      .subscribe(data => this.onValueChanged(data));
+
+    this.onValueChanged();
+  }
+
+  formErrors = {
+    title: '',
+    location: '',
+    startDate: '',
+    startTime: '',
+    endDate: '',
+    endTime: '',
+    viewPublic: '',
+    description: ''
+  };
+
+  validationMessages = {
+    title: {
+      required: 'Title is <strong>required</strong>.',
+      minlength: 'Title must be 3 characters or more.',
+      maxlength: 'Title must be 24 characters or less.'
+    },
+    location: {
+      required: 'Location is <strong>required</strong>.',
+      minlength: 'Location must be 3 characters or more.',
+      maxlength: 'Location must be 200 characters or less.'
+    },
+    startDate: {
+      required: 'Start date is <strong>required</strong>.',
+      maxlength: 'Start date cannot be longer than 10 characters.',
+      date: 'Start date must be a <strong>valid</strong> date at least one day <strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.'
+    },
+    startTime: {
+      required: 'Start time is <strong>required</strong>.',
+      pattern: 'Start time must be in the format <strong>H:MM AM/PM</strong>.',
+      maxlength: 'Start time must be 8 characters or less.'
+    },
+    endDate: {
+      required: 'End date is <strong>required</strong>.',
+      maxlength: 'End date cannot be longer than 10 characters.',
+      date: 'End date must be a <strong>valid</strong> date at least one day <strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.'
+    },
+    endTime: {
+      required: 'End time is <strong>required</strong>.',
+      pattern: 'End time must be in the format <strong>H:MM AM/PM</strong>.',
+      maxlength: 'End time must be 8 characters or less.'
+    },
+    viewPublic: {
+      required: 'You must specify whether this event should be publicly listed.'
+    },
+    description: {
+      maxlength: 'Description must be 1000 characters or less.'
+    }
+  };
+
+  onValueChanged(data?: any) {
+    console.log('value changed in form', data);
+    if (!this.eventForm) { return; }
+    const form = this.eventForm;
+
+    for (const field in this.formErrors) {
+      // Clear previous error message (if any)
+      this.formErrors[field] = '';
+      const control = form.get(field);
+
+      if (control && (control.dirty || control.touched) && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + '<br>';
+        }
+      }
+    }
   }
 
   private _setFormEvent() {

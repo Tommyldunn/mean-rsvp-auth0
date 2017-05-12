@@ -1,6 +1,6 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -53,6 +53,7 @@ import { EventFormComponent } from './pages/admin/event-form/event-form.componen
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     AppRoutingModule
   ],
