@@ -38,50 +38,42 @@ export class EventFormComponent implements OnInit {
 
   buildForm() {
     this.eventForm = this.fb.group({
-      title: [this.formEvent.title, [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(24)
-        ]
-      ],
-      location: [this.formEvent.location, [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200)
-        ]
-      ],
-      startDate: [this.formEvent.startDate, [
-          Validators.required,
-          Validators.maxLength(10),
-          customDateValidator()
-        ]
-      ],
-      startTime: [this.formEvent.startTime, [
-          Validators.required,
-          Validators.maxLength(8),
-          Validators.pattern(this.timeRegex)
-        ]
-      ],
-      endDate: [this.formEvent.endDate, [
-          Validators.required,
-          Validators.maxLength(10),
-          customDateValidator()
-        ]
-      ],
-      endTime: [this.formEvent.endTime, [
-          Validators.required,
-          Validators.maxLength(8),
-          Validators.pattern(this.timeRegex)
-        ]
-      ],
-      viewPublic: [this.formEvent.viewPublic, [
-          Validators.required
-        ]
-      ],
-      description: [this.formEvent.description, [
-          Validators.maxLength(1000)
-        ]
-      ],
+      title: new FormControl(this.formEvent.title, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(24)
+      ]),
+      location: new FormControl(this.formEvent.location, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(200)
+      ]),
+      startDate: new FormControl(this.formEvent.startDate, [
+        Validators.required,
+        Validators.maxLength(10),
+        customDateValidator()
+      ]),
+      startTime: new FormControl(this.formEvent.startTime, [
+        Validators.required,
+        Validators.maxLength(8),
+        Validators.pattern(this.timeRegex)
+      ]),
+      endDate: new FormControl(this.formEvent.endDate, [
+        Validators.required,
+        Validators.maxLength(10),
+        customDateValidator()
+      ]),
+      endTime: new FormControl(this.formEvent.endTime, [
+        Validators.required,
+        Validators.maxLength(8),
+        Validators.pattern(this.timeRegex)
+      ]),
+      viewPublic: new FormControl(this.formEvent.viewPublic,
+        Validators.required
+      ),
+      description: new FormControl(this.formEvent.description,
+        Validators.maxLength(1000)
+      )
     });
 
     this.formChangeSub = this.eventForm
@@ -101,6 +93,10 @@ export class EventFormComponent implements OnInit {
     viewPublic: '',
     description: ''
   };
+
+  startTimeDisabled: boolean;
+  endDateDisabled: boolean;
+  endTimeDisabled: boolean;
 
   validationMessages = {
     title: {
@@ -142,9 +138,19 @@ export class EventFormComponent implements OnInit {
   };
 
   onValueChanged(data?: any) {
-    console.log('value changed in form', data);
+    console.log('value changed in form', data, this.eventForm);
+
     if (!this.eventForm) { return; }
     const form = this.eventForm;
+
+    // Manage disabled states
+    const startDate = form.controls['startDate'];
+    const startTime = form.controls['startTime'];
+    const endDate = form.controls['endDate'];
+
+    this.startTimeDisabled = startDate.invalid;
+    this.endDateDisabled = startDate.invalid || startTime.invalid;
+    this.endTimeDisabled = startDate.invalid || startTime.invalid || endDate.invalid;
 
     for (const field in this.formErrors) {
       // Clear previous error message (if any)
@@ -195,25 +201,26 @@ export class EventFormComponent implements OnInit {
     // );
   }
 
-  onSubmit() {
+  onSubmit(eventForm) {
     this.submitting = true;
+    console.log(eventForm);
     //this.submitEventObj = this._convertFormEvent(this.formEvent);
 
-    if (!this.isEdit) {
-      this.submitEventSub = this.api
-        .postEvent$(this.formEvent)
-        .subscribe(
-          this._handleSubmitSuccess.bind(this),
-          this._handleSubmitError.bind(this)
-        );
-    } else {
-      this.submitEventSub = this.api
-        .editEvent$(this.event._id, this.formEvent)
-        .subscribe(
-          this._handleSubmitSuccess.bind(this),
-          this._handleSubmitError.bind(this)
-        );
-    }
+    // if (!this.isEdit) {
+    //   this.submitEventSub = this.api
+    //     .postEvent$(this.formEvent)
+    //     .subscribe(
+    //       this._handleSubmitSuccess.bind(this),
+    //       this._handleSubmitError.bind(this)
+    //     );
+    // } else {
+    //   this.submitEventSub = this.api
+    //     .editEvent$(this.event._id, this.formEvent)
+    //     .subscribe(
+    //       this._handleSubmitSuccess.bind(this),
+    //       this._handleSubmitError.bind(this)
+    //     );
+    // }
   }
 
   private _handleSubmitSuccess(res) {
