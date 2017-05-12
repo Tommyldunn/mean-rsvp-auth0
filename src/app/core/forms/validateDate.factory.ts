@@ -8,11 +8,7 @@ export function dateValidator(): ValidatorFn {
     // Check for basic mm/dd/yyyy pattern
     const formatRegex = new RegExp(/^(\d{2}|\d{1})\/(\d{2}|\d{1})\/\d{4}$/);
     // Object to return if date is invalid
-    const invalidObj = {
-      date: {
-        valid: false
-      }
-    };
+    const invalidObj = { 'date': true };
 
     // First check for m/d/yyyy format
     if (!formatRegex.test(dateStr)) {

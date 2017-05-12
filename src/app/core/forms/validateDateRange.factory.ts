@@ -6,11 +6,7 @@ export function dateRangeValidator(c: AbstractControl) {
   const endDate = c.get('endDate').value;
   const endTime = c.get('endTime').value;
   // Object to return if date is invalid
-  const invalidObj = {
-    dateRange: {
-      valid: false
-    }
-  };
+  const invalidObj = { 'dateRange': true };
   const startDatetime = _stringsToDate(startDate, startTime);
   const endDatetime = _stringsToDate(endDate, endTime);
 
