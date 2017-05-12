@@ -15,3 +15,7 @@
   *ngIf="event.description"
   class="card-block lead"
   [innerHTML]="event.description"></p>
+
+<div *ngIf="auth.isAdmin" class="card-footer text-right small">
+  <a [routerLink]="['/admin/event/update', event._id]">Edit</a>
+</div>

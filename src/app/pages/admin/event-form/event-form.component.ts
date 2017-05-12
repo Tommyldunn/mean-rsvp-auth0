@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../core/api.service';
 import { EventModel, FormEventModel } from './../../../core/models/event.model';
@@ -17,9 +18,9 @@ export class EventFormComponent implements OnInit, OnDestroy {
   @Input() event: EventModel;
   @Input() isEdit: boolean;
   @Output() submitEvent = new EventEmitter();
-  timeRegex = new RegExp(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))/);
   eventForm: FormGroup;
   formEvent: FormEventModel;
+  // Form validation and disabled logic
   formErrors = {
     title: '',
     location: '',
@@ -35,6 +36,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
   endTimeDisabled: boolean;
   submitDisabled = true;
   formChangeSub: Subscription;
+  // Form submission
   submitEventObj: EventModel;
   submitEventSub: Subscription;
   error: boolean;
@@ -45,12 +47,15 @@ export class EventFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private api: ApiService,
     private datePipe: DatePipe,
-    private ef: EventFormService) {}
+    private ef: EventFormService,
+    private router: Router) { }
 
   ngOnInit() {
     this.isEdit = !!this.event;
     this.submitBtnText = this.isEdit ? 'Update Event' : 'Create Event';
+    // Set up a local property to set initial form data
     this._setFormEvent();
+    // Use FormBuilder to construct the form
     this._buildForm();
   }
 
@@ -95,7 +100,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
       startTime: new FormControl(this.formEvent.startTime, [
         Validators.required,
         Validators.maxLength(8),
-        Validators.pattern(this.timeRegex)
+        Validators.pattern(this.ef.timeRegex)
       ]),
       endDate: new FormControl(this.formEvent.endDate, [
         Validators.required,
@@ -105,7 +110,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
       endTime: new FormControl(this.formEvent.endTime, [
         Validators.required,
         Validators.maxLength(8),
-        Validators.pattern(this.timeRegex)
+        Validators.pattern(this.ef.timeRegex)
       ]),
       viewPublic: new FormControl(this.formEvent.viewPublic,
         Validators.required
@@ -120,12 +125,20 @@ export class EventFormComponent implements OnInit, OnDestroy {
       .valueChanges
       .subscribe(data => this.onValueChanged(data));
 
+    // Touch fields to trigger immediate validation
+    // in case editing an event that is no longer valid
+    // (for example, an event in the past)
+    if (this.isEdit) {
+      for (var i in this.eventForm.controls) {
+        this.eventForm.controls[i].markAsTouched();
+      }
+    }
+
     this.onValueChanged();
   }
 
   onValueChanged(data?: any) {
     const form = this.eventForm;
-
     if (!form) { return; }
 
     // Manage disabled states
@@ -134,7 +147,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
     const startDate = form.controls['startDate'];
     const startTime = form.controls['startTime'];
     const endDate = form.controls['endDate'];
-
     this.startTimeDisabled = startDate.invalid;
     this.endDateDisabled = startDate.invalid || startTime.invalid;
     this.endTimeDisabled = startDate.invalid || startTime.invalid || endDate.invalid;
@@ -155,7 +167,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private _convertFormEvent() {
+  private _getSubmitObj() {
     const form = this.eventForm;
     // Convert form startDate/startTime and endDate/endTime
     // to JS dates and populate a new EventModel for submission
@@ -172,7 +184,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.submitting = true;
-    this.submitEventObj = this._convertFormEvent();
+    this.submitEventObj = this._getSubmitObj();
 
     if (!this.isEdit) {
       this.submitEventSub = this.api
@@ -192,29 +204,19 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
   private _handleSubmitSuccess(res) {
-    const eventObj = {
-      isEdit: this.isEdit,
-      event: res
-    };
-    console.log(res);
-    this.submitEvent.emit(eventObj);
     this.error = false;
     this.submitting = false;
+    this.router.navigate(['/event', res._id]);
   }
 
   private _handleSubmitError(err) {
-    const eventObj = {
-      isEdit: this.isEdit,
-      error: err
-    };
-    this.submitEvent.emit(eventObj);
     console.error(err);
     this.submitting = false;
     this.error = true;
   }
 
   ngOnDestroy() {
-    //this.submitEventSub.unsubscribe();
+    if (this.submitEventSub) { this.submitEventSub.unsubscribe(); }
     this.formChangeSub.unsubscribe();
   }
 

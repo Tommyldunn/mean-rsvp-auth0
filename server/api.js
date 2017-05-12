@@ -150,6 +150,7 @@ module.exports = function(app, config) {
       event.save((err) => {
         if (err) { res.status(500).send({message: err}); }
         res.send(event);
+        // @TODO: need to get the new event's ID here and send it???
       });
     });
   });

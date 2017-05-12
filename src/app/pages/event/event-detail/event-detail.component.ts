@@ -1,5 +1,6 @@
-import { UtilsService } from './../../../core/utils.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { AuthService } from './../../../auth/auth.service';
+import { UtilsService } from './../../../core/utils.service';
 import { EventModel } from './../../../core/models/event.model';
 import { RsvpModel } from './../../../core/models/rsvp.model';
 
@@ -13,7 +14,8 @@ export class EventDetailComponent implements OnInit {
   @Input() rsvps: RsvpModel[];
 
   constructor(
-    public utils: UtilsService
+    public utils: UtilsService,
+    public auth: AuthService
   ) { }
 
   ngOnInit() {

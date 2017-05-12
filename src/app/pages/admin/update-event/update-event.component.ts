@@ -55,6 +55,10 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
       });
   }
 
+  onSubmitEvent(e) {
+    
+  }
+
   deleteEvent() {
     this.deleteSub = this.api
       .deleteEvent$(this.id)
