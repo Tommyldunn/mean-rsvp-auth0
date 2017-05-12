@@ -4,7 +4,7 @@ export function dateValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
     const dateStr = control.value;
     // Length of months (will update for leap years)
-    let monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+    const monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
     // Check for basic mm/dd/yyyy pattern
     const formatRegex = new RegExp(/^(\d{2}|\d{1})\/(\d{2}|\d{1})\/\d{4}$/);
     // Object to return if date is invalid
@@ -42,7 +42,6 @@ export function dateValidator(): ValidatorFn {
     if (date <= now) {
       return invalidObj;
     }
-
     return null;
   };
 }

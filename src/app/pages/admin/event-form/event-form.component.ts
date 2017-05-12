@@ -135,8 +135,10 @@ export class EventFormComponent implements OnInit, OnDestroy {
     // in case editing an event that is no longer valid
     // (for example, an event in the past)
     if (this.isEdit) {
-      for (var i in this.eventForm.controls) {
-        this.eventForm.controls[i].markAsTouched();
+      for (const i in this.eventForm.controls) {
+        if (this.eventForm.controls.hasOwnProperty(i)) {
+          this.eventForm.controls[i].markAsTouched();
+        }
       }
     }
 
@@ -163,31 +165,39 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
     // Check validation and set errors
     for (const field in this.formErrors) {
-      if (field !== 'datesGroup') {
-        //this._setValidationMessages(form, this.formErrors);
-        // Clear previous error message (if any)
-        this.formErrors[field] = '';
-        const control = form.get(field);
-
-        if (control && (control.dirty || control.touched) && !control.valid) {
-          const messages = this.ef.validationMessages[field];
-          
-          for (const key in control.errors) {
-            this.formErrors[field] += messages[key] + '<br>';
-          }
-        }
-      } else {
-        const datesGroupErrors = this.formErrors['datesGroup'];
-
-        for (const dateField in datesGroupErrors) {
-          datesGroupErrors[dateField] = '';
-          const control = datesGroup.get(dateField);
+      if (this.formErrors.hasOwnProperty(field)) {
+        if (field !== 'datesGroup') {
+          // Set errors for fields not inside datesGroup
+          // Clear previous error message (if any)
+          this.formErrors[field] = '';
+          const control = form.get(field);
 
           if (control && (control.dirty || control.touched) && !control.valid) {
-            const messages = this.ef.validationMessages[dateField];
-            
+            const messages = this.ef.validationMessages[field];
+
             for (const key in control.errors) {
-              datesGroupErrors[dateField] += messages[key] + '<br>';
+              if (control.errors.hasOwnProperty(key)) {
+                this.formErrors[field] += messages[key] + '<br>';
+              }
+            }
+          }
+        } else {
+          const datesGroupErrors = this.formErrors['datesGroup'];
+
+          for (const dateField in datesGroupErrors) {
+            if (datesGroupErrors.hasOwnProperty(dateField)) {
+              datesGroupErrors[dateField] = '';
+              const control = datesGroup.get(dateField);
+
+              if (control && (control.dirty || control.touched) && !control.valid) {
+                const messages = this.ef.validationMessages[dateField];
+
+                for (const key in control.errors) {
+                  if (control.errors.hasOwnProperty(key)) {
+                    datesGroupErrors[dateField] += messages[key] + '<br>';
+                  }
+                }
+              }
             }
           }
         }

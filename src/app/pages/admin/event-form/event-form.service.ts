@@ -16,7 +16,8 @@ export class EventFormService {
     startDate: {
       required: 'Start date is <strong>required</strong>.',
       maxlength: 'Start date cannot be longer than 10 characters.',
-      date: 'Start date must be a <strong>valid</strong> date at least one day <strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.'
+      date: 'Start date must be a <strong>valid</strong> date at least one day ' +
+      '<strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.'
     },
     startTime: {
       required: 'Start time is <strong>required</strong>.',
@@ -26,7 +27,8 @@ export class EventFormService {
     endDate: {
       required: 'End date is <strong>required</strong>.',
       maxlength: 'End date cannot be longer than 10 characters.',
-      date: 'End date must be a <strong>valid</strong> date at least one day <strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.'
+      date: 'End date must be a <strong>valid</strong> date at least one day' +
+      '<strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.'
     },
     endTime: {
       required: 'End time is <strong>required</strong>.',
@@ -46,10 +48,10 @@ export class EventFormService {
 
   stringsToDate(dateStr: string, timeStr: string) {
     const timeArr = timeStr.split(/[\s:]+/);
-    let date = new Date(dateStr);
+    const date = new Date(dateStr);
     let hour = +timeArr[0];
-    let min = +timeArr[1];
-    let pm = timeArr[2].toLowerCase() === 'pm';
+    const min = +timeArr[1];
+    const pm = timeArr[2].toLowerCase() === 'pm';
 
     if (pm) { hour += 12; }
     date.setHours(hour);

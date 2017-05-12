@@ -18,10 +18,10 @@ export function dateRangeValidator(c: AbstractControl) {
 
 function _stringsToDate(dateStr: string, timeStr: string) {
   const timeArr = timeStr.split(/[\s:]+/);
-  let date = new Date(dateStr);
+  const date = new Date(dateStr);
   let hour = +timeArr[0];
-  let min = +timeArr[1];
-  let pm = timeArr[2].toLowerCase() === 'pm';
+  const min = +timeArr[1];
+  const pm = timeArr[2].toLowerCase() === 'pm';
 
   if (pm) { hour += 12; }
   date.setHours(hour);
