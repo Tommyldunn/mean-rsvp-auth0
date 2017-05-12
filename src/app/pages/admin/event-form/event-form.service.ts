@@ -58,8 +58,4 @@ export class EventFormService {
     return date;
   }
 
-  validateDateRange(startDatetime: Date, endDatetime: Date) {
-    return endDatetime >= startDatetime;
-  }
-
 }

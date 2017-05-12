@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../core/api.service';
 import { EventModel, FormEventModel } from './../../../core/models/event.model';
 import { DatePipe } from '@angular/common';
-import { customDateValidator } from './../../../core/forms/validateDate.factory';
+import { dateValidator } from './../../../core/forms/validateDate.factory';
+import { dateRangeValidator } from './../../../core/forms/validateDateRange.factory';
 import { EventFormService } from './event-form.service';
 
 @Component({
@@ -24,10 +25,12 @@ export class EventFormComponent implements OnInit, OnDestroy {
   formErrors = {
     title: '',
     location: '',
-    startDate: '',
-    startTime: '',
-    endDate: '',
-    endTime: '',
+    datesGroup: {
+      startDate: '',
+      startTime: '',
+      endDate: '',
+      endTime: '',
+    },
     viewPublic: '',
     description: ''
   };
@@ -35,7 +38,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
   endDateDisabled: boolean;
   endTimeDisabled: boolean;
   submitDisabled = true;
-  badDateRange: boolean;
   formChangeSub: Subscription;
   // Form submission
   submitEventObj: EventModel;
@@ -83,42 +85,44 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   private _buildForm() {
     this.eventForm = this.fb.group({
-      title: new FormControl(this.formEvent.title, [
+      title: [this.formEvent.title, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(24)
-      ]),
-      location: new FormControl(this.formEvent.location, [
+      ]],
+      location: [this.formEvent.location, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(200)
-      ]),
-      startDate: new FormControl(this.formEvent.startDate, [
-        Validators.required,
-        Validators.maxLength(10),
-        customDateValidator()
-      ]),
-      startTime: new FormControl(this.formEvent.startTime, [
-        Validators.required,
-        Validators.maxLength(8),
-        Validators.pattern(this.ef.timeRegex)
-      ]),
-      endDate: new FormControl(this.formEvent.endDate, [
-        Validators.required,
-        Validators.maxLength(10),
-        customDateValidator()
-      ]),
-      endTime: new FormControl(this.formEvent.endTime, [
-        Validators.required,
-        Validators.maxLength(8),
-        Validators.pattern(this.ef.timeRegex)
-      ]),
-      viewPublic: new FormControl(this.formEvent.viewPublic,
+      ]],
+      viewPublic: [this.formEvent.viewPublic,
         Validators.required
-      ),
-      description: new FormControl(this.formEvent.description,
+      ],
+      description: [this.formEvent.description,
         Validators.maxLength(1000)
-      )
+      ],
+      datesGroup: this.fb.group({
+        startDate: [this.formEvent.startDate, [
+          Validators.required,
+          Validators.maxLength(10),
+          dateValidator()
+        ]],
+        startTime: [this.formEvent.startTime, [
+          Validators.required,
+          Validators.maxLength(8),
+          Validators.pattern(this.ef.timeRegex)
+        ]],
+        endDate: [this.formEvent.endDate, [
+          Validators.required,
+          Validators.maxLength(10),
+          dateValidator()
+        ]],
+        endTime: [this.formEvent.endTime, [
+          Validators.required,
+          Validators.maxLength(8),
+          Validators.pattern(this.ef.timeRegex)
+        ]]
+      }, { validator: dateRangeValidator })
     });
 
     // Subscribe to form value changes
@@ -139,40 +143,40 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
   onValueChanged(data?: any) {
+    if (!this.eventForm) { return; }
     const form = this.eventForm;
-    if (!form) { return; }
+    const datesGroup = form.controls['datesGroup'];
 
     // Manage disabled states
     // https://github.com/angular/angular/issues/11271#issuecomment-289806196
     // Calling .enable() triggers a maximum call stack error
-    const startDate = form.controls['startDate'];
-    const startTime = form.controls['startTime'];
-    const endDate = form.controls['endDate'];
-    const endTime = form.controls['endTime'];
+    const startDate = datesGroup.get('startDate');
+    const startTime = datesGroup.get('startTime');
+    const endDate = datesGroup.get('endDate');
+    const endTime = datesGroup.get('endTime');
     this.startTimeDisabled = startDate.invalid;
     this.endDateDisabled = startDate.invalid || startTime.invalid;
     this.endTimeDisabled = startDate.invalid || startTime.invalid || endDate.invalid;
+    this.submitDisabled = form.invalid;
 
-    // If dates and times are all valid, validate date range
-    if (!this.endTimeDisabled && endTime.valid) {
-      const startDatetime = this.ef.stringsToDate(startDate.value, startTime.value);
-      const endDatetime = this.ef.stringsToDate(endDate.value, endTime.value);
-      this.badDateRange = !this.ef.validateDateRange(startDatetime, endDatetime);
-    }
-
-    this.submitDisabled = form.invalid || this.badDateRange;
+    console.log(this.eventForm);
 
     // Check validation and set errors
     for (const field in this.formErrors) {
-      // Clear previous error message (if any)
-      this.formErrors[field] = '';
-      const control = form.get(field);
+      if (typeof field === 'string') {
+        // Clear previous error message (if any)
+        this.formErrors[field] = '';
+        const control = form.get(field);
 
-      if (control && (control.dirty || control.touched) && !control.valid) {
-        const messages = this.ef.validationMessages[field];
-        for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + '<br>';
+        if (control && (control.dirty || control.touched) && !control.valid) {
+          const messages = this.ef.validationMessages[field];
+          
+          for (const key in control.errors) {
+            this.formErrors[field] += messages[key] + '<br>';
+          }
         }
+      } else {
+        console.log(field);
       }
     }
   }

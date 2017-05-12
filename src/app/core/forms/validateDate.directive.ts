@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { NG_VALIDATORS, Validator, ValidatorFn, FormControl } from '@angular/forms';
-import { customDateValidator } from './validateDate.factory';
+import { dateValidator } from './validateDate.factory';
 
 @Directive({
   selector: '[appDateField]',
@@ -12,7 +12,7 @@ export class ValidateDateDirective implements Validator {
   private _valFn: ValidatorFn;
 
   constructor() {
-    this._valFn = customDateValidator();
+    this._valFn = dateValidator();
   }
 
   validate(control: FormControl) {

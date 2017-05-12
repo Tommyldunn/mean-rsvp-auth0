@@ -1,6 +1,6 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
-export function customDateValidator(): ValidatorFn {
+export function dateValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
     const dateStr = control.value;
     // Length of months (will update for leap years)

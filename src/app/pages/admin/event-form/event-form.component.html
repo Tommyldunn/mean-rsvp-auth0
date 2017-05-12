@@ -31,80 +31,82 @@
     </div>
   </div>
 
-  <div class="row">
-    <!-- Start date -->
-    <div class="form-group col-sm-12 col-md-6">
-      <label for="startDate">Start Date</label>
-      <input
-        id="startDate"
-        type="text"
-        class="form-control"
-        formControlName="startDate"
-        required>
-      <div
-        *ngIf="formErrors.startDate"
-        class="small text-danger formErrors"
-        [innerHTML]="formErrors.startDate">
+  <div formGroupName="datesGroup">
+    <div class="row">
+      <!-- Start date -->
+      <div class="form-group col-sm-12 col-md-6">
+        <label for="startDate">Start Date</label>
+        <input
+          id="startDate"
+          type="text"
+          class="form-control"
+          formControlName="startDate"
+          required>
+        <div
+          *ngIf="formErrors.datesGroup.startDate"
+          class="small text-danger formErrors"
+          [innerHTML]="formErrors.datesGroup.startDate">
+        </div>
+      </div>
+
+      <!-- Start time -->
+      <div class="form-group col-sm-12 col-md-6">
+        <label for="startTime">Start Time</label>
+        <input
+          id="startTime"
+          type="text"
+          class="form-control"
+          formControlName="startTime"
+          [attr.disabled]="startTimeDisabled ? '' : null"
+          required>
+        <div
+          *ngIf="formErrors.datesGroup.startTime"
+          class="small text-danger formErrors"
+          [innerHTML]="formErrors.datesGroup.startTime">
+        </div>
       </div>
     </div>
 
-    <!-- Start time -->
-    <div class="form-group col-sm-12 col-md-6">
-      <label for="startTime">Start Time</label>
-      <input
-        id="startTime"
-        type="text"
-        class="form-control"
-        formControlName="startTime"
-        [attr.disabled]="startTimeDisabled ? '' : null"
-        required>
-      <div
-        *ngIf="formErrors.startTime"
-        class="small text-danger formErrors"
-        [innerHTML]="formErrors.startTime">
+    <div class="row">
+      <!-- End date -->
+      <div class="form-group col-sm-12 col-md-6">
+        <label for="endDate">End Date</label>
+        <input
+          id="endDate"
+          type="text"
+          class="form-control"
+          formControlName="endDate"
+          [attr.disabled]="endDateDisabled ? '' : null"
+          required>
+        <div
+          *ngIf="formErrors.datesGroup.endDate"
+          class="small text-danger formErrors"
+          [innerHTML]="formErrors.datesGroup.endDate">
+        </div>
+      </div>
+
+      <!-- End time -->
+      <div class="form-group col-sm-12 col-md-6">
+        <label for="endTime">End Time</label>
+        <input
+          id="endTime"
+          type="text"
+          class="form-control"
+          formControlName="endTime"
+          [attr.disabled]="endTimeDisabled ? '' : null"
+          required>
+        <div
+          *ngIf="formErrors.datesGroup.endTime"
+          class="small text-danger formErrors"
+          [innerHTML]="formErrors.datesGroup.endTime">
+        </div>
       </div>
     </div>
+
+    <!--<p *ngIf="badDateRange" class="alert alert-danger">
+      <strong>Dates out of range:</strong> This event ends before it begins. Please double-check the start / end dates and times.
+    </p>-->
   </div>
-
-  <div class="row">
-    <!-- End date -->
-    <div class="form-group col-sm-12 col-md-6">
-      <label for="endDate">End Date</label>
-      <input
-        id="endDate"
-        type="text"
-        class="form-control"
-        formControlName="endDate"
-        [attr.disabled]="endDateDisabled ? '' : null"
-        required>
-      <div
-        *ngIf="formErrors.endDate"
-        class="small text-danger formErrors"
-        [innerHTML]="formErrors.endDate">
-      </div>
-    </div>
-
-    <!-- End time -->
-    <div class="form-group col-sm-12 col-md-6">
-      <label for="endTime">End Time</label>
-      <input
-        id="endTime"
-        type="text"
-        class="form-control"
-        formControlName="endTime"
-        [attr.disabled]="endTimeDisabled ? '' : null"
-        required>
-      <div
-        *ngIf="formErrors.endTime"
-        class="small text-danger formErrors"
-        [innerHTML]="formErrors.endTime">
-      </div>
-    </div>
-  </div>
-
-  <p *ngIf="badDateRange" class="alert alert-danger">
-    <strong>Dates out of range:</strong> This event ends before it begins. Please double-check the start / end dates and times.
-  </p>
 
   <!-- View Public -->
   <div class="form-group">
