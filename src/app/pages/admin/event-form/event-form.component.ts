@@ -35,6 +35,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
   endDateDisabled: boolean;
   endTimeDisabled: boolean;
   submitDisabled = true;
+  badDateRange: boolean;
   formChangeSub: Subscription;
   // Form submission
   submitEventObj: EventModel;
@@ -147,10 +148,18 @@ export class EventFormComponent implements OnInit, OnDestroy {
     const startDate = form.controls['startDate'];
     const startTime = form.controls['startTime'];
     const endDate = form.controls['endDate'];
+    const endTime = form.controls['endTime'];
     this.startTimeDisabled = startDate.invalid;
     this.endDateDisabled = startDate.invalid || startTime.invalid;
     this.endTimeDisabled = startDate.invalid || startTime.invalid || endDate.invalid;
-    this.submitDisabled = form.invalid;
+
+    if (!this.endTimeDisabled && endTime.valid) {
+      const startDatetime = this.ef.stringsToDate(startDate.value, startTime.value);
+      const endDatetime = this.ef.stringsToDate(endDate.value, endTime.value);
+      this.badDateRange = !this.ef.validateDateRange(startDatetime, endDatetime);
+    }
+
+    this.submitDisabled = form.invalid || this.badDateRange;
 
     // Check validation and set errors
     for (const field in this.formErrors) {

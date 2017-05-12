@@ -102,6 +102,10 @@
     </div>
   </div>
 
+  <p *ngIf="badDateRange" class="alert alert-danger">
+    <strong>Dates out of range:</strong> This event ends before it begins. Please double-check the start / end dates and times.
+  </p>
+
   <!-- View Public -->
   <div class="form-group">
     <label class="label-inline-group">List event publicly?</label>
