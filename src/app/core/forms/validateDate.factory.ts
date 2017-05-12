@@ -1,5 +1,5 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { dateRegex } from './regex.factory';
+import { dateRegex } from './formUtils.factory';
 
 export function dateValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {

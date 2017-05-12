@@ -7,7 +7,7 @@ import { EventModel, FormEventModel } from './../../../core/models/event.model';
 import { DatePipe } from '@angular/common';
 import { dateValidator } from './../../../core/forms/validateDate.factory';
 import { dateRangeValidator } from './../../../core/forms/validateDateRange.factory';
-import { timeRegex } from './../../../core/forms/regex.factory';
+import { timeRegex, stringsToDate } from './../../../core/forms/formUtils.factory';
 import { EventFormService } from './event-form.service';
 
 @Component({
@@ -122,7 +122,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
         endTime: [this.formEvent.endTime, [
           Validators.required,
           Validators.maxLength(8),
-          Validators.pattern(this.ef.timeRegex)
+          Validators.pattern(timeRegex)
         ]]
       }, { validator: dateRangeValidator })
     });
@@ -206,8 +206,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
     return new EventModel(
       form.controls['title'].value,
       form.controls['location'].value,
-      this.ef.stringsToDate(form.controls['startDate'].value, form.controls['startTime'].value),
-      this.ef.stringsToDate(form.controls['endDate'].value, form.controls['endTime'].value),
+      stringsToDate(form.controls['startDate'].value, form.controls['startTime'].value),
+      stringsToDate(form.controls['endDate'].value, form.controls['endTime'].value),
       form.controls['viewPublic'].value,
       form.controls['description'].value || '',
       this.event._id || ''

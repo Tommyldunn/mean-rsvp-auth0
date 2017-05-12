@@ -1,6 +1,5 @@
 import { AbstractControl } from '@angular/forms';
-import { stringsToDate } from './stringsToDate.factory';
-import { dateRegex, timeRegex } from './regex.factory';
+import { dateRegex, timeRegex, stringsToDate } from './formUtils.factory';
 
 export function dateRangeValidator(c: AbstractControl) {
   const startDate = c.get('startDate').value;

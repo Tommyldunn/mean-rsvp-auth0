@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { stringsToDate } from './../../../core/forms/stringsToDate.factory';
 
 @Injectable()
 export class EventFormService {
@@ -43,8 +42,6 @@ export class EventFormService {
       maxlength: 'Description must be 1000 characters or less.'
     }
   };
-  timeRegex = new RegExp(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))/);
-  stringsToDate = stringsToDate;
 
   constructor() { }
 
