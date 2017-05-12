@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../core/api.service';
@@ -11,7 +11,7 @@ import { customDateValidator } from './../../../core/forms/validateDate.factory'
   templateUrl: './event-form.component.html',
   styleUrls: ['./event-form.component.scss']
 })
-export class EventFormComponent implements OnInit {
+export class EventFormComponent implements OnInit, OnDestroy {
   @Input() event: EventModel;
   @Input() isEdit: boolean;
   @Output() submitEvent = new EventEmitter();
@@ -80,9 +80,10 @@ export class EventFormComponent implements OnInit {
       .valueChanges
       .subscribe(data => this.onValueChanged(data));
 
+    // If editing, mark fields as touched to trigger validation
     if (this.isEdit) {
-      for (var i in this.eventForm.controls) {
-        this.eventForm.controls[i].markAsTouched();
+      for (const field in this.eventForm.controls) {
+        this.eventForm.controls[field].markAsTouched();
       }
     }
 
@@ -251,6 +252,11 @@ export class EventFormComponent implements OnInit {
     console.error(err);
     this.submitting = false;
     this.error = true;
+  }
+
+  ngOnDestroy() {
+    //this.submitEventSub.unsubscribe();
+    this.formChangeSub.unsubscribe();
   }
 
 }
