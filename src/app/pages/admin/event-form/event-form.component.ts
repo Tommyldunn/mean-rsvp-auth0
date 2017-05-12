@@ -153,6 +153,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     this.endDateDisabled = startDate.invalid || startTime.invalid;
     this.endTimeDisabled = startDate.invalid || startTime.invalid || endDate.invalid;
 
+    // If dates and times are all valid, validate date range
     if (!this.endTimeDisabled && endTime.valid) {
       const startDatetime = this.ef.stringsToDate(startDate.value, startTime.value);
       const endDatetime = this.ef.stringsToDate(endDate.value, endTime.value);
