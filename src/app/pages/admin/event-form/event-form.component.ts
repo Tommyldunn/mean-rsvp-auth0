@@ -22,6 +22,12 @@ export class EventFormComponent implements OnInit, OnDestroy {
   @Output() submitEvent = new EventEmitter();
   eventForm: FormGroup;
   formEvent: FormEventModel;
+  // Maxlengths
+  titleMax = 36;
+  locMax = 200;
+  descMax = 1000;
+  dateMax = 10;
+  timeMax = 8;
   // Form validation and disabled logic
   formErrors = {
     title: '',
@@ -35,9 +41,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
       endTime: '',
     }
   };
-  startTimeDisabled: boolean;
-  endDateDisabled: boolean;
-  endTimeDisabled: boolean;
   submitDisabled = true;
   formChangeSub: Subscription;
   // Form submission
@@ -89,40 +92,40 @@ export class EventFormComponent implements OnInit, OnDestroy {
       title: [this.formEvent.title, [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(24)
+        Validators.maxLength(this.titleMax)
       ]],
       location: [this.formEvent.location, [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(200)
+        Validators.maxLength(this.locMax)
       ]],
       viewPublic: [this.formEvent.viewPublic,
         Validators.required
       ],
       description: [this.formEvent.description,
-        Validators.maxLength(1000)
+        Validators.maxLength(this.descMax)
       ],
       datesGroup: this.fb.group({
         startDate: [this.formEvent.startDate, [
           Validators.required,
-          Validators.maxLength(10),
+          Validators.maxLength(this.dateMax),
           Validators.pattern(dateRegex),
           dateValidator()
         ]],
         startTime: [this.formEvent.startTime, [
           Validators.required,
-          Validators.maxLength(8),
+          Validators.maxLength(this.timeMax),
           Validators.pattern(timeRegex)
         ]],
         endDate: [this.formEvent.endDate, [
           Validators.required,
-          Validators.maxLength(10),
+          Validators.maxLength(this.dateMax),
           Validators.pattern(dateRegex),
           dateValidator()
         ]],
         endTime: [this.formEvent.endTime, [
           Validators.required,
-          Validators.maxLength(8),
+          Validators.maxLength(this.timeMax),
           Validators.pattern(timeRegex)
         ]]
       }, { validator: dateRangeValidator })

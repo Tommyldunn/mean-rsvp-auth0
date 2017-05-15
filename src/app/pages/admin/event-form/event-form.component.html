@@ -1,4 +1,4 @@
-<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" novalidate>
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
   <!-- Title -->
   <div class="form-group">
     <label for="title">Title</label>
@@ -7,6 +7,7 @@
       type="text"
       class="form-control"
       formControlName="title"
+      maxlength="{{titleMax}}"
       required>
     <div
       *ngIf="formErrors.title"
@@ -23,6 +24,7 @@
       type="text"
       class="form-control"
       formControlName="location"
+      maxlength="{{locMax}}"
       required>
     <div
       *ngIf="formErrors.location"
@@ -43,6 +45,8 @@
           type="text"
           class="form-control"
           formControlName="startDate"
+          placeholder="m/d/yyyy"
+          maxlength="{{dateMax}}"
           required>
         <div
           *ngIf="formErrors.datesGroup.startDate"
@@ -59,6 +63,8 @@
           type="text"
           class="form-control"
           formControlName="startTime"
+          placeholder="h:mm AM/PM"
+          maxlength="{{timeMax}}"
           required>
         <div
           *ngIf="formErrors.datesGroup.startTime"
@@ -77,6 +83,8 @@
           type="text"
           class="form-control"
           formControlName="endDate"
+          placeholder="m/d/yyyy"
+          maxlength="{{dateMax}}"
           required>
         <div
           *ngIf="formErrors.datesGroup.endDate"
@@ -93,6 +101,8 @@
           type="text"
           class="form-control"
           formControlName="endTime"
+          placeholder="h:mm AM/PM"
+          maxlength="{{timeMax}}"
           required>
         <div
           *ngIf="formErrors.datesGroup.endTime"
@@ -151,7 +161,8 @@
       id="description"
       class="form-control"
       rows="3"
-      formControlName="description"></textarea>
+      formControlName="description"
+      maxlength="{{descMax}}"></textarea>
     <div
       *ngIf="formErrors.description"
       class="small text-danger formErrors"
