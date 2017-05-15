@@ -197,17 +197,13 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   private _getSubmitObj() {
     const form = this.eventForm;
-    const startDate = form.controls['startDate'].value;
-    const startTime = form.controls['startTime'].value;
-    const endDate = form.controls['endDate'].value;
-    const endTime = form.controls['endDate'].value;
     // Convert form startDate/startTime and endDate/endTime
     // to JS dates and populate a new EventModel for submission
     return new EventModel(
       form.controls['title'].value,
       form.controls['location'].value,
-      stringsToDate(startDate, startTime),
-      stringsToDate(endDate, endTime),
+      stringsToDate(form.controls['startDate'].value, form.controls['startTime'].value),
+      stringsToDate(form.controls['endDate'].value, form.controls['endDate'].value),
       form.controls['viewPublic'].value,
       form.controls['description'].value || '',
       this.event._id || ''
