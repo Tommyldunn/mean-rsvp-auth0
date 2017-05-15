@@ -102,8 +102,9 @@ export class RsvpComponent implements OnInit, OnDestroy {
         }
       }
       // Count total number of guests who have RSVPed
+      // Make sure guests have been cast as number for math
       if (this.rsvps[i].guests) {
-        guests += this.rsvps[i].guests;
+        guests += +this.rsvps[i].guests;
       }
     });
 
