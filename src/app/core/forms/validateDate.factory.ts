@@ -10,8 +10,9 @@ export function dateValidator(): ValidatorFn {
     const invalidObj = { 'date': true };
 
     // First check for m/d/yyyy or mm/dd/yyyy format
+    // If the pattern is wrong, don't validate dates yet
     if (!dateRegex.test(dateStr)) {
-      return invalidObj;
+      return null;
     }
 
     // Parse the date input to integers
@@ -35,7 +36,7 @@ export function dateValidator(): ValidatorFn {
 
     // If date is properly formatted and in range, check the date vs today.
     // This is done this way to account for new Date() shifting invalid
-    // date strings. This way we know the string is a transparent date first.
+    // date strings. This way we know the string is a correct date first.
     const date = new Date(control.value);
     const now = new Date();
     if (date <= now) {
