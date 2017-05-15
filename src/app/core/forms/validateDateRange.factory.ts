@@ -21,8 +21,6 @@ export function dateRangeValidator(c: AbstractControl) {
     startDatetime = stringsToDate(startDateC.value, checkStartTime);
     endDatetime = stringsToDate(endDateC.value, checkEndTime);
 
-    console.log(startDatetime, endDatetime);
-
     if (endDatetime >= startDatetime) {
       return null;
     } else {

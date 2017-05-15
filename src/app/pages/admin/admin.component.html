@@ -2,7 +2,13 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <ng-template [ngIf]="isLoaded">
-  <p class="lead">Welcome, {{auth.userProfile.name}}! You can administer events below.</p>
+  <p class="lead">Welcome, {{auth.userProfile.name}}! You can create and administer events below.</p>
+  
+  <p>
+    <a
+      class="btn btn-success btn-block"
+      routerLink="/admin/event/new">+ Create New Event</a>
+  </p>
 
   <!-- Events -->
   <ng-template [ngIf]="eventList">
