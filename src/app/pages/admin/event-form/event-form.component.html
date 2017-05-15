@@ -43,7 +43,7 @@
           type="text"
           class="form-control"
           formControlName="startDate"
-          placeholder="m/d/yyyy"
+          placeholder="M/D/YYYY"
           maxlength="{{dateMax}}">
         <div
           *ngIf="formErrors.datesGroup.startDate"
@@ -60,7 +60,7 @@
           type="text"
           class="form-control"
           formControlName="startTime"
-          placeholder="h:mm AM/PM"
+          placeholder="HH:MM AM/PM"
           maxlength="{{timeMax}}">
         <div
           *ngIf="formErrors.datesGroup.startTime"
@@ -79,7 +79,7 @@
           type="text"
           class="form-control"
           formControlName="endDate"
-          placeholder="m/d/yyyy"
+          placeholder="M/D/YYYY"
           maxlength="{{dateMax}}">
         <div
           *ngIf="formErrors.datesGroup.endDate"
@@ -96,7 +96,7 @@
           type="text"
           class="form-control"
           formControlName="endTime"
-          placeholder="h:mm AM/PM"
+          placeholder="HH:MM AM/PM"
           maxlength="{{timeMax}}">
         <div
           *ngIf="formErrors.datesGroup.endTime"

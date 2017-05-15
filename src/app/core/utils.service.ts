@@ -4,8 +4,7 @@ import { DatePipe } from '@angular/common';
 @Injectable()
 export class UtilsService {
 
-  constructor(
-    private datePipe: DatePipe) { }
+  constructor(private datePipe: DatePipe) { }
 
   eventDates(start, end): string {
     // Display single-day events as "1/7/2018"
