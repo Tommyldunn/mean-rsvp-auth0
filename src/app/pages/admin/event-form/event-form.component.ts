@@ -135,11 +135,17 @@ export class EventFormComponent implements OnInit, OnDestroy {
     // in case editing an event that is no longer valid
     // (for example, an event in the past)
     if (this.isEdit) {
+      const datesGroup = this.eventForm.controls['datesGroup'];
+
       for (const i in this.eventForm.controls) {
         if (this.eventForm.controls.hasOwnProperty(i)) {
           this.eventForm.controls[i].markAsTouched();
         }
       }
+      datesGroup.get('startDate').markAsTouched();
+      datesGroup.get('startTime').markAsTouched();
+      datesGroup.get('endDate').markAsTouched();
+      datesGroup.get('endTime').markAsTouched();
     }
 
     this._onValueChanged();
