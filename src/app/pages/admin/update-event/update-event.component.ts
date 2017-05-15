@@ -48,7 +48,6 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
             res => {
               this.event = res;
               this.loading = false;
-              console.log(this.event);
             },
             err => {
               console.error(err);
@@ -68,6 +67,7 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
         res => {
           this.submitting = false;
           this.deleteErr = false;
+          console.info(res.message);
           this.router.navigate(['/admin']);
         },
         err => {
