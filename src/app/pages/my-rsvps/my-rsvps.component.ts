@@ -9,12 +9,12 @@ import { EventModel } from './../../core/models/event.model';
 import { RsvpModel } from './../../core/models/rsvp.model';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  selector: 'app-my-rsvps',
+  templateUrl: './my-rsvps.component.html',
+  styleUrls: ['./my-rsvps.component.scss']
 })
-export class ProfileComponent implements OnInit, OnDestroy {
-  pageTitle = 'Profile';
+export class MyRsvpsComponent implements OnInit, OnDestroy {
+  pageTitle = 'My RSVPs';
   eventListSub: Subscription;
   eventList: RsvpModel[];
   loading: boolean;

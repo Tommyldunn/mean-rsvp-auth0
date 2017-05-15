@@ -18,7 +18,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { CallbackComponent } from './pages/callback/callback.component';
-import { ProfileComponent } from './pages/profile/profile.component';
+import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { EventComponent } from './pages/event/event.component';
 import { LoadingComponent } from './core/loading.component';
@@ -37,7 +37,7 @@ import { SubmittingComponent } from './core/forms/submitting.component';
     HeaderComponent,
     FooterComponent,
     CallbackComponent,
-    ProfileComponent,
+    MyRsvpsComponent,
     AdminComponent,
     EventComponent,
     LoadingComponent,
