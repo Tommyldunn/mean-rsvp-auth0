@@ -35,6 +35,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   private _getEventList() {
     this.loading = true;
+    // Get all (admin) events
     this.eventsSub = this.api
       .getAdminEvents$()
       .subscribe(
