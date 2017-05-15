@@ -30,7 +30,11 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.title.setTitle(this.pageTitle);
+    this._getEventList();
+  }
 
+  private _getEventList() {
+    this.loading = true;
     this.eventsSub = this.api
       .getAdminEvents$()
       .subscribe(

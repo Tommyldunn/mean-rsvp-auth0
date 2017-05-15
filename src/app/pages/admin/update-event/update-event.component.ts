@@ -40,22 +40,26 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params
       .subscribe(params => {
         this.id = params['id'];
-
-        // GET event by ID
-        this.eventSub = this.api
-          .getEventById$(this.id)
-          .subscribe(
-            res => {
-              this.event = res;
-              this.loading = false;
-            },
-            err => {
-              console.error(err);
-              this.loading = false;
-              this.error = true;
-            }
-          );
+        this._getEvent();
       });
+  }
+
+  private _getEvent() {
+    this.loading = true;
+    // GET event by ID
+    this.eventSub = this.api
+      .getEventById$(this.id)
+      .subscribe(
+        res => {
+          this.event = res;
+          this.loading = false;
+        },
+        err => {
+          console.error(err);
+          this.loading = false;
+          this.error = true;
+        }
+      );
   }
 
   removeEvent() {

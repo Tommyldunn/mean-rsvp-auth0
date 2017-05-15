@@ -34,7 +34,7 @@ export function dateValidator(): ValidatorFn {
       return invalidObj;
     };
 
-    // If date is properly formatted and in range, check the date vs today.
+    // If date is properly formatted, check the date vs today to ensure future
     // This is done this way to account for new Date() shifting invalid
     // date strings. This way we know the string is a correct date first.
     const date = new Date(control.value);

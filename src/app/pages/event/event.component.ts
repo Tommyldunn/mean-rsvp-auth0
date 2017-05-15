@@ -40,31 +40,35 @@ export class EventComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params
       .subscribe(params => {
         this.id = params['id'];
-
-        // GET event by ID
-        this.eventSub = this.api
-          .getEventById$(this.id)
-          .subscribe(
-            res => {
-              this.event = res;
-              this._setPageTitle(this.event.title);
-              this.loading = false;
-              this.eventPast = this.utils.eventPast(this.event.endDatetime);
-            },
-            err => {
-              console.error(err);
-              this.loading = false;
-              this.error = true;
-              this._setPageTitle('Event Details');
-            }
-          );
+        this._getEvent();
       });
 
-      // Subscribe to query params to watch for tab changes
-      this.tabSub = this.route.queryParams
-        .subscribe(queryParams => {
-          this.tab = queryParams['tab'] || 'details';
-        });
+    // Subscribe to query params to watch for tab changes
+    this.tabSub = this.route.queryParams
+      .subscribe(queryParams => {
+        this.tab = queryParams['tab'] || 'details';
+      });
+  }
+
+  private _getEvent() {
+    this.loading = true;
+    // GET event by ID
+      this.eventSub = this.api
+        .getEventById$(this.id)
+        .subscribe(
+          res => {
+            this.event = res;
+            this._setPageTitle(this.event.title);
+            this.loading = false;
+            this.eventPast = this.utils.eventPast(this.event.endDatetime);
+          },
+          err => {
+            console.error(err);
+            this.loading = false;
+            this.error = true;
+            this._setPageTitle('Event Details');
+          }
+        );
   }
 
   private _setPageTitle(title: string) {

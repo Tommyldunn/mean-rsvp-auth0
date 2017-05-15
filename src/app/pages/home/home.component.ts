@@ -28,7 +28,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.title.setTitle(this.pageTitle);
+    this._getEventList();
+  }
 
+  private _getEventList() {
+    this.loading = true;
     this.eventListSub = this.api
       .getEvents$()
       .subscribe(

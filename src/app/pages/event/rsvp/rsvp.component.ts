@@ -34,7 +34,12 @@ export class RsvpComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.footerTense = !this.eventPast ? 'plan to attend this event.' : 'attended this event.';
+    this._getRSVPs();
+  }
+
+  private _getRSVPs() {
     this.loading = true;
+    // Get RSVPs by event ID
     this.rsvpsSub = this.api
       .getRsvpsByEventId$(this.eventId)
       .subscribe(
