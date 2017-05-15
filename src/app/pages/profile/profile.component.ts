@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   eventList: RsvpModel[];
   loading: boolean;
   error: boolean;
+  userIdp: string;
 
   constructor(
     private title: Title,
@@ -29,7 +30,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.title.setTitle(this.pageTitle);
-    this.idp;
+    this.userIdp = this._getIdp;
 
     this.eventListSub = this.api
       .getUserEvents$(this.auth.userProfile.sub)
@@ -46,12 +47,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
       );
   }
 
-  get idp() {
+  private get _getIdp() {
     const sub = this.auth.userProfile.sub.split('|')[0];
     let idp = sub;
 
     if (sub === 'auth0') {
       idp = 'Username/Password';
+    } else if (idp === 'google-oauth2') {
+      idp = 'Google';
     } else {
       idp = this.utils.capitalize(sub);
     }
