@@ -27,7 +27,7 @@ export class EventFormService {
     endDate: {
       required: 'End date is <strong>required</strong>.',
       maxlength: 'End date cannot be longer than 10 characters.',
-      date: 'End date must be a <strong>valid</strong> date at least one day' +
+      date: 'End date must be a <strong>valid</strong> date at least one day ' +
       '<strong>in the future</strong> using the format <strong>m/d/yyyy</strong>.'
     },
     endTime: {

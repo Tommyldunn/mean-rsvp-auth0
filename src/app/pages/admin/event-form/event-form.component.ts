@@ -38,7 +38,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
   startTimeDisabled: boolean;
   endDateDisabled: boolean;
   endTimeDisabled: boolean;
-  datesAllValid: boolean;
   submitDisabled = true;
   formChangeSub: Subscription;
   // Form submission
@@ -158,10 +157,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
     const startTime = datesGroup.get('startTime');
     const endDate = datesGroup.get('endDate');
     const endTime = datesGroup.get('endTime');
-    this.startTimeDisabled = startDate.invalid;
-    this.endDateDisabled = startDate.invalid || startTime.invalid;
-    this.endTimeDisabled = startDate.invalid || startTime.invalid || endDate.invalid;
-    this.datesAllValid = startDate.valid && startTime.valid && endDate.valid && endTime.valid;
     this.submitDisabled = form.invalid;
 
     // Check validation and set errors
@@ -201,13 +196,17 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   private _getSubmitObj() {
     const form = this.eventForm;
+    const startDate = form.controls['startDate'].value;
+    const startTime = form.controls['startTime'].value;
+    const endDate = form.controls['endDate'].value;
+    const endTime = form.controls['endDate'].value;
     // Convert form startDate/startTime and endDate/endTime
     // to JS dates and populate a new EventModel for submission
     return new EventModel(
       form.controls['title'].value,
       form.controls['location'].value,
-      stringsToDate(form.controls['startDate'].value, form.controls['startTime'].value),
-      stringsToDate(form.controls['endDate'].value, form.controls['endTime'].value),
+      stringsToDate(startDate, startTime),
+      stringsToDate(endDate, endTime),
       form.controls['viewPublic'].value,
       form.controls['description'].value || '',
       this.event._id || ''

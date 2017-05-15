@@ -1,23 +1,31 @@
 import { AbstractControl } from '@angular/forms';
-import { dateRegex, timeRegex, stringsToDate } from './formUtils.factory';
+import { stringsToDate } from './formUtils.factory';
 
 export function dateRangeValidator(c: AbstractControl) {
-  const startDate = c.get('startDate').value;
-  const startTime = c.get('startTime').value;
-  const endDate = c.get('endDate').value;
-  const endTime = c.get('endTime').value;
+  // Get controls in group
+  const startDateC = c.get('startDate');
+  const startTimeC = c.get('startTime');
+  const endDateC = c.get('endDate');
+  const endTimeC = c.get('endTime');
   // Object to return if date is invalid
   const invalidObj = { 'dateRange': true };
   let startDatetime;
   let endDatetime;
 
-  if (dateRegex.test(startDate) && dateRegex.test(endDate) && (timeRegex.test(startTime)) && timeRegex.test(endTime)) {
-    startDatetime = stringsToDate(startDate, startTime);
-    endDatetime = stringsToDate(endDate, endTime);
+  // If start and end dates are valid, can check range (with prefilled times)
+  // Final check happens when all dates/times are valid
+  if (startDateC.valid && endDateC.valid) {
+    const checkStartTime = startTimeC.invalid ? '12:00 AM' : startTimeC.value;
+    const checkEndTime = endTimeC.invalid ? '11:59 PM' : endTimeC.value;
+
+    startDatetime = stringsToDate(startDateC.value, checkStartTime);
+    endDatetime = stringsToDate(endDateC.value, checkEndTime);
 
     if (endDatetime >= startDatetime) {
       return null;
+    } else {
+      return invalidObj;
     }
   }
-  return invalidObj;
+  return null;
 }
