@@ -168,6 +168,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
           this.formErrors[field] = '';
           this._setErrMsgs(form.get(field), this.formErrors, field);
         } else {
+          // Set errors for fields inside datesGroup
           const datesGroupErrors = this.formErrors['datesGroup'];
 
           for (const dateField in datesGroupErrors) {
