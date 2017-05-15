@@ -71,6 +71,7 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
           this.router.navigate(['/admin']);
         },
         err => {
+          console.error(err);
           this.submitting = false;
           this.deleteErr = true;
         }

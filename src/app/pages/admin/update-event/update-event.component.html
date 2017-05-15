@@ -3,43 +3,45 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <ng-template [ngIf]="isLoaded">
-  <!-- Event form -->
-  <app-event-form [event]="event"></app-event-form>
+  <ng-template [ngIf]="event">
+    <!-- Event form -->
+    <app-event-form [event]="event"></app-event-form>
 
-  <!-- Delete event -->
-  <div class="delete-event">
-    <h2 class="text-center">Delete Event</h2>
-    <p class="lead">
-      Deleting an event will also remove all associated RSVPs. Please delete with care!
-    </p>
+    <!-- Delete event -->
+    <div class="delete-event">
+      <h2 class="text-center">Delete Event</h2>
+      <p class="lead">
+        Deleting an event will also remove all associated RSVPs. Please delete with care!
+      </p>
 
-    <div class="form-group">
-      <label for="deleteEvent">Confirm event title:</label>
-      <input
-        type="text"
-        id="deleteEvent"
-        class="form-control"
-        name="deleteEvent"
-        #deleteEvent="ngModel"
-        [(ngModel)]="confirmDelete">
+      <div class="form-group">
+        <label for="deleteEvent">Confirm event title:</label>
+        <input
+          type="text"
+          id="deleteEvent"
+          class="form-control"
+          name="deleteEvent"
+          #deleteEvent="ngModel"
+          [(ngModel)]="confirmDelete">
+      </div>
+
+      <!-- Error deleting event -->
+      <p *ngIf="deleteErr" class="alert alert-danger">
+        <strong>Oops!</strong> There was an error deleting this event. Please try again. 
+      </p>
+
+      <p>
+        <button
+          class="btn btn-danger"
+          (click)="removeEvent()"
+          [disabled]="confirmDelete !== event.title || submitting">Delete Event</button>
+        <app-submitting *ngIf="submitting"></app-submitting>
+      </p>
     </div>
-
-    <!-- Error deleting event -->
-    <p *ngIf="deleteErr" class="alert alert-danger">
-      <strong>Oops!</strong> There was an error deleting this event. Please try again. 
-    </p>
-
-    <p>
-      <button
-        class="btn btn-danger"
-        (click)="removeEvent()"
-        [disabled]="confirmDelete !== event.title || submitting">Delete Event</button>
-      <app-submitting *ngIf="submitting"></app-submitting>
-    </p>
-  </div>
+  </ng-template>
 
   <!-- Error loading events -->
   <p *ngIf="error" class="alert alert-danger">
-    <strong>Oops!</strong> There was an error retrieving event data. 
+    <strong>Error:</strong> This event does not exist. 
   </p>
 </ng-template>
