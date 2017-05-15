@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { trigger, transition, style, animate, state } from '@angular/animations';
 import { AuthService } from './../../../auth/auth.service';
 import { ApiService } from './../../../core/api.service';
 import { UtilsService } from './../../../core/utils.service';
@@ -8,6 +10,20 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-rsvp',
+  animations: [
+    trigger('expandCollapse', [
+      state('*', style({'overflow-y': 'hidden'})),
+      state('void', style({ 'overflow-y': 'hidden' })),
+      transition('* => void', [
+        style({height: '*'}),
+        animate('250ms ease-out', style({height: '0'}))
+      ]),
+      transition('void => *', [
+        style({height: '0'}),
+        animate('250ms ease-in', style({height: '*'}))
+      ])
+    ])
+  ],
   templateUrl: './rsvp.component.html',
   styleUrls: ['./rsvp.component.scss']
 })
