@@ -7,8 +7,7 @@
       type="text"
       class="form-control"
       formControlName="title"
-      maxlength="{{titleMax}}"
-      required>
+      maxlength="{{titleMax}}">
     <div
       *ngIf="formErrors.title"
       class="small text-danger formErrors"
@@ -24,8 +23,7 @@
       type="text"
       class="form-control"
       formControlName="location"
-      maxlength="{{locMax}}"
-      required>
+      maxlength="{{locMax}}">
     <div
       *ngIf="formErrors.location"
       class="small text-danger formErrors"
@@ -46,8 +44,7 @@
           class="form-control"
           formControlName="startDate"
           placeholder="m/d/yyyy"
-          maxlength="{{dateMax}}"
-          required>
+          maxlength="{{dateMax}}">
         <div
           *ngIf="formErrors.datesGroup.startDate"
           class="small text-danger formErrors"
@@ -64,8 +61,7 @@
           class="form-control"
           formControlName="startTime"
           placeholder="h:mm AM/PM"
-          maxlength="{{timeMax}}"
-          required>
+          maxlength="{{timeMax}}">
         <div
           *ngIf="formErrors.datesGroup.startTime"
           class="small text-danger formErrors"
@@ -84,8 +80,7 @@
           class="form-control"
           formControlName="endDate"
           placeholder="m/d/yyyy"
-          maxlength="{{dateMax}}"
-          required>
+          maxlength="{{dateMax}}">
         <div
           *ngIf="formErrors.datesGroup.endDate"
           class="small text-danger formErrors"
@@ -102,8 +97,7 @@
           class="form-control"
           formControlName="endTime"
           placeholder="h:mm AM/PM"
-          maxlength="{{timeMax}}"
-          required>
+          maxlength="{{timeMax}}">
         <div
           *ngIf="formErrors.datesGroup.endTime"
           class="small text-danger formErrors"
@@ -127,8 +121,7 @@
           type="radio"
           class="form-check-input"
           [value]="true"
-          formControlName="viewPublic"
-          required> Yes
+          formControlName="viewPublic"> Yes
       </label>
     </div>
     <div class="form-check form-check-inline">
@@ -138,8 +131,7 @@
           type="radio"
           class="form-check-input"
           [value]="false"
-          formControlName="viewPublic"
-          required> No
+          formControlName="viewPublic"> No
       </label>
       <div
         *ngIf="formErrors.viewPublic"
