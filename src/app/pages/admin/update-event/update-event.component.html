@@ -33,7 +33,8 @@
       <button
         class="btn btn-danger"
         (click)="removeEvent()"
-        [disabled]="confirmDelete !== event.title">Delete Event</button>
+        [disabled]="confirmDelete !== event.title || submitting">Delete Event</button>
+      <app-submitting *ngIf="submitting"></app-submitting>
     </p>
   </div>
 

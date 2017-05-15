@@ -168,6 +168,7 @@
       type="submit"
       class="btn btn-primary"
       [attr.disabled]="submitDisabled || submitting ? '' : null">{{submitBtnText}}</button>
+    <app-submitting *ngIf="submitting"></app-submitting>
     
     <!-- API submission error -->
     <p *ngIf="error" class="mt-3 alert alert-danger">

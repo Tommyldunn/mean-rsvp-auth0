@@ -136,7 +136,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
       .valueChanges
       .subscribe(data => this._onValueChanged(data));
 
-    // Touch fields to trigger immediate validation
+    // Mark fields dirty to trigger immediate validation
     // in case editing an event that is no longer valid
     // (for example, an event in the past)
     if (this.isEdit) {
@@ -144,13 +144,13 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
       for (const i in this.eventForm.controls) {
         if (this.eventForm.controls.hasOwnProperty(i)) {
-          this.eventForm.controls[i].markAsTouched();
+          this.eventForm.controls[i].markAsDirty();
         }
       }
-      datesGroup.get('startDate').markAsTouched();
-      datesGroup.get('startTime').markAsTouched();
-      datesGroup.get('endDate').markAsTouched();
-      datesGroup.get('endTime').markAsTouched();
+      datesGroup.get('startDate').markAsDirty();
+      datesGroup.get('startTime').markAsDirty();
+      datesGroup.get('endDate').markAsDirty();
+      datesGroup.get('endTime').markAsDirty();
     }
 
     this._onValueChanged();
@@ -161,13 +161,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     const form = this.eventForm;
     const datesGroup = form.controls['datesGroup'];
 
-    // Manage disabled states
-    // https://github.com/angular/angular/issues/11271#issuecomment-289806196
-    // Calling .enable() triggers a maximum call stack error
-    const startDate = datesGroup.get('startDate');
-    const startTime = datesGroup.get('startTime');
-    const endDate = datesGroup.get('endDate');
-    const endTime = datesGroup.get('endTime');
+    // Manage submit button disabled state
     this.submitDisabled = form.invalid;
 
     // Check validation and set errors
@@ -195,7 +189,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
   private _setErrMsgs(control: AbstractControl, errorsObj: any, field: string) {
-    if (control && (control.dirty || control.touched) && !control.valid) {
+    if (control && control.dirty && control.invalid) {
       const messages = this.ef.validationMessages[field];
 
       for (const key in control.errors) {

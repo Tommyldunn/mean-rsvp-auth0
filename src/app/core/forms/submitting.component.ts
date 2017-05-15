@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-loading',
+  selector: 'app-submitting',
   template: `
     <img src="/assets/images/loading.svg">
   `,
   styles: [`
     :host {
-      display: block;
+      display: inline-block;
     }
     img {
-      display: block;
-      margin: 20px auto;
-      width: 50px;
+      display: inline-block;
+      margin: 4px 3px;
+      width: 30px;
     }
   `]
 })
-export class LoadingComponent {
+export class SubmittingComponent {
 }

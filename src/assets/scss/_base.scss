@@ -35,9 +35,7 @@ textarea {
   padding-top: 6px;
 }
 .ng-invalid.ng-dirty,
-.ng-invalid.ng-dirty:focus,
-.ng-invalid.ng-touched,
-.ng-invalid.ng-touched:focus {
+.ng-invalid.ng-dirty:focus {
   border-color: #D9534E !important;
 }
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
