@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.title.setTitle(this.pageTitle);
+    this.idp;
 
     this.eventListSub = this.api
       .getUserEvents$(this.auth.userProfile.sub)
@@ -38,10 +39,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         err => {
+          console.error(err);
           this.loading = false;
           this.error = true;
         }
       );
+  }
+
+  get idp() {
+    const sub = this.auth.userProfile.sub.split('|')[0];
+    let idp = sub;
+
+    if (sub === 'auth0') {
+      idp = 'Username/Password';
+    } else {
+      idp = this.utils.capitalize(sub);
+    }
+    return idp;
   }
 
   get isLoaded() {

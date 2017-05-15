@@ -1,5 +1,5 @@
 <h1 class="text-center">{{pageTitle}}</h1>
-<p class="lead">Hello, {{auth.userProfile.name}}!</p>
+<p class="lead">Hello, <strong [innerHTML]="auth.userProfile.name"></strong>! You logged in with {{idp}}.</p>
 
 <div class="profile-rsvps">
   <h2 class="text-center">RSVPs</h2>
@@ -24,7 +24,7 @@
             <h5 class="mb-1" [innerHTML]="event.title"></h5>
             <small>{{utils.eventDates(event.startDatetime, event.endDatetime)}}</small>
           </div>
-          <small class="mb-1">View/Change RSVP</small>
+          <small class="mb-1">Click to view/change RSVP</small>
         </a>
       </div>
     </ng-template>

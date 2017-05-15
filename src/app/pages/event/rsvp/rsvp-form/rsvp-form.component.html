@@ -67,7 +67,7 @@
       type="text"
       appNumberField
       class="form-control"
-      (change)="changeGuestsSetAttending()"
+      (keyup)="changeGuestsSetAttending()"
       maxlength="1"
       [required]="formRsvp.attending"
       #guests="ngModel"
