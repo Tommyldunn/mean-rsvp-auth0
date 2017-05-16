@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { expandCollapse } from './../../../core/expandCollapse.animation';
+import { expandCollapse } from './../../../core/expand-collapse.animation';
 import { AuthService } from './../../../auth/auth.service';
 import { ApiService } from './../../../core/api.service';
 import { UtilsService } from './../../../core/utils.service';

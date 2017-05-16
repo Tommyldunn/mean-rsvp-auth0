@@ -24,15 +24,14 @@ export class FilterSortService {
   }
 
   search(array: any[], query: string, excludeProps?: string|Array<string>, dateFormat?: string) {
-    // match query to strings
-    // match query to Date objects or ISO UTC strings
+    // match query to strings and Date objects / ISO UTC strings
     // optionally exclude properties from being searched
     // if matching dates, can optionally pass in date format string
     if (!query) {
       return array;
     }
     const lQuery = query.toLowerCase();
-    const dateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/; // ISO UTC
+    const isoDateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/; // ISO UTC
     const dateF = dateFormat ? dateFormat : 'medium';
     const filteredArray = array.filter(item => {
       for (const key in item) {
@@ -40,13 +39,15 @@ export class FilterSortService {
           if (!excludeProps || excludeProps.indexOf(key) === -1) {
             const thisVal = item[key];
             if (
+              // value is a string and NOT a UTC date
               typeof thisVal === 'string' &&
-              !thisVal.match(dateRegex) &&
+              !thisVal.match(isoDateRegex) &&
               thisVal.toLowerCase().indexOf(lQuery) !== -1
             ) {
               return true;
             } else if (
-              (thisVal instanceof Date || thisVal.toString().match(dateRegex)) &&
+              // value is a Date object or UTC string
+              (thisVal instanceof Date || thisVal.toString().match(isoDateRegex)) &&
               // https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html
               // matching date format string passed in as param (or default to 'medium')
               this.datePipe.transform(thisVal, dateF).toLowerCase().indexOf(lQuery) !== -1
