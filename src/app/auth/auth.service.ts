@@ -54,7 +54,6 @@ export class AuthService {
       localStorage.setItem('authRedirect', this.router.url);
     }
     // Auth0 authorize request
-    // Note: nonce is automatically generated: https://auth0.com/docs/libraries/auth0js/v8#using-nonce
     this.auth0.authorize({
       responseType: 'token id_token',
       redirectUri: AUTH_CONFIG.REDIRECT,
@@ -81,7 +80,7 @@ export class AuthService {
     // Use access token to retrieve user's profile and set session
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
       this._setSession(authResult, profile);
-      this.router.navigate([this._authRedirect]);
+      this.router.navigate([this._authRedirect || '/']);
       this._clearRedirect();
     });
   }
