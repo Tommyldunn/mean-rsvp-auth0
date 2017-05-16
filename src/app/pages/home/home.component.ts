@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   searchEvents() {
-    this.filteredEvents = this.fs.search(this.eventList, this.query, '_id');
+    this.filteredEvents = this.fs.search(this.eventList, this.query, '_id', 'mediumDate');
   }
 
   resetQuery() {

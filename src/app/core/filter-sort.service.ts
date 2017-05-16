@@ -10,16 +10,17 @@ export class FilterSortService {
     // return values with specific key/value pair
     if (!property || value === undefined) {
       return array;
-    } else if (array) {
-      const filteredArray = array.filter(item => {
-        for (const key in item) {
+    }
+    const filteredArray = array.filter(item => {
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
           if (key === property && item[key] === value) {
             return true;
           }
         }
-      });
-      return filteredArray;
-    }
+      }
+    });
+    return filteredArray;
   }
 
   search(array: any[], query: string, excludeProps?: string|Array<string>, dateFormat?: string) {
@@ -27,45 +28,48 @@ export class FilterSortService {
     // match query to Date objects or ISO UTC strings
     // optionally exclude properties from being searched
     // if matching dates, can optionally pass in date format string
+    if (!query) {
+      return array;
+    }
     const lQuery = query.toLowerCase();
     const dateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/; // ISO UTC
     const dateF = dateFormat ? dateFormat : 'medium';
-
-    if (!query) {
-      return array;
-    } else if (array) {
-      const filteredArray = array.filter(item => {
-        for (const key in item) {
+    const filteredArray = array.filter(item => {
+      for (const key in item) {
+        if (item.hasOwnProperty(key)) {
           if (!excludeProps || excludeProps.indexOf(key) === -1) {
+            const thisVal = item[key];
             if (
-              typeof item[key] === 'string' &&
-              !item[key].match(dateRegex) &&
-              item[key].toLowerCase().indexOf(lQuery) !== -1
+              typeof thisVal === 'string' &&
+              !thisVal.match(dateRegex) &&
+              thisVal.toLowerCase().indexOf(lQuery) !== -1
             ) {
               return true;
             } else if (
-              (item[key] instanceof Date || item[key].toString().match(dateRegex)) &&
+              (thisVal instanceof Date || thisVal.toString().match(dateRegex)) &&
               // https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html
               // matching date format string passed in as param (or default to 'medium')
-              this.datePipe.transform(item[key], dateF).toLowerCase().indexOf(lQuery) !== -1
+              this.datePipe.transform(thisVal, dateF).toLowerCase().indexOf(lQuery) !== -1
             ) {
               return true;
             }
           }
         }
-      });
-      return filteredArray;
-    }
+      }
+    });
+    return filteredArray;
   }
 
   orderBy(array: any[], prop: string, reverse?: boolean) {
     // Order an array of objects by a property
-    // Supports string and number values
-    let sortedArray;
-    if (!array || !array.length) {
+    // Supports string, number, and boolean values
+    if (!prop) {
       return array;
     }
-    if (typeof array[0][prop] === 'string') {
+    const propType = typeof array[0][prop];
+    let sortedArray;
+    if (propType === 'string') {
+      // Default: ascending (A->Z)
       sortedArray = array.sort((a, b) => {
         const itemA = a[prop].toLowerCase();
         const itemB = b[prop].toLowerCase();
@@ -79,11 +83,19 @@ export class FilterSortService {
           return 0;
         }
       });
-    } else if (typeof array[0][prop] === 'number') {
+    } else if (propType === 'number') {
+      // Default: ascending (0->9)
       sortedArray = array.sort((a, b) => {
         const itemA = a[prop];
         const itemB = b[prop];
         return !reverse ? itemA - itemB : itemB - itemA;
+      });
+    } else if (propType === 'boolean') {
+      // Default: descending (true->false)
+      sortedArray = array.sort((a, b) => {
+        const itemA = a[prop];
+        const itemB = b[prop];
+        return !reverse ? itemB - itemA : itemA - itemB;
       });
     } else {
       sortedArray = array;
@@ -92,8 +104,11 @@ export class FilterSortService {
   }
 
   orderByDate(array: any[], prop: string, reverse?: boolean) {
-    // Order an array of objects by a property
-    // Supports date values
+    // Order an array of objects by a date property
+    // Default: ascending
+    if (!prop) {
+      return array;
+    }
     const sortedArray = array.sort((a, b) => {
       const dateA = new Date(a[prop]).getTime();
       const dateB = new Date(b[prop]).getTime();
