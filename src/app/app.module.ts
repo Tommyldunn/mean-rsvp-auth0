@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { ApiService } from './core/api.service';
 import { UtilsService } from './core/utils.service';
 import { FilterSortService } from './core/filter-sort.service';
-import { NumberFieldDirective } from './core/forms/numberField.directive';
 
 import { AuthService } from './auth/auth.service';
 import { AuthHttp } from 'angular2-jwt';
@@ -45,7 +44,6 @@ import { SubmittingComponent } from './core/forms/submitting.component';
     EventDetailComponent,
     RsvpComponent,
     RsvpFormComponent,
-    NumberFieldDirective,
     CreateEventComponent,
     UpdateEventComponent,
     EventFormComponent,

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../../core/api.service';
 import { EventModel } from './../../../../core/models/event.model';
 import { RsvpModel } from './../../../../core/models/rsvp.model';
+import { guestsRegex } from './../../../../core/forms/formUtils.factory';
 
 @Component({
   selector: 'app-rsvp-form',
@@ -15,6 +16,7 @@ export class RsvpFormComponent implements OnInit {
   @Input() eventId: string;
   @Input() rsvp: RsvpModel;
   @Output() submitRsvp = new EventEmitter();
+  guestsRegex = guestsRegex;
   isEdit: boolean;
   formRsvp: RsvpModel;
   submitRsvpSub: Subscription;
@@ -47,7 +49,7 @@ export class RsvpFormComponent implements OnInit {
         this.rsvp.name,
         this.rsvp.eventId,
         this.rsvp.attending,
-        +this.rsvp.guests,
+        this.rsvp.guests,
         this.rsvp.comments || '',
         this.rsvp._id
       );
@@ -57,7 +59,7 @@ export class RsvpFormComponent implements OnInit {
   changeAttendanceSetGuests() {
     // If attendance changed to yes, set guests: 1
     // If attendance changed to no, set guests: 0
-    if (this.formRsvp.attending && !+this.formRsvp.guests) {
+    if (this.formRsvp.attending && !this.formRsvp.guests) {
       this.formRsvp.guests = 1;
     } else if (!this.formRsvp.attending) {
       this.formRsvp.guests = 0;
@@ -65,8 +67,9 @@ export class RsvpFormComponent implements OnInit {
   }
 
   changeGuestsSetAttending() {
+    console.log(this.formRsvp.guests);
     // If guests changed to 0, set attending: false
-    if (this.formRsvp.attending && this.formRsvp.guests !== '' && +this.formRsvp.guests === 0) {
+    if (this.formRsvp.attending && this.formRsvp.guests === 0) {
       this.formRsvp.attending = false;
     }
   }

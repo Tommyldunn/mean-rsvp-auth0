@@ -1,7 +1,9 @@
+// 0-9
+const guestsRegex = new RegExp(/^[0-9]$/);
 // MM/DD/YYYY, M/D/YYYY
 const dateRegex = new RegExp(/^(\d{2}|\d{1})\/(\d{2}|\d{1})\/\d{4}$/);
 // HH:MM am/pm, HH:MM AM/PM
-const timeRegex = new RegExp(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))/);
+const timeRegex = new RegExp(/\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))$/);
 
 // Convert date and time strings to a Date object
 function stringsToDate(dateStr: string, timeStr: string) {
@@ -20,4 +22,4 @@ function stringsToDate(dateStr: string, timeStr: string) {
   return date;
 }
 
-export { dateRegex, timeRegex, stringsToDate };
+export { guestsRegex, dateRegex, timeRegex, stringsToDate };
