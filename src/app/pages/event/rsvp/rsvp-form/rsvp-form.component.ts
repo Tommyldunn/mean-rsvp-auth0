@@ -67,8 +67,8 @@ export class RsvpFormComponent implements OnInit {
   }
 
   changeGuestsSetAttending() {
-    console.log(this.formRsvp.guests);
     // If guests changed to 0, set attending: false
+    // Fired onInput (up and down arrows) and onKeyup (typing)
     if (this.formRsvp.attending && this.formRsvp.guests === 0) {
       this.formRsvp.attending = false;
     }
