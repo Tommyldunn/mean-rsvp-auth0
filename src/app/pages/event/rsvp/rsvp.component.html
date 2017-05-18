@@ -80,6 +80,7 @@
       </li>
       <li class="list-group-item list-group-item-danger justify-content-between">
         <strong>Not Attending</strong>
+        <span class="badge badge-danger badge-pill">{{fs.filter(rsvps, 'attending', false).length}}</span>
       </li>
       <li
         *ngFor="let rsvp of fs.filter(rsvps, 'attending', false)"
