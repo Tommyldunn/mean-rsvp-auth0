@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from './../../../auth/auth.service';
 import { UtilsService } from './../../../core/utils.service';
 import { EventModel } from './../../../core/models/event.model';
-import { RsvpModel } from './../../../core/models/rsvp.model';
 
 @Component({
   selector: 'app-event-detail',
