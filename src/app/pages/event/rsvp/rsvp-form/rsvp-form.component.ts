@@ -40,7 +40,8 @@ export class RsvpFormComponent implements OnInit {
         this.auth.userProfile.sub,
         this.auth.userProfile.name,
         this.eventId,
-        null);
+        null,
+        0);
     } else {
       // If editing an existing RSVP,
       // create new RsvpModel from existing data
@@ -57,20 +58,9 @@ export class RsvpFormComponent implements OnInit {
   }
 
   changeAttendanceSetGuests() {
-    // If attendance changed to yes, set guests: 1
     // If attendance changed to no, set guests: 0
-    if (this.formRsvp.attending && !this.formRsvp.guests) {
-      this.formRsvp.guests = 1;
-    } else if (!this.formRsvp.attending) {
+    if (!this.formRsvp.attending) {
       this.formRsvp.guests = 0;
-    }
-  }
-
-  changeGuestsSetAttending() {
-    // If guests changed to 0, set attending: false
-    // Fired onInput (up and down arrows) and onKeyup (typing)
-    if (this.formRsvp.attending && this.formRsvp.guests === 0) {
-      this.formRsvp.attending = false;
     }
   }
 

@@ -60,30 +60,24 @@
 
   <!-- Guests -->
   <div *ngIf="formRsvp.attending" class="formGuests form-group row">
-    <label for="guests" class="col-12">Guests (including you):</label>
+    <label for="guests" class="col-12">Additional Guests:</label>
     <input
       id="guests"
       name="guests"
       type="number"
       class="form-control col-sm-12 col-md-3"
-      (input)="changeGuestsSetAttending()"
-      (keyup)="changeGuestsSetAttending()"
       maxlength="1"
       [pattern]="guestsRegex"
       step="1"
       min="0"
       max="9"
-      [required]="formRsvp.attending"
       #guests="ngModel"
       [(ngModel)]="formRsvp.guests">
     <div
       *ngIf="guests.errors && (guests.dirty || guests.touched)"
       class="col-12 small text-danger formErrors">
-      <div [hidden]="!guests.errors.required">
-        Guests <strong>required</strong> if attending the event.
-      </div>
       <div [hidden]="!guests.errors.pattern">
-        Guests must be an integer from <strong>1-9</strong>.
+        Additional Guests must be an integer from <strong>0-9</strong>.
       </div>
     </div>
   </div>

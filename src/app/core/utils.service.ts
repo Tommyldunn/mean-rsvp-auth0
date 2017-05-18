@@ -50,8 +50,8 @@ export class UtilsService {
 
   showPlusOnes(guests: number): string {
     // If bringing additional guest(s), show as "+n"
-    if (guests > 1) {
-      return `+${guests - 1}`;
+    if (guests) {
+      return `+${guests}`;
     }
   }
 
