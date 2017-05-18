@@ -6,7 +6,6 @@ import { UtilsService } from './../../core/utils.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { EventModel } from './../../core/models/event.model';
-import { RsvpModel } from './../../core/models/rsvp.model';
 
 @Component({
   selector: 'app-event',
@@ -20,7 +19,6 @@ export class EventComponent implements OnInit, OnDestroy {
   tabSub: Subscription;
   eventSub: Subscription;
   event: EventModel;
-  rsvps: RsvpModel[] = [];
   loading: boolean;
   error: boolean;
   tab: string;
@@ -53,22 +51,22 @@ export class EventComponent implements OnInit, OnDestroy {
   private _getEvent() {
     this.loading = true;
     // GET event by ID
-      this.eventSub = this.api
-        .getEventById$(this.id)
-        .subscribe(
-          res => {
-            this.event = res;
-            this._setPageTitle(this.event.title);
-            this.loading = false;
-            this.eventPast = this.utils.eventPast(this.event.endDatetime);
-          },
-          err => {
-            console.error(err);
-            this.loading = false;
-            this.error = true;
-            this._setPageTitle('Event Details');
-          }
-        );
+    this.eventSub = this.api
+      .getEventById$(this.id)
+      .subscribe(
+        res => {
+          this.event = res;
+          this._setPageTitle(this.event.title);
+          this.loading = false;
+          this.eventPast = this.utils.eventPast(this.event.endDatetime);
+        },
+        err => {
+          console.error(err);
+          this.loading = false;
+          this.error = true;
+          this._setPageTitle('Event Details');
+        }
+      );
   }
 
   private _setPageTitle(title: string) {
