@@ -11,12 +11,10 @@ import { RsvpModel } from './../../../core/models/rsvp.model';
 })
 export class EventDetailComponent implements OnInit {
   @Input() event: EventModel;
-  @Input() rsvps: RsvpModel[];
 
   constructor(
     public utils: UtilsService,
-    public auth: AuthService
-  ) { }
+    public auth: AuthService) { }
 
   ngOnInit() {
   }

@@ -32,8 +32,6 @@ export class EventComponent implements OnInit, OnDestroy {
     private title: Title) { }
 
   ngOnInit() {
-    this.tab = 'details';
-
     // Set event ID from route params and subscribe
     this.routeSub = this.route.params
       .subscribe(params => {
