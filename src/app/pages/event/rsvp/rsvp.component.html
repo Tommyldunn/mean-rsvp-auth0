@@ -59,7 +59,7 @@
     <button (click)="toggleShowRsvps()" class="btn btn-link btn-sm">{{showRsvpsText}}</button>
   </div>
 
-  <div class="allRsvps" *ngIf="showAllRsvps" [@expandCollapse]>
+  <section class="allRsvps" *ngIf="showAllRsvps" [@expandCollapse]>
     <div class="card-block">
       <h3 class="card-title text-center">RSVPs</h3>
       <p *ngIf="!rsvps.length" class="lead">There are currently no RSVPs for this event.</p>
@@ -91,7 +91,7 @@
         </p>
       </li>
     </ul>
-  </div>
+  </section>
 
   <!-- Error loading RSVPs -->
   <div *ngIf="error" class="card-block">
