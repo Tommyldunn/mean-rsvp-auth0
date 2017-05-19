@@ -229,12 +229,10 @@ module.exports = function(app, config) {
       if (rsvp.userId !== req.user.sub) {
         return res.status(401).send({message: 'You cannot edit someone else\'s RSVP.'});
       }
-      rsvp.userId = req.body.userId || rsvp.userId;
-      rsvp.name = req.body.name || rsvp.name;
-      rsvp.eventId = rsvp.eventId; // user cannot change the event ID
-      rsvp.attending = req.body.attending; // attending can be false, so it must come from req
-      rsvp.guests = req.body.guests; // guests can be falsey, so it must come from req
-      rsvp.comments = req.body.comments || '';
+      rsvp.name = req.body.name;
+      rsvp.attending = req.body.attending;
+      rsvp.guests = req.body.guests;
+      rsvp.comments = req.body.comments;
 
       rsvp.save(err => {
         if (err) { res.status(500).send({message: err}); }

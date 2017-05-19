@@ -34,7 +34,7 @@ export class ApiService {
   }
 
   // GET an event by ID (login required)
-  getEventById$(id): Observable<EventModel> {
+  getEventById$(id: string): Observable<EventModel> {
     return this.authHttp
       .get(`${ENV.BASE_API}event/${id}`)
       .map(this._handleSuccess)
@@ -42,7 +42,7 @@ export class ApiService {
   }
 
   // GET RSVPs by event ID (login required)
-  getRsvpsByEventId$(eventId): Observable<RsvpModel[]> {
+  getRsvpsByEventId$(eventId: string): Observable<RsvpModel[]> {
     return this.authHttp
       .get(`${ENV.BASE_API}event/${eventId}/rsvps`)
       .map(this._handleSuccess)
@@ -50,7 +50,7 @@ export class ApiService {
   }
 
   // POST new event (admin only)
-  postEvent$(event): Observable<EventModel> {
+  postEvent$(event: EventModel): Observable<EventModel> {
     return this.authHttp
       .post(`${ENV.BASE_API}event/new`, event)
       .map(this._handleSuccess)
@@ -58,7 +58,7 @@ export class ApiService {
   }
 
   // PUT existing event (admin only)
-  editEvent$(id, event): Observable<EventModel> {
+  editEvent$(id: string, event: EventModel): Observable<EventModel> {
     return this.authHttp
       .put(`${ENV.BASE_API}event/${id}`, event)
       .map(this._handleSuccess)
@@ -66,7 +66,7 @@ export class ApiService {
   }
 
   // DELETE existing event and all associated RSVPs (admin only)
-  deleteEvent$(id): Observable<any> {
+  deleteEvent$(id: string): Observable<any> {
     return this.authHttp
       .delete(`${ENV.BASE_API}event/${id}`)
       .map(this._handleSuccess)
@@ -74,7 +74,7 @@ export class ApiService {
   }
 
   // GET all events a specific user has RSVPed to (login required)
-  getUserEvents$(userId): Observable<RsvpModel[]> {
+  getUserEvents$(userId: string): Observable<RsvpModel[]> {
     return this.authHttp
       .get(`${ENV.BASE_API}events/${userId}`)
       .map(this._handleSuccess)
@@ -82,7 +82,7 @@ export class ApiService {
   }
 
   // POST new RSVP (login required)
-  postRsvp$(rsvp): Observable<RsvpModel> {
+  postRsvp$(rsvp: RsvpModel): Observable<RsvpModel> {
     return this.authHttp
       .post(`${ENV.BASE_API}rsvp/new`, rsvp)
       .map(this._handleSuccess)
@@ -90,7 +90,7 @@ export class ApiService {
   }
 
   // PUT existing RSVP (login required)
-  editRsvp$(id, rsvp): Observable<RsvpModel> {
+  editRsvp$(id: string, rsvp: RsvpModel): Observable<RsvpModel> {
     return this.authHttp
       .put(`${ENV.BASE_API}rsvp/${id}`, rsvp)
       .map(this._handleSuccess)
