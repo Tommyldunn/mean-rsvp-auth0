@@ -95,29 +95,29 @@ export class RsvpComponent implements OnInit, OnDestroy {
     // Iterate over RSVPs to get/set user's RSVP
     // and get total number of attending guests
     let guests = 0;
-
-    this.rsvps.forEach((rsvp, i) => {
+    const rsvpArr = this.rsvps.map((rsvp) => {
       // If user has an existing RSVP
       if (rsvp.userId === this.auth.userProfile.sub) {
         if (changed) {
-          // If user edited their RSVP, update array with edited data
-          this.rsvps[i] = this.userRsvp;
+          // If user edited their RSVP, set with updated data
+          rsvp = this.userRsvp;
         } else {
-          // If no changes were made, set local user RSVP property
+          // If no changes were made, set userRsvp property
           // (This applies on ngOnInit)
           this.userRsvp = rsvp;
         }
       }
       // Count total number of attendees
       // + additional guests
-      if (this.rsvps[i].attending) {
+      if (rsvp.attending) {
         guests++;
-        if (this.rsvps[i].guests) {
-          guests += this.rsvps[i].guests;
+        if (rsvp.guests) {
+          guests += rsvp.guests;
         }
       }
+      return rsvp;
     });
-    // Set updated guest count
+    this.rsvps = rsvpArr;
     this.totalAttending = guests;
   }
 
