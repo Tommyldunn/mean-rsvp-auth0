@@ -150,7 +150,6 @@ module.exports = function(app, config) {
       event.save((err) => {
         if (err) { res.status(500).send({message: err}); }
         res.send(event);
-        // @TODO: need to get the new event's ID here and send it???
       });
     });
   });
@@ -162,12 +161,12 @@ module.exports = function(app, config) {
       if (!event) {
         return res.status(400).send({message: 'Event not found.'});
       }
-      event.title = req.body.title || event.title;
-      event.location = req.body.location || event.location;
-      event.startDatetime = req.body.startDatetime || event.startDatetime;
-      event.endDatetime = req.body.endDatetime || event.endDatetime;
-      event.viewPublic = req.body.viewPublic; // viewPublic can be false, so it must come from req
-      event.description = req.body.description || '';
+      event.title = req.body.title;
+      event.location = req.body.location;
+      event.startDatetime = req.body.startDatetime;
+      event.endDatetime = req.body.endDatetime;
+      event.viewPublic = req.body.viewPublic;
+      event.description = req.body.description;
 
       event.save(err => {
         if (err) { res.status(500).send({message: err}); }
