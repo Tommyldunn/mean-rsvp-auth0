@@ -106,8 +106,8 @@
       </div>
     </div>
 
-    <p *ngIf="eventForm.get('datesGroup').errors" class="alert alert-danger">
-      <strong>Dates out of range:</strong> This event ends before it begins. Please double-check the start / end dates and times.
+    <p *ngIf="eventForm.get('datesGroup').errors" class="alert alert-danger small">
+      <strong>Dates/times out of range:</strong> Events cannot end before they begin. Please double-check the start and end dates and times.
     </p>
   </div>
 

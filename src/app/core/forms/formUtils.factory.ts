@@ -13,6 +13,9 @@ function stringsToDate(dateStr: string, timeStr: string) {
   const min = parseInt(timeArr[1], 10);
   const pm = timeArr[2].toLowerCase() === 'pm';
 
+  if (!pm && hour === 12) {
+    hour = 0;
+  }
   if (pm && hour < 12) {
     hour += 12;
   }

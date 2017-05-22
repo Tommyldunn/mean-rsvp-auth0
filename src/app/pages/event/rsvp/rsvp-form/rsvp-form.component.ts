@@ -50,7 +50,7 @@ export class RsvpFormComponent implements OnInit {
         this.rsvp.eventId,
         this.rsvp.attending,
         this.rsvp.guests,
-        this.rsvp.comments || '',
+        this.rsvp.comments,
         this.rsvp._id
       );
     }
