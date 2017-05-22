@@ -25,7 +25,8 @@ export class AuthService {
   loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
 
   constructor(private router: Router) {
-    // If authenticated, set local profile property, admin status, and update login status subject
+    // If authenticated, set local profile property, admin status,
+    // and update login status subject.
     // If token is expired but user data still in localStorage, log out
     const lsProfile = localStorage.getItem('profile');
 
@@ -109,7 +110,8 @@ export class AuthService {
   }
 
   logout() {
-    // Remove items from localStorage, update login status, go home
+    // Ensure all auth items removed from localStorage
+    // clear local properties, update login status, go home
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
