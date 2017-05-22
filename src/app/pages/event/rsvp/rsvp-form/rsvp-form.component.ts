@@ -66,7 +66,6 @@ export class RsvpFormComponent implements OnInit {
 
   onSubmit() {
     this.submitting = true;
-
     if (!this.isEdit) {
       this.submitRsvpSub = this.api
         .postRsvp$(this.formRsvp)
