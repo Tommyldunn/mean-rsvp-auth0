@@ -109,11 +109,12 @@ export class AuthService {
   }
 
   logout() {
-    // Remove tokens and profile and update login status subject
+    // Remove items from localStorage, update login status, go home
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
     localStorage.removeItem('isAdmin');
+    localStorage.removeItem('authRedirect');
     this._clearRedirect();
     this.userProfile = undefined;
     this.isAdmin = undefined;
