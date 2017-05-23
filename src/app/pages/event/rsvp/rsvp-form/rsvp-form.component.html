@@ -13,7 +13,7 @@
       [(ngModel)]="formRsvp.name"
       required>
     <div
-      *ngIf="name.errors && (name.dirty || name.touched)"
+      *ngIf="name.errors && name.dirty"
       class="small text-danger formErrors">
       <div [hidden]="!name.errors.required">
         Name is <strong>required</strong>.
@@ -74,7 +74,7 @@
       #guests="ngModel"
       [(ngModel)]="formRsvp.guests">
     <div
-      *ngIf="guests.errors && (guests.dirty || guests.touched)"
+      *ngIf="guests.errors && guests.dirty"
       class="col-12 small text-danger formErrors">
       <div [hidden]="!guests.errors.pattern">
         Additional Guests must be an integer from <strong>0-9</strong>.
@@ -102,7 +102,7 @@
       class="btn btn-primary"
       [disabled]="!rsvpForm.form.valid || submitting">Submit RSVP</button>
     <app-submitting *ngIf="submitting"></app-submitting>
-    
+
     <!-- API submission error -->
     <p *ngIf="error" class="mt-3 alert alert-danger">
       <strong>Error:</strong> There was a problem submitting your response. Please try again.
