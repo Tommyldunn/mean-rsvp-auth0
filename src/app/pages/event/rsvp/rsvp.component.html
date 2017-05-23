@@ -96,12 +96,12 @@
   <!-- Error loading RSVPs -->
   <div *ngIf="error" class="card-block">
     <p class="alert alert-danger">
-      <strong>Oops!</strong> There was an error retrieving RSVPs for this event. 
+      <strong>Oops!</strong> There was an error retrieving RSVPs for this event.
     </p>
   </div>
 </ng-template>
 
 <!-- Footer showing # of total attending guests -->
 <div class="card-footer text-right">
-  <small class="text-muted">{{utils.displayCount(totalAttending)}} {{footerTense}}</small>
+  <small *ngIf="totalAttending >= 0" class="text-muted">{{utils.displayCount(totalAttending)}} {{footerTense}}</small>
 </div>

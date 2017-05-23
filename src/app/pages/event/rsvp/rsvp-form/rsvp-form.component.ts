@@ -1,8 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from './../../../../auth/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../../core/api.service';
-import { EventModel } from './../../../../core/models/event.model';
 import { RsvpModel } from './../../../../core/models/rsvp.model';
 import { guestsRegex } from './../../../../core/forms/formUtils.factory';
 
@@ -11,7 +10,7 @@ import { guestsRegex } from './../../../../core/forms/formUtils.factory';
   templateUrl: './rsvp-form.component.html',
   styleUrls: ['./rsvp-form.component.scss']
 })
-export class RsvpFormComponent implements OnInit {
+export class RsvpFormComponent implements OnInit, OnDestroy {
   @Input() eventId: string;
   @Input() rsvp: RsvpModel;
   @Output() submitRsvp = new EventEmitter();
@@ -101,6 +100,12 @@ export class RsvpFormComponent implements OnInit {
     console.error(err);
     this.submitting = false;
     this.error = true;
+  }
+
+  ngOnDestroy() {
+    if (this.submitRsvpSub) {
+      this.submitRsvpSub.unsubscribe();
+    }
   }
 
 }
