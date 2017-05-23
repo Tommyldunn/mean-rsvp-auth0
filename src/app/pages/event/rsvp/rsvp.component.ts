@@ -23,8 +23,8 @@ export class RsvpComponent implements OnInit, OnDestroy {
   userRsvp: RsvpModel;
   totalAttending: number;
   footerTense: string;
-  showEditForm = false;
-  editBtnText = 'Edit My RSVP';
+  showEditForm: boolean;
+  editBtnText: string;
   showAllRsvps = false;
   showRsvpsText = 'View All RSVPs';
 
@@ -37,6 +37,7 @@ export class RsvpComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.footerTense = !this.eventPast ? 'plan to attend this event.' : 'attended this event.';
     this._getRSVPs();
+    this.toggleEditForm(false);
   }
 
   private _getRSVPs() {
@@ -60,7 +61,7 @@ export class RsvpComponent implements OnInit, OnDestroy {
 
   toggleEditForm(setVal?: boolean) {
     this.showEditForm = setVal !== undefined ? setVal : !this.showEditForm;
-    this.editBtnText = this.showEditForm ? 'Cancel Edit' : 'Edit RSVP';
+    this.editBtnText = this.showEditForm ? 'Cancel Edit' : 'Edit My RSVP';
   }
 
   toggleShowRsvps() {
