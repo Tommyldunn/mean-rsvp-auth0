@@ -21,9 +21,6 @@
       <div [hidden]="!name.errors.minlength">
         Name must be 3 characters or more.
       </div>
-      <div [hidden]="!name.errors.maxlength">
-        Name must be 24 characters or less.
-      </div>
     </div>
   </div>
 
@@ -91,7 +88,6 @@
       class="form-control"
       rows="2"
       maxlength="300"
-      #comments="ngModel"
       [(ngModel)]="formRsvp.comments"></textarea>
   </div>
 
