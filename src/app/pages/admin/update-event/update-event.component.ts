@@ -89,6 +89,9 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.routeSub.unsubscribe();
     this.eventSub.unsubscribe();
+    if (this.deleteSub) {
+      this.deleteSub.unsubscribe();
+    }
   }
 
 }

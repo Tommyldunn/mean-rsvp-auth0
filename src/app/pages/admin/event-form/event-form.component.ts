@@ -82,7 +82,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
         this.datePipe.transform(this.event.endDatetime, 'shortDate'),
         this.datePipe.transform(this.event.endDatetime, 'shortTime'),
         this.event.viewPublic,
-        this.event.description || ''
+        this.event.description
       );
     }
   }
