@@ -57,7 +57,9 @@ module.exports = function(app, config) {
     Event.find({viewPublic: true, startDatetime: { $gte: new Date() }},
       _eventListProjection, (err, events) => {
         let eventsArr = [];
-        if (err) { res.send({message: err}); }
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
         if (events) {
           events.forEach((event) => {
             eventsArr.push(event);
@@ -72,7 +74,9 @@ module.exports = function(app, config) {
   app.get('/api/events/admin', jwtCheck, adminCheck, (req, res) => {
     Event.find({}, _eventListProjection, (err, events) => {
         let eventsArr = [];
-        if (err) { res.send({message: err}); }
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
         if (events) {
           events.forEach((event) => {
             eventsArr.push(event);
@@ -83,10 +87,12 @@ module.exports = function(app, config) {
     );
   });
 
-  // GET event details by event ID
+  // GET event by event ID
   app.get('/api/event/:id', jwtCheck, (req, res) => {
     Event.findById(req.params.id, (err, event) => {
-      if (err) { res.send({message: err}); }
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
       if (!event) {
         return res.status(400).send({message: 'Event not found.'});
       }
@@ -98,7 +104,9 @@ module.exports = function(app, config) {
   app.get('/api/event/:eventId/rsvps', jwtCheck, (req, res) => {
     Rsvp.find({eventId: req.params.eventId}, (err, rsvps) => {
       let rsvpsArr = [];
-      if (err) { res.send({message: err}); }
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
       if (rsvps) {
         rsvps.forEach((rsvp) => {
           rsvpsArr.push(rsvp);
@@ -115,12 +123,16 @@ module.exports = function(app, config) {
       const _rsvpEventsProjection = 'title startDatetime endDatetime';
       let eventsArr = [];
 
-      if (err) { res.send({message: err}); }
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
       if (rsvps) {
         Event.find(
           {_id: {$in: eventIdsArr}, endDatetime: { $gt: new Date() }},
           _rsvpEventsProjection, (err, events) => {
-          if (err) { res.send({message: err}); }
+          if (err) {
+            return res.status(500).send({message: err.message});
+          }
           if (events) {
             events.forEach(event => {
               eventsArr.push(event);
@@ -138,7 +150,9 @@ module.exports = function(app, config) {
       title: req.body.title,
       location: req.body.location,
       startDatetime: req.body.startDatetime}, (err, existingEvent) => {
-      if (err) { res.send({message: err}); }
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
       if (existingEvent) {
         return res.status(409).send({message: 'You have already created an event with this title, location, and start date/time.'});
       }
@@ -151,7 +165,9 @@ module.exports = function(app, config) {
         viewPublic: req.body.viewPublic
       });
       event.save((err) => {
-        if (err) { res.status(500).send({message: err}); }
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
         res.send(event);
       });
     });
@@ -160,7 +176,9 @@ module.exports = function(app, config) {
   // PUT (edit) an existing event
   app.put('/api/event/:id', jwtCheck, adminCheck, (req, res) => {
     Event.findById(req.params.id, (err, event) => {
-      if (err) { res.send({message: err}); }
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
       if (!event) {
         return res.status(400).send({message: 'Event not found.'});
       }
@@ -172,7 +190,9 @@ module.exports = function(app, config) {
       event.description = req.body.description;
 
       event.save(err => {
-        if (err) { res.status(500).send({message: err}); }
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
         res.send(event);
       });
     });
@@ -181,7 +201,9 @@ module.exports = function(app, config) {
   // DELETE an event and all associated RSVPs
   app.delete('/api/event/:id', jwtCheck, adminCheck, (req, res) => {
     Event.findById(req.params.id, (err, event) => {
-      if (err) { res.send({message: err });}
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
       if (!event) {
         return res.status(400).send({message: 'Event not found.'});
       }
@@ -202,7 +224,9 @@ module.exports = function(app, config) {
   // POST a new RSVP
   app.post('/api/rsvp/new', jwtCheck, (req, res) => {
     Rsvp.findOne({eventId: req.body.eventId, userId: req.body.userId}, (err, existingRsvp) => {
-      if (err) { res.send({message: err}); }
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
       if (existingRsvp) {
         return res.status(409).send({message: 'You have already RSVPed to this event.'});
       }
@@ -215,7 +239,9 @@ module.exports = function(app, config) {
         comments: req.body.comments
       });
       rsvp.save((err) => {
-        if (err) { res.status(500).send({message: err}); }
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
         res.send(rsvp);
       });
     });
@@ -224,7 +250,9 @@ module.exports = function(app, config) {
   // PUT (edit) an existing RSVP
   app.put('/api/rsvp/:id', jwtCheck, (req, res) => {
     Rsvp.findById(req.params.id, (err, rsvp) => {
-      if (err) { res.send({message: err}); }
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
       if (!rsvp) {
         return res.status(400).send({message: 'RSVP not found.'});
       }
@@ -237,7 +265,9 @@ module.exports = function(app, config) {
       rsvp.comments = req.body.comments;
 
       rsvp.save(err => {
-        if (err) { res.status(500).send({message: err}); }
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
         res.send(rsvp);
       });
     });

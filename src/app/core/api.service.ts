@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
-import { AuthService } from './../auth/auth.service';
 import { Observable } from 'rxjs/Rx';
 import { ENV } from './env.config';
 import 'rxjs/add/operator/map';
@@ -14,8 +13,7 @@ export class ApiService {
 
   constructor(
     private http: Http,
-    private authHttp: AuthHttp,
-    private auth: AuthService) { }
+    private authHttp: AuthHttp) { }
 
   // GET list of public, future events
   getEvents$(): Observable<EventModel[]> {
@@ -30,7 +28,7 @@ export class ApiService {
     return this.authHttp
       .get(`${ENV.BASE_API}events/admin`)
       .map(this._handleSuccess)
-      .catch(this._handleAuthError);
+      .catch(this._handleError);
   }
 
   // GET an event by ID (login required)
@@ -38,7 +36,7 @@ export class ApiService {
     return this.authHttp
       .get(`${ENV.BASE_API}event/${id}`)
       .map(this._handleSuccess)
-      .catch(this._handleAuthError);
+      .catch(this._handleError);
   }
 
   // GET RSVPs by event ID (login required)
@@ -46,7 +44,7 @@ export class ApiService {
     return this.authHttp
       .get(`${ENV.BASE_API}event/${eventId}/rsvps`)
       .map(this._handleSuccess)
-      .catch(this._handleAuthError);
+      .catch(this._handleError);
   }
 
   // POST new event (admin only)
@@ -54,7 +52,7 @@ export class ApiService {
     return this.authHttp
       .post(`${ENV.BASE_API}event/new`, event)
       .map(this._handleSuccess)
-      .catch(this._handleAuthError);
+      .catch(this._handleError);
   }
 
   // PUT existing event (admin only)
@@ -62,7 +60,7 @@ export class ApiService {
     return this.authHttp
       .put(`${ENV.BASE_API}event/${id}`, event)
       .map(this._handleSuccess)
-      .catch(this._handleAuthError);
+      .catch(this._handleError);
   }
 
   // DELETE existing event and all associated RSVPs (admin only)
@@ -70,7 +68,7 @@ export class ApiService {
     return this.authHttp
       .delete(`${ENV.BASE_API}event/${id}`)
       .map(this._handleSuccess)
-      .catch(this._handleAuthError);
+      .catch(this._handleError);
   }
 
   // GET all events a specific user has RSVPed to (login required)
@@ -78,7 +76,7 @@ export class ApiService {
     return this.authHttp
       .get(`${ENV.BASE_API}events/${userId}`)
       .map(this._handleSuccess)
-      .catch(this._handleAuthError);
+      .catch(this._handleError);
   }
 
   // POST new RSVP (login required)
@@ -86,7 +84,7 @@ export class ApiService {
     return this.authHttp
       .post(`${ENV.BASE_API}rsvp/new`, rsvp)
       .map(this._handleSuccess)
-      .catch(this._handleAuthError);
+      .catch(this._handleError);
   }
 
   // PUT existing RSVP (login required)
@@ -94,7 +92,7 @@ export class ApiService {
     return this.authHttp
       .put(`${ENV.BASE_API}rsvp/${id}`, rsvp)
       .map(this._handleSuccess)
-      .catch(this._handleAuthError);
+      .catch(this._handleError);
   }
 
   private _handleSuccess(res: Response) {
@@ -103,15 +101,6 @@ export class ApiService {
 
   private _handleError(err: Response | any) {
     const errorMsg = err.message || 'Error: Unable to complete request.';
-    return Observable.throw(errorMsg);
-  }
-
-  private _handleAuthError(err: Response | any) {
-    const errorMsg = err.message || 'Error: Unable to complete request.';
-    // If access token is expired, prompt to log in
-    if (!this.auth.authenticated) {
-      this.auth.login();
-    }
     return Observable.throw(errorMsg);
   }
 
