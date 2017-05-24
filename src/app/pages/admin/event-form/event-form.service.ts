@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class EventFormService {
   validationMessages: any;
+  // Set up errors object
   formErrors = {
     title: '',
     location: '',
@@ -15,12 +16,16 @@ export class EventFormService {
       endTime: '',
     }
   };
+  // Validation (min/maxlengths)
   textMin = 3;
   titleMax = 36;
   locMax = 200;
   dateMax = 10;
   timeMax = 8;
   descMax = 2000;
+  // Formats
+  dateFormatShort = 'M/D/YYYY';
+  timeFormat = 'HH:MM AM/PM';
 
   constructor() {
     this.validationMessages = {
@@ -37,23 +42,23 @@ export class EventFormService {
       startDate: {
         required: `Start date is <strong>required</strong>.`,
         maxlength: `Start date cannot be longer than ${this.dateMax} characters.`,
-        pattern: `Start date must be in the format <strong>M/D/YYYY</strong> or <strong>MM/DD/YYYY</strong>.`,
+        pattern: `Start date must be in the format <strong>${this.dateFormatShort}</strong> or <strong>MM/DD/YYYY</strong>.`,
         date: `Start date must be a <strong>valid date</strong> at least one day <strong>in the future</strong>.`
       },
       startTime: {
         required: `Start time is <strong>required</strong>.`,
-        pattern: `Start time must be a <strong>valid time</strong> in the format <strong>HH:MM AM/PM</strong>.`,
+        pattern: `Start time must be a <strong>valid time</strong> in the format <strong>${this.timeFormat}</strong>.`,
         maxlength: `Start time must be ${this.timeMax} characters or less.`
       },
       endDate: {
         required: `End date is <strong>required</strong>.`,
         maxlength: `End date cannot be longer than ${this.dateMax} characters.`,
-        pattern: `End date must be in the format <strong>M/D/YYYY</strong> or <strong>MM/DD/YYYY</strong>.`,
+        pattern: `End date must be in the format <strong>${this.dateFormatShort}</strong> or <strong>MM/DD/YYYY</strong>.`,
         date: `End date must be a <strong>valid date</strong> at least one day <strong>in the future</strong>.`
       },
       endTime: {
         required: `End time is <strong>required</strong>.`,
-        pattern: `End time must be a <strong>valid time</strong> in the format <strong>HH:MM AM/PM</strong>.`,
+        pattern: `End time must be a <strong>valid time</strong> in the format <strong>${this.timeFormat}</strong>.`,
         maxlength: `End time must be ${this.timeMax} characters or less.`
       },
       viewPublic: {
