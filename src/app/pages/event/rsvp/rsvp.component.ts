@@ -96,7 +96,7 @@ export class RsvpComponent implements OnInit, OnDestroy {
     // Iterate over RSVPs to get/set user's RSVP
     // and get total number of attending guests
     let guests = 0;
-    const rsvpArr = this.rsvps.map((rsvp) => {
+    const rsvpArr = this.rsvps.map(rsvp => {
       // If user has an existing RSVP
       if (rsvp.userId === this.auth.userProfile.sub) {
         if (changed) {

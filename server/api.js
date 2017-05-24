@@ -134,10 +134,13 @@ module.exports = function(app, config) {
 
   // POST a new event
   app.post('/api/event/new', jwtCheck, adminCheck, (req, res) => {
-    Event.findOne({title: req.body.title, location: req.body.location}, (err, existingEvent) => {
+    Event.findOne({
+      title: req.body.title,
+      location: req.body.location,
+      startDatetime: req.body.startDatetime}, (err, existingEvent) => {
       if (err) { res.send({message: err}); }
       if (existingEvent) {
-        return res.status(409).send({message: 'You have already created an event with this title at this location.'});
+        return res.status(409).send({message: 'You have already created an event with this title, location, and start date/time.'});
       }
       const event = new Event({
         title: req.body.title,
