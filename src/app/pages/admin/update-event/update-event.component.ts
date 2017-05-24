@@ -14,7 +14,6 @@ import { EventModel } from './../../../core/models/event.model';
 })
 export class UpdateEventComponent implements OnInit, OnDestroy {
   pageTitle = 'Update Event';
-  id: string;
   routeSub: Subscription;
   eventSub: Subscription;
   confirmDelete: string;
@@ -24,6 +23,7 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
   submitting: boolean;
   error: boolean;
   deleteErr: boolean;
+  private _id: string;
 
   constructor(
     private router: Router,
@@ -39,7 +39,7 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
     // Set event ID from route params and subscribe
     this.routeSub = this.route.params
       .subscribe(params => {
-        this.id = params['id'];
+        this._id = params['id'];
         this._getEvent();
       });
   }
@@ -48,7 +48,7 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
     this.loading = true;
     // GET event by ID
     this.eventSub = this.api
-      .getEventById$(this.id)
+      .getEventById$(this._id)
       .subscribe(
         res => {
           this.event = res;
@@ -66,7 +66,7 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
     this.submitting = true;
 
     this.deleteSub = this.api
-      .deleteEvent$(this.id)
+      .deleteEvent$(this._id)
       .subscribe(
         res => {
           this.submitting = false;
