@@ -22,25 +22,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
   @Output() submitEvent = new EventEmitter();
   eventForm: FormGroup;
   formEvent: FormEventModel;
-  // Maxlengths
-  titleMax = 36;
-  locMax = 200;
-  descMax = 1000;
-  dateMax = 10;
-  timeMax = 8;
   // Form validation and disabled logic
-  formErrors = {
-    title: '',
-    location: '',
-    viewPublic: '',
-    description: '',
-    datesGroup: {
-      startDate: '',
-      startTime: '',
-      endDate: '',
-      endTime: '',
-    }
-  };
+  formErrors: any;
   submitDisabled = true;
   formChangeSub: Subscription;
   // Form submission
@@ -58,6 +41,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     private router: Router) { }
 
   ngOnInit() {
+    this.formErrors = this.ef.formErrors;
     this.isEdit = !!this.event;
     this.submitBtnText = this.isEdit ? 'Update Event' : 'Create Event';
     // Set up a local property to set initial form data
@@ -91,54 +75,53 @@ export class EventFormComponent implements OnInit, OnDestroy {
     this.eventForm = this.fb.group({
       title: [this.formEvent.title, [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(this.titleMax)
+        Validators.minLength(this.ef.textMin),
+        Validators.maxLength(this.ef.titleMax)
       ]],
       location: [this.formEvent.location, [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(this.locMax)
+        Validators.minLength(this.ef.textMin),
+        Validators.maxLength(this.ef.locMax)
       ]],
       viewPublic: [this.formEvent.viewPublic,
         Validators.required
       ],
       description: [this.formEvent.description,
-        Validators.maxLength(this.descMax)
+        Validators.maxLength(this.ef.descMax)
       ],
       datesGroup: this.fb.group({
         startDate: [this.formEvent.startDate, [
           Validators.required,
-          Validators.maxLength(this.dateMax),
+          Validators.maxLength(this.ef.dateMax),
           Validators.pattern(dateRegex),
           dateValidator()
         ]],
         startTime: [this.formEvent.startTime, [
           Validators.required,
-          Validators.maxLength(this.timeMax),
+          Validators.maxLength(this.ef.timeMax),
           Validators.pattern(timeRegex)
         ]],
         endDate: [this.formEvent.endDate, [
           Validators.required,
-          Validators.maxLength(this.dateMax),
+          Validators.maxLength(this.ef.dateMax),
           Validators.pattern(dateRegex),
           dateValidator()
         ]],
         endTime: [this.formEvent.endTime, [
           Validators.required,
-          Validators.maxLength(this.timeMax),
+          Validators.maxLength(this.ef.timeMax),
           Validators.pattern(timeRegex)
         ]]
       }, { validator: dateRangeValidator })
     });
 
     // Subscribe to form value changes
-    this.formChangeSub = this.eventForm
-      .valueChanges
+    this.formChangeSub = this.eventForm.valueChanges
       .subscribe(data => this._onValueChanged(data));
 
-    // Mark fields dirty to trigger immediate validation
-    // in case editing an event that is no longer valid
-    // (for example, an event in the past)
+    // If edit: mark fields dirty to trigger immediate
+    // validation in case editing an event that is no
+    // longer valid (for example, an event in the past)
     if (this.isEdit) {
       const datesGroup = this.eventForm.controls['datesGroup'];
 
@@ -251,7 +234,9 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.submitEventSub) { this.submitEventSub.unsubscribe(); }
+    if (this.submitEventSub) {
+      this.submitEventSub.unsubscribe();
+    }
     this.formChangeSub.unsubscribe();
   }
 
