@@ -214,7 +214,9 @@ module.exports = function(app, config) {
           });
         }
         event.remove(err => {
-          if (err) { res.status(500).send({message: err}); }
+          if (err) {
+            return res.status(500).send({message: err.message});
+          }
           res.status(200).send({message: 'Event and RSVPs successfully deleted.'});
         });
       });
