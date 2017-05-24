@@ -18,9 +18,9 @@ export class EventFormService {
   textMin = 3;
   titleMax = 36;
   locMax = 200;
-  descMax = 1000;
   dateMax = 10;
   timeMax = 8;
+  descMax = 2000;
 
   constructor() {
     this.validationMessages = {
