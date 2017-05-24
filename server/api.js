@@ -61,7 +61,7 @@ module.exports = function(app, config) {
           return res.status(500).send({message: err.message});
         }
         if (events) {
-          events.forEach((event) => {
+          events.forEach(event => {
             eventsArr.push(event);
           });
         }
@@ -78,7 +78,7 @@ module.exports = function(app, config) {
           return res.status(500).send({message: err.message});
         }
         if (events) {
-          events.forEach((event) => {
+          events.forEach(event => {
             eventsArr.push(event);
           });
         }
@@ -108,7 +108,7 @@ module.exports = function(app, config) {
         return res.status(500).send({message: err.message});
       }
       if (rsvps) {
-        rsvps.forEach((rsvp) => {
+        rsvps.forEach(rsvp => {
           rsvpsArr.push(rsvp);
         });
       }
@@ -209,7 +209,7 @@ module.exports = function(app, config) {
       }
       Rsvp.find({eventId: req.params.id}, (err, rsvps) => {
         if (rsvps) {
-          rsvps.forEach((rsvp) => {
+          rsvps.forEach(rsvp => {
             rsvp.remove();
           });
         }
