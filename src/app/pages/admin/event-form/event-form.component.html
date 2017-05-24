@@ -7,7 +7,7 @@
       type="text"
       class="form-control"
       formControlName="title"
-      maxlength="{{titleMax}}">
+      maxlength="{{ef.titleMax}}">
     <div
       *ngIf="formErrors.title"
       class="small text-danger formErrors"
@@ -23,7 +23,7 @@
       type="text"
       class="form-control"
       formControlName="location"
-      maxlength="{{locMax}}">
+      maxlength="{{ef.locMax}}">
     <div
       *ngIf="formErrors.location"
       class="small text-danger formErrors"
@@ -44,7 +44,7 @@
           class="form-control"
           formControlName="startDate"
           placeholder="M/D/YYYY"
-          maxlength="{{dateMax}}">
+          maxlength="{{ef.dateMax}}">
         <div
           *ngIf="formErrors.datesGroup.startDate"
           class="small text-danger formErrors"
@@ -61,7 +61,7 @@
           class="form-control"
           formControlName="startTime"
           placeholder="HH:MM AM/PM"
-          maxlength="{{timeMax}}">
+          maxlength="{{ef.timeMax}}">
         <div
           *ngIf="formErrors.datesGroup.startTime"
           class="small text-danger formErrors"
@@ -80,7 +80,7 @@
           class="form-control"
           formControlName="endDate"
           placeholder="M/D/YYYY"
-          maxlength="{{dateMax}}">
+          maxlength="{{ef.dateMax}}">
         <div
           *ngIf="formErrors.datesGroup.endDate"
           class="small text-danger formErrors"
@@ -97,7 +97,7 @@
           class="form-control"
           formControlName="endTime"
           placeholder="HH:MM AM/PM"
-          maxlength="{{timeMax}}">
+          maxlength="{{ef.timeMax}}">
         <div
           *ngIf="formErrors.datesGroup.endTime"
           class="small text-danger formErrors"
@@ -133,11 +133,6 @@
           [value]="false"
           formControlName="viewPublic"> No
       </label>
-      <div
-        *ngIf="formErrors.viewPublic"
-        class="small text-danger formErrors"
-        [innerHTML]="formErrors.viewPublic">
-      </div>
     </div>
     <div
       *ngIf="formErrors.viewPublic"
@@ -154,7 +149,7 @@
       class="form-control"
       rows="3"
       formControlName="description"
-      maxlength="{{descMax}}"></textarea>
+      maxlength="{{ef.descMax}}"></textarea>
     <div
       *ngIf="formErrors.description"
       class="small text-danger formErrors"
@@ -169,7 +164,7 @@
       class="btn btn-primary"
       [attr.disabled]="submitDisabled || submitting ? '' : null">{{submitBtnText}}</button>
     <app-submitting *ngIf="submitting"></app-submitting>
-    
+
     <!-- API submission error -->
     <p *ngIf="error" class="mt-3 alert alert-danger">
       <strong>Error:</strong> There was a problem submitting the event. Please try again.

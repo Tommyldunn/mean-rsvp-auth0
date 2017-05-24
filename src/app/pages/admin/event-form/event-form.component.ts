@@ -37,7 +37,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private api: ApiService,
     private datePipe: DatePipe,
-    private ef: EventFormService,
+    public ef: EventFormService,
     private router: Router) { }
 
   ngOnInit() {
