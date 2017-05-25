@@ -14,10 +14,10 @@ export function dateValidator(): ValidatorFn {
     // Object to return if date is invalid
     const invalidObj = { 'date': true };
     // Parse the date input to integers
-    const parts = dateStr.split('/');
-    const month = parseInt(parts[0], 10);
-    const day = parseInt(parts[1], 10);
-    const year = parseInt(parts[2], 10);
+    const dateArr = dateStr.split('/');
+    const month = parseInt(dateArr[0], 10);
+    const day = parseInt(dateArr[1], 10);
+    const year = parseInt(dateArr[2], 10);
 
     // Make sure date is in range
     if (year < 2000 || year > 3000 || month === 0 || month > 12) {
@@ -34,7 +34,7 @@ export function dateValidator(): ValidatorFn {
     // If date is properly formatted, check the date vs today to ensure future
     // This is done this way to account for new Date() shifting invalid
     // date strings. This way we know the string is a correct date first.
-    const date = new Date(control.value);
+    const date = new Date(dateStr);
     const now = new Date();
     if (date <= now) {
       return invalidObj;
