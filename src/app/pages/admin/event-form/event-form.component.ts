@@ -5,8 +5,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../core/api.service';
 import { EventModel, FormEventModel } from './../../../core/models/event.model';
 import { DatePipe } from '@angular/common';
-import { dateValidator } from './../../../core/forms/validateDate.factory';
-import { dateRangeValidator } from './../../../core/forms/validateDateRange.factory';
+import { dateValidator } from './../../../core/forms/date.validator';
+import { dateRangeValidator } from './../../../core/forms/date-range.validator';
 import { dateRegex, timeRegex, stringsToDate } from './../../../core/forms/formUtils.factory';
 import { EventFormService } from './event-form.service';
 

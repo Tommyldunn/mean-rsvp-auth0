@@ -4,17 +4,15 @@ import { dateRegex } from './formUtils.factory';
 export function dateValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
     const dateStr = control.value;
+    // First check for m/d/yyyy format
+    // If pattern is wrong, don't validate yet
+    if (!dateRegex.test(dateStr)) {
+      return null;
+    }
     // Length of months (will update for leap years)
     const monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
     // Object to return if date is invalid
     const invalidObj = { 'date': true };
-
-    // First check for m/d/yyyy or mm/dd/yyyy format
-    // If the pattern is wrong, don't validate dates yet
-    if (!dateRegex.test(dateStr)) {
-      return null;
-    }
-
     // Parse the date input to integers
     const parts = dateStr.split('/');
     const month = parseInt(parts[0], 10);
@@ -33,7 +31,6 @@ export function dateValidator(): ValidatorFn {
     if (!(day > 0 && day <= monthLength[month - 1])) {
       return invalidObj;
     };
-
     // If date is properly formatted, check the date vs today to ensure future
     // This is done this way to account for new Date() shifting invalid
     // date strings. This way we know the string is a correct date first.
