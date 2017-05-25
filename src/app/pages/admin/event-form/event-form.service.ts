@@ -24,8 +24,8 @@ export class EventFormService {
   timeMax = 8;
   descMax = 2000;
   // Formats
-  dateFormatShort = 'M/D/YYYY';
-  timeFormat = 'HH:MM AM/PM';
+  dateFormatShort = 'm/d/yyyy';
+  timeFormat = 'h:mm AM/PM';
 
   constructor() {
     this.validationMessages = {
@@ -42,7 +42,7 @@ export class EventFormService {
       startDate: {
         required: `Start date is <strong>required</strong>.`,
         maxlength: `Start date cannot be longer than ${this.dateMax} characters.`,
-        pattern: `Start date must be in the format <strong>${this.dateFormatShort}</strong> or <strong>MM/DD/YYYY</strong>.`,
+        pattern: `Start date must be in the format <strong>${this.dateFormatShort}</strong>.`,
         date: `Start date must be a <strong>valid date</strong> at least one day <strong>in the future</strong>.`
       },
       startTime: {
@@ -53,7 +53,7 @@ export class EventFormService {
       endDate: {
         required: `End date is <strong>required</strong>.`,
         maxlength: `End date cannot be longer than ${this.dateMax} characters.`,
-        pattern: `End date must be in the format <strong>${this.dateFormatShort}</strong> or <strong>MM/DD/YYYY</strong>.`,
+        pattern: `End date must be in the format <strong>${this.dateFormatShort}</strong>.`,
         date: `End date must be a <strong>valid date</strong> at least one day <strong>in the future</strong>.`
       },
       endTime: {
