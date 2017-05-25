@@ -16,8 +16,8 @@ function stringsToDate(dateStr: string, timeStr: string) {
     console.error('Cannot convert date/time to Date object.');
     return;
   }
-  const timeArr = timeStr.split(/[\s:]+/); // https://regex101.com/r/H4dMvA/1
   const date = new Date(dateStr);
+  const timeArr = timeStr.split(/[\s:]+/); // https://regex101.com/r/H4dMvA/1
   let hour = parseInt(timeArr[0], 10);
   const min = parseInt(timeArr[1], 10);
   const pm = timeArr[2].toLowerCase() === 'pm';
