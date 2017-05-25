@@ -43,7 +43,7 @@
           type="text"
           class="form-control"
           formControlName="startDate"
-          [placeholder]="ef.dateFormatShort"
+          [placeholder]="ef.dateFormat"
           [maxlength]="ef.dateMax">
         <div
           *ngIf="formErrors.datesGroup.startDate"
@@ -79,7 +79,7 @@
           type="text"
           class="form-control"
           formControlName="endDate"
-          [placeholder]="ef.dateFormatShort"
+          [placeholder]="ef.dateFormat"
           [maxlength]="ef.dateMax">
         <div
           *ngIf="formErrors.datesGroup.endDate"
