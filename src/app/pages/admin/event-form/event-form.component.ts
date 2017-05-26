@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -18,8 +18,7 @@ import { EventFormService } from './event-form.service';
 })
 export class EventFormComponent implements OnInit, OnDestroy {
   @Input() event: EventModel;
-  @Input() isEdit: boolean;
-  @Output() submitEvent = new EventEmitter();
+  isEdit: boolean;
   eventForm: FormGroup;
   formEvent: FormEventModel;
   // Form validation and disabled logic
@@ -116,7 +115,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
     });
 
     // Subscribe to form value changes
-    this.formChangeSub = this.eventForm.valueChanges
+    this.formChangeSub = this.eventForm
+      .valueChanges
       .subscribe(data => this._onValueChanged(data));
 
     // If edit: mark fields dirty to trigger immediate
@@ -231,6 +231,10 @@ export class EventFormComponent implements OnInit, OnDestroy {
     console.error(err);
     this.submitting = false;
     this.error = true;
+  }
+
+  resetForm() {
+    this.eventForm.reset();
   }
 
   ngOnDestroy() {

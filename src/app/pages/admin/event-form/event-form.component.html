@@ -165,6 +165,11 @@
       [attr.disabled]="submitDisabled || submitting ? '' : null"
       [innerText]="submitBtnText"></button>
     <app-submitting *ngIf="submitting"></app-submitting>
+    <a
+      *ngIf="!submitting"
+      class="btn btn-link"
+      (click)="resetForm()"
+      tabindex="0">Reset Form</a>
 
     <!-- API submission error -->
     <p *ngIf="error" class="mt-3 alert alert-danger">

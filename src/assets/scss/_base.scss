@@ -8,17 +8,26 @@ body {
 
 /*-- Cursor --*/
 
-a, 
-input[type=button], 
-input[type=submit], 
-button { 
-  cursor: pointer; 
+a,
+input[type=button],
+input[type=submit],
+button {
+  cursor: pointer;
 }
 
 /*-- Link Buttons --*/
 
-.btn-link:focus {
-  box-shadow: none !important;
+.btn-link {
+  color: #0275d8;
+
+  &:hover {
+    text-decoration: underline !important;
+  }
+  &:focus {
+    box-shadow: none !important;
+    color: #0275d8;
+    text-decoration: none;
+  }
 }
 
 /*-- Forms --*/
