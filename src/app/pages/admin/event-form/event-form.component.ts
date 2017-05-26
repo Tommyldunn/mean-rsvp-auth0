@@ -124,7 +124,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
     // longer valid (for example, an event in the past)
     if (this.isEdit) {
       const datesGroup = this.eventForm.controls['datesGroup'];
-
       for (const i in this.eventForm.controls) {
         if (this.eventForm.controls.hasOwnProperty(i)) {
           this.eventForm.controls[i].markAsDirty();
@@ -143,8 +142,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
     if (!this.eventForm) { return; }
     const form = this.eventForm;
     const datesGroup = form.controls['datesGroup'];
-
-    // Manage submit button disabled state
+    // Manage submit button disabled state [attr.disabled]
+    // See https://github.com/angular/angular/issues/11271#issuecomment-289806196
     this.submitDisabled = form.invalid;
 
     // Check validation and set errors
@@ -158,7 +157,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
         } else {
           // Set errors for fields inside datesGroup
           const datesGroupErrors = this.formErrors['datesGroup'];
-
           for (const dateField in datesGroupErrors) {
             if (datesGroupErrors.hasOwnProperty(dateField)) {
               // Clear previous error message (if any)
@@ -174,7 +172,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
   private _setErrMsgs(control: AbstractControl, errorsObj: any, field: string) {
     if (control && control.dirty && control.invalid) {
       const messages = this.ef.validationMessages[field];
-
       for (const key in control.errors) {
         if (control.errors.hasOwnProperty(key)) {
           errorsObj[field] += messages[key] + '<br>';

@@ -164,6 +164,7 @@
       class="btn btn-primary"
       [attr.disabled]="submitDisabled || submitting ? '' : null"
       [innerText]="submitBtnText"></button>
+      <!-- https://github.com/angular/angular/issues/11271#issuecomment-289806196 -->
     <app-submitting *ngIf="submitting"></app-submitting>
     <a
       *ngIf="!submitting"
