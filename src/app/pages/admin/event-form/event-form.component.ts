@@ -186,7 +186,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
     const startTime = this.datesGroup.get('startTime').value;
     const endDate = this.datesGroup.get('endDate').value;
     const endTime = this.datesGroup.get('endTime').value;
-    const id = this.event ? this.event._id : '';
     // Convert form startDate/startTime and endDate/endTime
     // to JS dates and populate a new EventModel for submission
     return new EventModel(
@@ -195,8 +194,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
       stringsToDate(startDate, startTime),
       stringsToDate(endDate, endTime),
       this.eventForm.get('viewPublic').value,
-      this.eventForm.get('description').value || '',
-      id
+      this.eventForm.get('description').value,
+      this.event ? this.event._id : null
     );
   }
 
