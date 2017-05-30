@@ -26,7 +26,6 @@ export class EventFormComponent implements OnInit, OnDestroy {
   formEvent: FormEventModel;
   // Form validation and disabled logic
   formErrors: any;
-  submitDisabled = true;
   formChangeSub: Subscription;
   // Form submission
   submitEventObj: EventModel;
@@ -148,9 +147,16 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   private _onValueChanged(data?: any) {
     if (!this.eventForm) { return; }
-    // Manage submit button disabled state [attr.disabled]
-    // See https://github.com/angular/angular/issues/11271#issuecomment-289806196
-    this.submitDisabled = this.eventForm.invalid;
+    const _setErrMsgs = (control: AbstractControl, errorsObj: any, field: string) => {
+      if (control && control.dirty && control.invalid) {
+        const messages = this.ef.validationMessages[field];
+        for (const key in control.errors) {
+          if (control.errors.hasOwnProperty(key)) {
+            errorsObj[field] += messages[key] + '<br>';
+          }
+        }
+      }
+    };
 
     // Check validation and set errors
     for (const field in this.formErrors) {
@@ -159,7 +165,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
           // Set errors for fields not inside datesGroup
           // Clear previous error message (if any)
           this.formErrors[field] = '';
-          this._setErrMsgs(this.eventForm.get(field), this.formErrors, field);
+          _setErrMsgs(this.eventForm.get(field), this.formErrors, field);
         } else {
           // Set errors for fields inside datesGroup
           const datesGroupErrors = this.formErrors['datesGroup'];
@@ -167,20 +173,9 @@ export class EventFormComponent implements OnInit, OnDestroy {
             if (datesGroupErrors.hasOwnProperty(dateField)) {
               // Clear previous error message (if any)
               datesGroupErrors[dateField] = '';
-              this._setErrMsgs(this.datesGroup.get(dateField), datesGroupErrors, dateField);
+              _setErrMsgs(this.datesGroup.get(dateField), datesGroupErrors, dateField);
             }
           }
-        }
-      }
-    }
-  }
-
-  private _setErrMsgs(control: AbstractControl, errorsObj: any, field: string) {
-    if (control && control.dirty && control.invalid) {
-      const messages = this.ef.validationMessages[field];
-      for (const key in control.errors) {
-        if (control.errors.hasOwnProperty(key)) {
-          errorsObj[field] += messages[key] + '<br>';
         }
       }
     }

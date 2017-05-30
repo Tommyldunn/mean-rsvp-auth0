@@ -162,7 +162,7 @@
     <button
       type="submit"
       class="btn btn-primary"
-      [attr.disabled]="submitDisabled || submitting ? '' : null"
+      [attr.disabled]="eventForm.invalid || submitting ? true : null"
       [innerText]="submitBtnText"></button>
       <!-- https://github.com/angular/angular/issues/11271#issuecomment-289806196 -->
     <app-submitting *ngIf="submitting"></app-submitting>
