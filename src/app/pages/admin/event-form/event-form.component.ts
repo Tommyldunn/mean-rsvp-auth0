@@ -21,7 +21,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
   isEdit: boolean;
   // FormBuilder form
   eventForm: FormGroup;
-  // Property storing form inputs
+  datesGroup: AbstractControl;
+  // Model storing initial form values
   formEvent: FormEventModel;
   // Form validation and disabled logic
   formErrors: any;
@@ -45,7 +46,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     this.formErrors = this.ef.formErrors;
     this.isEdit = !!this.event;
     this.submitBtnText = this.isEdit ? 'Update Event' : 'Create Event';
-    // Set up a local property to set initial form data
+    // Set initial form data
     this.formEvent = this._setFormEvent();
     // Use FormBuilder to construct the form
     this._buildForm();
@@ -119,6 +120,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
         ]]
       }, { validator: dateRangeValidator })
     });
+    // Set local property to eventForm datesGroup control
+    this.datesGroup = this.eventForm.get('datesGroup');
 
     // Subscribe to form value changes
     this.formChangeSub = this.eventForm
@@ -129,16 +132,15 @@ export class EventFormComponent implements OnInit, OnDestroy {
     // validation in case editing an event that is no
     // longer valid (for example, an event in the past)
     if (this.isEdit) {
-      const datesGroup = this.eventForm.controls['datesGroup'];
       for (const i in this.eventForm.controls) {
         if (this.eventForm.controls.hasOwnProperty(i)) {
           this.eventForm.controls[i].markAsDirty();
         }
       }
-      datesGroup.get('startDate').markAsDirty();
-      datesGroup.get('startTime').markAsDirty();
-      datesGroup.get('endDate').markAsDirty();
-      datesGroup.get('endTime').markAsDirty();
+      this.datesGroup.get('startDate').markAsDirty();
+      this.datesGroup.get('startTime').markAsDirty();
+      this.datesGroup.get('endDate').markAsDirty();
+      this.datesGroup.get('endTime').markAsDirty();
     }
 
     this._onValueChanged();
@@ -146,11 +148,9 @@ export class EventFormComponent implements OnInit, OnDestroy {
 
   private _onValueChanged(data?: any) {
     if (!this.eventForm) { return; }
-    const form = this.eventForm;
-    const datesGroup = form.controls['datesGroup'];
     // Manage submit button disabled state [attr.disabled]
     // See https://github.com/angular/angular/issues/11271#issuecomment-289806196
-    this.submitDisabled = form.invalid;
+    this.submitDisabled = this.eventForm.invalid;
 
     // Check validation and set errors
     for (const field in this.formErrors) {
@@ -159,7 +159,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
           // Set errors for fields not inside datesGroup
           // Clear previous error message (if any)
           this.formErrors[field] = '';
-          this._setErrMsgs(form.get(field), this.formErrors, field);
+          this._setErrMsgs(this.eventForm.get(field), this.formErrors, field);
         } else {
           // Set errors for fields inside datesGroup
           const datesGroupErrors = this.formErrors['datesGroup'];
@@ -167,7 +167,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
             if (datesGroupErrors.hasOwnProperty(dateField)) {
               // Clear previous error message (if any)
               datesGroupErrors[dateField] = '';
-              this._setErrMsgs(datesGroup.get(dateField), datesGroupErrors, dateField);
+              this._setErrMsgs(this.datesGroup.get(dateField), datesGroupErrors, dateField);
             }
           }
         }
@@ -187,22 +187,20 @@ export class EventFormComponent implements OnInit, OnDestroy {
   }
 
   private _getSubmitObj() {
-    const form = this.eventForm;
-    const datesGroup = form.controls['datesGroup'];
-    const startDate = datesGroup.get('startDate').value;
-    const startTime = datesGroup.get('startTime').value;
-    const endDate = datesGroup.get('endDate').value;
-    const endTime = datesGroup.get('endTime').value;
+    const startDate = this.datesGroup.get('startDate').value;
+    const startTime = this.datesGroup.get('startTime').value;
+    const endDate = this.datesGroup.get('endDate').value;
+    const endTime = this.datesGroup.get('endTime').value;
     const id = this.event ? this.event._id : '';
     // Convert form startDate/startTime and endDate/endTime
     // to JS dates and populate a new EventModel for submission
     return new EventModel(
-      form.get('title').value,
-      form.get('location').value,
+      this.eventForm.get('title').value,
+      this.eventForm.get('location').value,
       stringsToDate(startDate, startTime),
       stringsToDate(endDate, endTime),
-      form.get('viewPublic').value,
-      form.get('description').value || '',
+      this.eventForm.get('viewPublic').value,
+      this.eventForm.get('description').value || '',
       id
     );
   }
