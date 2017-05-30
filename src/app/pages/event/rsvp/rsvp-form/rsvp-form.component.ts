@@ -3,7 +3,7 @@ import { AuthService } from './../../../../auth/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../../core/api.service';
 import { RsvpModel } from './../../../../core/models/rsvp.model';
-import { guestsRegex } from './../../../../core/forms/formUtils.factory';
+import { GUESTS_REGEX } from './../../../../core/forms/formUtils.factory';
 
 @Component({
   selector: 'app-rsvp-form',
@@ -14,7 +14,7 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
   @Input() eventId: string;
   @Input() rsvp: RsvpModel;
   @Output() submitRsvp = new EventEmitter();
-  guestsRegex = guestsRegex;
+  GUESTS_REGEX = GUESTS_REGEX;
   isEdit: boolean;
   formRsvp: RsvpModel;
   submitRsvpSub: Subscription;

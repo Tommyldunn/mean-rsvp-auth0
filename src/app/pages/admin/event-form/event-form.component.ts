@@ -7,7 +7,7 @@ import { EventModel, FormEventModel } from './../../../core/models/event.model';
 import { DatePipe } from '@angular/common';
 import { dateValidator } from './../../../core/forms/date.validator';
 import { dateRangeValidator } from './../../../core/forms/date-range.validator';
-import { dateRegex, timeRegex, stringsToDate } from './../../../core/forms/formUtils.factory';
+import { DATE_REGEX, TIME_REGEX, stringsToDate } from './../../../core/forms/formUtils.factory';
 import { EventFormService } from './event-form.service';
 
 @Component({
@@ -99,24 +99,24 @@ export class EventFormComponent implements OnInit, OnDestroy {
         startDate: [this.formEvent.startDate, [
           Validators.required,
           Validators.maxLength(this.ef.dateMax),
-          Validators.pattern(dateRegex),
+          Validators.pattern(DATE_REGEX),
           dateValidator()
         ]],
         startTime: [this.formEvent.startTime, [
           Validators.required,
           Validators.maxLength(this.ef.timeMax),
-          Validators.pattern(timeRegex)
+          Validators.pattern(TIME_REGEX)
         ]],
         endDate: [this.formEvent.endDate, [
           Validators.required,
           Validators.maxLength(this.ef.dateMax),
-          Validators.pattern(dateRegex),
+          Validators.pattern(DATE_REGEX),
           dateValidator()
         ]],
         endTime: [this.formEvent.endTime, [
           Validators.required,
           Validators.maxLength(this.ef.timeMax),
-          Validators.pattern(timeRegex)
+          Validators.pattern(TIME_REGEX)
         ]]
       }, { validator: dateRangeValidator })
     });
