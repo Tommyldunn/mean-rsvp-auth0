@@ -19,7 +19,9 @@ import { EventFormService } from './event-form.service';
 export class EventFormComponent implements OnInit, OnDestroy {
   @Input() event: EventModel;
   isEdit: boolean;
+  // FormBuilder form
   eventForm: FormGroup;
+  // Property storing form inputs
   formEvent: FormEventModel;
   // Form validation and disabled logic
   formErrors: any;
@@ -44,7 +46,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     this.isEdit = !!this.event;
     this.submitBtnText = this.isEdit ? 'Update Event' : 'Create Event';
     // Set up a local property to set initial form data
-    this._setFormEvent();
+    this.formEvent = this._setFormEvent();
     // Use FormBuilder to construct the form
     this._buildForm();
   }
@@ -53,11 +55,15 @@ export class EventFormComponent implements OnInit, OnDestroy {
     if (!this.isEdit) {
       // If creating a new event, create new
       // FormEventModel with default null data
-      this.formEvent = new FormEventModel(null, null, null, null, null, null, null);
+      return new FormEventModel(null, null, null, null, null, null, null);
     } else {
-      // If editing an existing event,
-      // create new EventModel from existing data
-      this.formEvent = new FormEventModel(
+      // If editing existing event, create new
+      // FormEventModel from existing data
+      // Transform datetimes:
+      // https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html
+      // 'shortDate': 9/3/2010
+      // 'shortTime': 12:05 PM
+      return new FormEventModel(
         this.event.title,
         this.event.location,
         this.datePipe.transform(this.event.startDatetime, 'shortDate'),
@@ -183,14 +189,18 @@ export class EventFormComponent implements OnInit, OnDestroy {
   private _getSubmitObj() {
     const form = this.eventForm;
     const datesGroup = form.controls['datesGroup'];
+    const startDate = datesGroup.get('startDate').value;
+    const startTime = datesGroup.get('startTime').value;
+    const endDate = datesGroup.get('endDate').value;
+    const endTime = datesGroup.get('endTime').value;
     const id = this.event ? this.event._id : '';
     // Convert form startDate/startTime and endDate/endTime
     // to JS dates and populate a new EventModel for submission
     return new EventModel(
       form.get('title').value,
       form.get('location').value,
-      stringsToDate(datesGroup.get('startDate').value, datesGroup.get('startTime').value),
-      stringsToDate(datesGroup.get('endDate').value, datesGroup.get('endTime').value),
+      stringsToDate(startDate, startTime),
+      stringsToDate(endDate, endTime),
       form.get('viewPublic').value,
       form.get('description').value || '',
       id
@@ -221,6 +231,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
   private _handleSubmitSuccess(res) {
     this.error = false;
     this.submitting = false;
+    // Redirect to event detail
     this.router.navigate(['/event', res._id]);
   }
 
