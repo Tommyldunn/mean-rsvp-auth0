@@ -213,15 +213,15 @@ export class EventFormComponent implements OnInit, OnDestroy {
       this.submitEventSub = this.api
         .postEvent$(this.submitEventObj)
         .subscribe(
-          this._handleSubmitSuccess.bind(this),
-          this._handleSubmitError.bind(this)
+          data => this._handleSubmitSuccess(data),
+          err => this._handleSubmitError(err)
         );
     } else {
       this.submitEventSub = this.api
         .editEvent$(this.event._id, this.submitEventObj)
         .subscribe(
-          this._handleSubmitSuccess.bind(this),
-          this._handleSubmitError.bind(this)
+          data => this._handleSubmitSuccess(data),
+          err => this._handleSubmitError(err)
         );
     }
   }
