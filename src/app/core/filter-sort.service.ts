@@ -15,7 +15,7 @@ export class FilterSortService {
     const item0 = array[0];
     const check = !!(array.length && item0 !== null && Object.prototype.toString.call(item0) === '[object Object]');
     if (!check) {
-      console.log(`Array [${array}] does not contain objects.`);
+      console.warn(`Array [${array}] does not contain objects.`);
     }
     return check;
   }
