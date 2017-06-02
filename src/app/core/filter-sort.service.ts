@@ -75,49 +75,6 @@ export class FilterSortService {
     return filteredArray;
   }
 
-  orderBy(array: any[], prop: string, reverse?: boolean) {
-    // Order an array of objects by a property
-    // Supports string, number, and boolean values
-    if (!prop || !this._objArrayCheck(array)) {
-      return array;
-    }
-    const propType = typeof array[0][prop];
-    let sortedArray;
-    if (propType === 'string') {
-      // Default: ascending (A->Z)
-      sortedArray = array.sort((a, b) => {
-        const itemA = a[prop].toLowerCase();
-        const itemB = b[prop].toLowerCase();
-        if (!reverse) {
-          if (itemA < itemB) { return -1; }
-          if (itemA > itemB) { return 1; }
-          return 0;
-        } else {
-          if (itemA > itemB) { return -1; }
-          if (itemA < itemB) { return 1; }
-          return 0;
-        }
-      });
-    } else if (propType === 'number') {
-      // Default: ascending (0->9)
-      sortedArray = array.sort((a, b) => {
-        const itemA = a[prop];
-        const itemB = b[prop];
-        return !reverse ? itemA - itemB : itemB - itemA;
-      });
-    } else if (propType === 'boolean') {
-      // Default: descending (true->false)
-      sortedArray = array.sort((a, b) => {
-        const itemA = a[prop];
-        const itemB = b[prop];
-        return !reverse ? itemB - itemA : itemA - itemB;
-      });
-    } else {
-      sortedArray = array;
-    }
-    return sortedArray;
-  }
-
   orderByDate(array: any[], prop: string, reverse?: boolean) {
     // Order an array of objects by a date property
     // Default: ascending (1992->2017 | Jan->Dec)
