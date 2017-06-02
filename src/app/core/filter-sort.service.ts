@@ -6,9 +6,23 @@ export class FilterSortService {
 
   constructor(private datePipe: DatePipe) { }
 
+  private _objArrayCheck(array: any[]): boolean {
+    // Checks if the first item in the array is an object
+    // (assumes same-shape for all array items)
+    // Necessary because some arrays passed in may have
+    // models that don't match {[key: string]: any}[]
+    // This check prevents uncaught reference errors
+    const item0 = array[0];
+    const check = !!(array.length && item0 !== null && Object.prototype.toString.call(item0) === '[object Object]');
+    if (!check) {
+      console.log(`Array [${array}] does not contain objects.`);
+    }
+    return check;
+  }
+
   filter(array: any[], property: string, value: any) {
-    // return values with specific key/value pair
-    if (!property || value === undefined) {
+    // Return only items with specific key/value pair
+    if (!property || value === undefined || !this._objArrayCheck(array)) {
       return array;
     }
     const filteredArray = array.filter(item => {
@@ -23,11 +37,11 @@ export class FilterSortService {
     return filteredArray;
   }
 
-  search(array: any[], query: string, excludeProps?: string|Array<string>, dateFormat?: string) {
-    // match query to strings and Date objects / ISO UTC strings
-    // optionally exclude properties from being searched
-    // if matching dates, can optionally pass in date format string
-    if (!query) {
+  search(array: any[], query: string, excludeProps?: string|string[], dateFormat?: string) {
+    // Match query to strings and Date objects / ISO UTC strings
+    // Optionally exclude properties from being searched
+    // If matching dates, can optionally pass in date format string
+    if (!query || !this._objArrayCheck(array)) {
       return array;
     }
     const lQuery = query.toLowerCase();
@@ -39,17 +53,17 @@ export class FilterSortService {
           if (!excludeProps || excludeProps.indexOf(key) === -1) {
             const thisVal = item[key];
             if (
-              // value is a string and NOT a UTC date
+              // Value is a string and NOT a UTC date
               typeof thisVal === 'string' &&
               !thisVal.match(isoDateRegex) &&
               thisVal.toLowerCase().indexOf(lQuery) !== -1
             ) {
               return true;
             } else if (
-              // value is a Date object or UTC string
+              // Value is a Date object or UTC string
               (thisVal instanceof Date || thisVal.toString().match(isoDateRegex)) &&
               // https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html
-              // matching date format string passed in as param (or default to 'medium')
+              // Matching date format string passed in as param (or default to 'medium')
               this.datePipe.transform(thisVal, dateF).toLowerCase().indexOf(lQuery) !== -1
             ) {
               return true;
@@ -64,7 +78,7 @@ export class FilterSortService {
   orderBy(array: any[], prop: string, reverse?: boolean) {
     // Order an array of objects by a property
     // Supports string, number, and boolean values
-    if (!prop) {
+    if (!prop || !this._objArrayCheck(array)) {
       return array;
     }
     const propType = typeof array[0][prop];
@@ -106,8 +120,8 @@ export class FilterSortService {
 
   orderByDate(array: any[], prop: string, reverse?: boolean) {
     // Order an array of objects by a date property
-    // Default: ascending
-    if (!prop) {
+    // Default: ascending (1992->2017 | Jan->Dec)
+    if (!prop || !this._objArrayCheck(array)) {
       return array;
     }
     const sortedArray = array.sort((a, b) => {
