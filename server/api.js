@@ -26,7 +26,7 @@ module.exports = function(app, config) {
     }),
     aud: config.AUTH0_API_AUDIENCE,
     issuer: `https://${config.AUTH0_DOMAIN}/`,
-    algorithms: ['RS256']
+    algorithm: 'RS256'
   });
 
   // Check for an authenticated admin user
