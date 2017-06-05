@@ -33,6 +33,7 @@ export class DeleteEventComponent implements OnInit, OnDestroy {
           this.submitting = false;
           this.error = false;
           console.log(res.message);
+          // If successfully deleted event, redirect to Admin
           this.router.navigate(['/admin']);
         },
         err => {
