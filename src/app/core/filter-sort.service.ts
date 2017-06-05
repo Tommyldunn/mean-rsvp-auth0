@@ -14,9 +14,6 @@ export class FilterSortService {
     // This check prevents uncaught reference errors
     const item0 = array[0];
     const check = !!(array.length && item0 !== null && Object.prototype.toString.call(item0) === '[object Object]');
-    if (!check) {
-      console.warn(`Array [${array}] does not contain objects.`);
-    }
     return check;
   }
 
