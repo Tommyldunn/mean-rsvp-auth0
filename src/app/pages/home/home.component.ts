@@ -63,8 +63,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.filteredEvents = this.eventList;
   }
 
-  get noSearchResults() {
-    return !this.filteredEvents.length && this.query;
+  get noSearchResults(): boolean {
+    return !!(!this.filteredEvents.length && this.query);
   }
 
   ngOnDestroy() {
