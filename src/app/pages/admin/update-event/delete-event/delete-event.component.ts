@@ -25,7 +25,7 @@ export class DeleteEventComponent implements OnInit, OnDestroy {
 
   removeEvent() {
     this.submitting = true;
-
+    // DELETE event by ID
     this.deleteSub = this.api
       .deleteEvent$(this.event._id)
       .subscribe(

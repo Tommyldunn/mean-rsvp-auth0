@@ -122,7 +122,7 @@ export class RsvpComponent implements OnInit, OnDestroy {
     this.totalAttending = guests;
   }
 
-  get isLoaded() {
+  get isLoaded(): boolean {
     return this.loading === false;
   }
 

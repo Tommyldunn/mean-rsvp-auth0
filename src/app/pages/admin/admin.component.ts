@@ -52,7 +52,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       );
   }
 
-  get isLoaded() {
+  get isLoaded(): boolean {
     return this.loading === false;
   }
 

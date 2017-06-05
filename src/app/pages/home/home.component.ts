@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       );
   }
 
-  get isLoaded() {
+  get isLoaded(): boolean {
     return this.loading === false;
   }
 

@@ -72,11 +72,11 @@ export class EventComponent implements OnInit, OnDestroy {
     this.title.setTitle(title);
   }
 
-  get isLoaded() {
+  get isLoaded(): boolean {
     return this.loading === false;
   }
 
-  tabIs(tabName: string) {
+  tabIs(tabName: string): boolean {
     return this.tab === tabName;
   }
 

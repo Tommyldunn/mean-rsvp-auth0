@@ -51,7 +51,7 @@ export class MyRsvpsComponent implements OnInit, OnDestroy {
       );
   }
 
-  private get _getIdp() {
+  private get _getIdp(): string {
     const sub = this.auth.userProfile.sub.split('|')[0];
     let idp = sub;
 
@@ -65,7 +65,7 @@ export class MyRsvpsComponent implements OnInit, OnDestroy {
     return idp;
   }
 
-  get isLoaded() {
+  get isLoaded(): boolean {
     return this.loading === false;
   }
 
