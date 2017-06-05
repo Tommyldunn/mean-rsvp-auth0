@@ -29,6 +29,7 @@ import { CreateEventComponent } from './pages/admin/create-event/create-event.co
 import { UpdateEventComponent } from './pages/admin/update-event/update-event.component';
 import { EventFormComponent } from './pages/admin/event-form/event-form.component';
 import { SubmittingComponent } from './core/forms/submitting.component';
+import { DeleteEventComponent } from './pages/admin/update-event/delete-event/delete-event.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { SubmittingComponent } from './core/forms/submitting.component';
     CreateEventComponent,
     UpdateEventComponent,
     EventFormComponent,
-    SubmittingComponent
+    SubmittingComponent,
+    DeleteEventComponent
   ],
   imports: [
     BrowserModule,

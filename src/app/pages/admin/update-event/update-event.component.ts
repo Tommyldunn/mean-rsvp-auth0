@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { AuthService } from './../../../auth/auth.service';
 import { ApiService } from './../../../core/api.service';
 import { UtilsService } from './../../../core/utils.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { EventModel } from './../../../core/models/event.model';
 
@@ -16,17 +16,15 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
   pageTitle = 'Update Event';
   routeSub: Subscription;
   eventSub: Subscription;
-  confirmDelete: string;
-  deleteSub: Subscription;
   event: EventModel;
   loading: boolean;
   submitting: boolean;
   error: boolean;
-  deleteErr: boolean;
+  tabSub: Subscription;
+  tab: string;
   private _id: string;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     public auth: AuthService,
     private api: ApiService,
@@ -41,6 +39,12 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         this._id = params['id'];
         this._getEvent();
+      });
+
+    // Subscribe to query params to watch for tab changes
+    this.tabSub = this.route.queryParams
+      .subscribe(queryParams => {
+        this.tab = queryParams['tab'] || 'edit';
       });
   }
 
@@ -62,24 +66,8 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
       );
   }
 
-  removeEvent() {
-    this.submitting = true;
-
-    this.deleteSub = this.api
-      .deleteEvent$(this._id)
-      .subscribe(
-        res => {
-          this.submitting = false;
-          this.deleteErr = false;
-          console.log(res.message);
-          this.router.navigate(['/admin']);
-        },
-        err => {
-          console.error(err);
-          this.submitting = false;
-          this.deleteErr = true;
-        }
-      );
+  tabIs(tabName: string) {
+    return this.tab === tabName;
   }
 
   get isLoaded() {
@@ -89,9 +77,6 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.routeSub.unsubscribe();
     this.eventSub.unsubscribe();
-    if (this.deleteSub) {
-      this.deleteSub.unsubscribe();
-    }
   }
 
 }

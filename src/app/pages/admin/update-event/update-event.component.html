@@ -3,43 +3,39 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <ng-template [ngIf]="isLoaded">
-  <ng-template [ngIf]="event">
-    <!-- Event form -->
-    <app-event-form [event]="event"></app-event-form>
-
-    <!-- Delete event -->
-    <div class="delete-event">
-      <h2 class="text-center">Delete Event</h2>
-      <p class="lead">
-        Deleting an event will also remove all associated RSVPs. Please delete with care!
-      </p>
-
-      <div class="form-group">
-        <label for="deleteEvent">Confirm event title:</label>
-        <input
-          type="text"
-          id="deleteEvent"
-          class="form-control"
-          name="deleteEvent"
-          #deleteEvent="ngModel"
-          [(ngModel)]="confirmDelete">
-      </div>
-
-      <!-- Error deleting event -->
-      <p *ngIf="deleteErr" class="alert alert-danger">
-        <strong>Oops!</strong> There was an error deleting this event. Please try again.
-      </p>
-
-      <p>
-        <button
-          class="btn btn-danger"
-          (click)="removeEvent()"
-          [disabled]="confirmDelete !== event.title || submitting">Delete Event</button>
-        <app-submitting *ngIf="submitting"></app-submitting>
-      </p>
+  <div *ngIf="event" class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="[]"
+            [queryParams]="{tab: 'edit'}"
+            [ngClass]="{'active': tabIs('edit')}">Edit</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="[]"
+            [queryParams]="{tab: 'delete'}"
+            [ngClass]="{'active': tabIs('delete')}">Delete</a>
+        </li>
+      </ul>
     </div>
 
-  </ng-template>
+    <div class="card-block">
+      <!-- Edit event form -->
+      <app-event-form
+        *ngIf="tabIs('edit')"
+        [event]="event"></app-event-form>
+
+      <!-- Delete event -->
+      <app-delete-event
+        *ngIf="tabIs('delete')"
+        [event]="event"></app-delete-event>
+    </div>
+
+  </div>
 
   <!-- Error loading event -->
   <p *ngIf="error" class="alert alert-danger">
