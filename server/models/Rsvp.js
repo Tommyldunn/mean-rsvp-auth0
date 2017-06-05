@@ -5,6 +5,9 @@
  */
 
 const mongoose = require('mongoose');
+// FIX promise deprecation warning:
+// https://github.com/Automattic/mongoose/issues/4291
+mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 
 const rsvpSchema = new Schema({
