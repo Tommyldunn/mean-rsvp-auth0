@@ -128,7 +128,7 @@ module.exports = function(app, config) {
       }
       if (rsvps) {
         Event.find(
-          {_id: {$in: eventIdsArr}, endDatetime: { $gt: new Date() }},
+          {_id: {$in: eventIdsArr}, startDatetime: { $gte: new Date() }},
           _rsvpEventsProjection, (err, events) => {
           if (err) {
             return res.status(500).send({message: err.message});
