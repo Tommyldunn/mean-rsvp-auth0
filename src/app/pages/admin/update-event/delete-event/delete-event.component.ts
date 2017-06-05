@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnDestroy, Input } from '@angular/core';
 import { EventModel } from './../../../../core/models/event.model';
 import { Subscription } from 'rxjs/Subscription';
 import { ApiService } from './../../../../core/api.service';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './delete-event.component.html',
   styleUrls: ['./delete-event.component.scss']
 })
-export class DeleteEventComponent implements OnInit, OnDestroy {
+export class DeleteEventComponent implements OnDestroy {
   @Input() event: EventModel;
   confirmDelete: string;
   deleteSub: Subscription;
@@ -19,9 +19,6 @@ export class DeleteEventComponent implements OnInit, OnDestroy {
   constructor(
     private api: ApiService,
     private router: Router) { }
-
-  ngOnInit() {
-  }
 
   removeEvent() {
     this.submitting = true;

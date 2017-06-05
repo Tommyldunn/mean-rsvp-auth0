@@ -1,6 +1,5 @@
-<!-- Delete event -->
 <p class="lead">
-  You are deleting "<strong [innerHTML]="event.title"></strong>".
+  You are deleting the "<strong [innerHTML]="event.title"></strong>" event.
 </p>
 
 <p class="text-danger">
@@ -13,16 +12,10 @@
     type="text"
     id="deleteEvent"
     class="form-control"
-    name="deleteEvent"
-    #deleteEvent="ngModel"
     [(ngModel)]="confirmDelete">
 </div>
 
-<!-- Error deleting event -->
-<p *ngIf="error" class="alert alert-danger">
-  <strong>Oops!</strong> There was an error deleting this event. Please try again.
-</p>
-
+<!-- Delete button -->
 <p>
   <button
     class="btn btn-danger"
@@ -31,4 +24,7 @@
   <app-submitting *ngIf="submitting"></app-submitting>
 </p>
 
-
+<!-- Error deleting event -->
+<p *ngIf="error" class="alert alert-danger">
+  <strong>Oops!</strong> There was an error deleting this event. Please try again.
+</p>
