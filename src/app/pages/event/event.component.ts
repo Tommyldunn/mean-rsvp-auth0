@@ -72,10 +72,6 @@ export class EventComponent implements OnInit, OnDestroy {
     this.title.setTitle(title);
   }
 
-  tabIs(tabName: string): boolean {
-    return this.tab === tabName;
-  }
-
   ngOnDestroy() {
     this.routeSub.unsubscribe();
     this.tabSub.unsubscribe();

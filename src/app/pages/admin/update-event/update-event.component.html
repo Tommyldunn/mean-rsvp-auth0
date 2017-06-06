@@ -11,14 +11,14 @@
             class="nav-link"
             [routerLink]="[]"
             [queryParams]="{tab: 'edit'}"
-            [ngClass]="{'active': tabIs('edit')}">Edit</a>
+            [ngClass]="{'active': util.tabIs(tab, 'edit')}">Edit</a>
         </li>
         <li class="nav-item">
           <a
             class="nav-link"
             [routerLink]="[]"
             [queryParams]="{tab: 'delete'}"
-            [ngClass]="{'active': tabIs('delete')}">Delete</a>
+            [ngClass]="{'active': utils.tabIs(tab, 'delete')}">Delete</a>
         </li>
       </ul>
     </div>
@@ -26,12 +26,12 @@
     <div class="card-block">
       <!-- Edit event form -->
       <app-event-form
-        *ngIf="tabIs('edit')"
+        *ngIf="utils.tabIs(tab, 'edit')"
         [event]="event"></app-event-form>
 
       <!-- Delete event -->
       <app-delete-event
-        *ngIf="tabIs('delete')"
+        *ngIf="utils.tabIs(tab, 'delete')"
         [event]="event"></app-delete-event>
     </div>
 

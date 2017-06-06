@@ -18,26 +18,26 @@
               class="nav-link"
               [routerLink]="[]"
               [queryParams]="{tab: 'details'}"
-              [ngClass]="{'active': tabIs('details')}">Details</a>
+              [ngClass]="{'active': utils.tabIs(tab, 'details')}">Details</a>
           </li>
           <li class="nav-item">
             <a
               class="nav-link"
               [routerLink]="[]"
               [queryParams]="{tab: 'rsvp'}"
-              [ngClass]="{'active': tabIs('rsvp')}">RSVP</a>
+              [ngClass]="{'active': utils.tabIs(tab, 'rsvp')}">RSVP</a>
           </li>
         </ul>
       </div>
 
       <!-- Event detail tab -->
       <app-event-detail
-        *ngIf="tabIs('details')"
+        *ngIf="utils.tabIs(tab, 'details')"
         [event]="event"></app-event-detail>
 
       <!-- Event RSVP tab -->
       <app-rsvp
-        *ngIf="tabIs('rsvp')"
+        *ngIf="utils.tabIs(tab, 'rsvp')"
         [eventId]="event._id"
         [eventPast]="eventPast"></app-rsvp>
     </div>

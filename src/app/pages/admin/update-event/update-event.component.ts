@@ -66,10 +66,6 @@ export class UpdateEventComponent implements OnInit, OnDestroy {
       );
   }
 
-  tabIs(tabName: string): boolean {
-    return this.tab === tabName;
-  }
-
   ngOnDestroy() {
     this.routeSub.unsubscribe();
     this.tabSub.unsubscribe();
