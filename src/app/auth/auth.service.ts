@@ -29,7 +29,7 @@ export class AuthService {
 
   constructor(private router: Router) {
     // If authenticated, set local profile property,
-    // admin status, and update login status subject.
+    // admin status, update login status, schedule renewal.
     // If not authenticated but there are still items
     // in localStorage, log out
     const lsProfile = localStorage.getItem('profile');
@@ -38,6 +38,7 @@ export class AuthService {
       this.userProfile = JSON.parse(lsProfile);
       this.isAdmin = localStorage.getItem('isAdmin') === 'true';
       this.setLoggedIn(true);
+      this.scheduleRenewal();
     } else if (!this.authenticated && lsProfile) {
       this.logout();
     }
