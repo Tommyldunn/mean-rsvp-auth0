@@ -119,7 +119,7 @@ module.exports = function(app, config) {
   // GET list of upcoming events user has RSVPed to
   app.get('/api/events/:userId', jwtCheck, (req, res) => {
     Rsvp.find({userId: req.params.userId}, 'eventId', (err, rsvps) => {
-      const eventIdsArr = rsvps.map(rsvp => rsvp.eventId);
+      const _eventIdsArr = rsvps.map(rsvp => rsvp.eventId);
       const _rsvpEventsProjection = 'title startDatetime endDatetime';
       let eventsArr = [];
 
@@ -128,7 +128,7 @@ module.exports = function(app, config) {
       }
       if (rsvps) {
         Event.find(
-          {_id: {$in: eventIdsArr}, startDatetime: { $gte: new Date() }},
+          {_id: {$in: _eventIdsArr}, startDatetime: { $gte: new Date() }},
           _rsvpEventsProjection, (err, events) => {
           if (err) {
             return res.status(500).send({message: err.message});
