@@ -72,7 +72,7 @@ export class ApiService {
   }
 
   // GET all events a specific user has RSVPed to (login required)
-  getUserEvents$(userId: string): Observable<RsvpModel[]> {
+  getUserEvents$(userId: string): Observable<EventModel[]> {
     return this.authHttp
       .get(`${ENV.BASE_API}events/${userId}`)
       .map(this._handleSuccess)

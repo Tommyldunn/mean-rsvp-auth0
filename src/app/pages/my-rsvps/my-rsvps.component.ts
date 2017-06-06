@@ -6,7 +6,6 @@ import { UtilsService } from './../../core/utils.service';
 import { FilterSortService } from './../../core/filter-sort.service';
 import { Subscription } from 'rxjs/Subscription';
 import { EventModel } from './../../core/models/event.model';
-import { RsvpModel } from './../../core/models/rsvp.model';
 
 @Component({
   selector: 'app-my-rsvps',
@@ -16,7 +15,7 @@ import { RsvpModel } from './../../core/models/rsvp.model';
 export class MyRsvpsComponent implements OnInit, OnDestroy {
   pageTitle = 'My RSVPs';
   eventListSub: Subscription;
-  eventList: RsvpModel[];
+  eventList: EventModel[];
   loading: boolean;
   error: boolean;
   userIdp: string;
@@ -36,6 +35,7 @@ export class MyRsvpsComponent implements OnInit, OnDestroy {
 
   private _getEventList() {
     this.loading = true;
+    // Get events user has RSVPed to
     this.eventListSub = this.api
       .getUserEvents$(this.auth.userProfile.sub)
       .subscribe(
