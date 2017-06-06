@@ -45,11 +45,6 @@ export class UtilsService {
     return now >= then;
   }
 
-  noSearchResults(arr: any[], query: string): boolean {
-    // Check if array filtered by query returned any results
-    return !!(!arr.length && query);
-  }
-
   displayCount(guests: number): string {
     // Example usage:
     // {{displayCount(guests)}} attending this event

@@ -24,7 +24,7 @@
     </section>
 
     <!-- No search results -->
-    <p *ngIf="utils.noSearchResults(filteredEvents, query)" class="alert alert-warning">
+    <p *ngIf="fs.noSearchResults(filteredEvents, query)" class="alert alert-warning">
       No events found for <em class="text-danger">{{query}}</em>, sorry!
     </p>
 

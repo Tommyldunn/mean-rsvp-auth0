@@ -72,6 +72,11 @@ export class FilterSortService {
     return filteredArray;
   }
 
+  noSearchResults(arr: any[], query: string): boolean {
+    // Check if array searched by query returned any results
+    return !!(!arr.length && query);
+  }
+
   orderByDate(array: any[], prop: string, reverse?: boolean) {
     // Order an array of objects by a date property
     // Default: ascending (1992->2017 | Jan->Dec)
