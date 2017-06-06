@@ -148,9 +148,9 @@ export class AuthService {
       usePostMessage: true
     }, (err, authResult) => {
       if (err) {
-        console.error(`Could not renew token with silent authentication: ${err.error}`);
+        console.warn(`Could not renew token with silent authentication: ${err.error}`);
       } else {
-        alert('renewed auth successfully');
+        console.log('Successfully renewed authentication.');
         this._setSession(authResult);
       }
     });
