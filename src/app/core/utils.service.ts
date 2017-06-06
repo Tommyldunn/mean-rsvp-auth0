@@ -6,6 +6,10 @@ export class UtilsService {
 
   constructor(private datePipe: DatePipe) { }
 
+  isLoaded(loading: boolean): boolean {
+    return loading === false;
+  }
+
   eventDates(start, end): string {
     // Display single-day events as "1/7/2018"
     // Display multi-day events as "8/12/2017 - 8/13/2017"
@@ -39,6 +43,11 @@ export class UtilsService {
     const now = new Date();
     const then = new Date(eventEnd.toString());
     return now >= then;
+  }
+
+  noSearchResults(arr: any[], query: string): boolean {
+    // Check if array filtered by query returned any results
+    return !!(!arr.length && query);
   }
 
   displayCount(guests: number): string {

@@ -8,7 +8,7 @@
   You cannot RSVP to an event that has already ended.
 </p>
 
-<ng-template [ngIf]="isLoaded">
+<ng-template [ngIf]="utils.isLoaded(loading)">
   <ng-template [ngIf]="!eventPast && rsvps">
 
     <!-- User has RSVPed -->

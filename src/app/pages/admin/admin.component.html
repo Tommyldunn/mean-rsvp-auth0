@@ -1,7 +1,7 @@
 <h1 class="text-center">{{pageTitle}}</h1>
 <app-loading *ngIf="loading"></app-loading>
 
-<ng-template [ngIf]="isLoaded">
+<ng-template [ngIf]="utils.isLoaded(loading)">
   <p class="lead">Welcome, {{auth.userProfile.name}}! You can create and administer events below.</p>
 
   <p>
@@ -33,7 +33,7 @@
     </section>
 
     <!-- No search results -->
-    <p *ngIf="noSearchResults" class="alert alert-warning">
+    <p *ngIf="utils.noSearchResults(filteredEvents, query)" class="alert alert-warning">
       No events found for <em class="text-danger">{{query}}</em>, sorry!
     </p>
 

@@ -65,10 +65,6 @@ export class MyRsvpsComponent implements OnInit, OnDestroy {
     return idp;
   }
 
-  get isLoaded(): boolean {
-    return this.loading === false;
-  }
-
   ngOnDestroy() {
     this.eventListSub.unsubscribe();
   }

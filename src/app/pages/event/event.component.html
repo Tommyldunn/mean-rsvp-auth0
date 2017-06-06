@@ -1,6 +1,6 @@
 <app-loading *ngIf="loading"></app-loading>
 
-<ng-template [ngIf]="isLoaded">
+<ng-template [ngIf]="utils.isLoaded(loading)">
   <h1 class="text-center">{{pageTitle}}</h1>
   <!-- Event -->
   <ng-template [ngIf]="event">
@@ -45,6 +45,6 @@
 
   <!-- Error loading events -->
   <p *ngIf="error" class="alert alert-danger">
-    <strong>Oops!</strong> There was an error retrieving information for this event. 
+    <strong>Oops!</strong> There was an error retrieving information for this event.
   </p>
 </ng-template>

@@ -122,10 +122,6 @@ export class RsvpComponent implements OnInit, OnDestroy {
     this.totalAttending = guests;
   }
 
-  get isLoaded(): boolean {
-    return this.loading === false;
-  }
-
   ngOnDestroy() {
     this.rsvpsSub.unsubscribe();
   }

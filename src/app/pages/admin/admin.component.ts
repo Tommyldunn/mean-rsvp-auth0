@@ -52,10 +52,6 @@ export class AdminComponent implements OnInit, OnDestroy {
       );
   }
 
-  get isLoaded(): boolean {
-    return this.loading === false;
-  }
-
   searchEvents() {
     this.filteredEvents = this.fs.search(this.eventList, this.query, '_id', 'mediumDate');
   }
@@ -63,10 +59,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   resetQuery() {
     this.query = '';
     this.filteredEvents = this.eventList;
-  }
-
-  get noSearchResults(): boolean {
-    return !!(!this.filteredEvents.length && this.query);
   }
 
   ngOnDestroy() {

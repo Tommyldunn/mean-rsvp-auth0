@@ -50,10 +50,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       );
   }
 
-  get isLoaded(): boolean {
-    return this.loading === false;
-  }
-
   searchEvents() {
     this.filteredEvents = this.fs.search(this.eventList, this.query, '_id', 'mediumDate');
   }
