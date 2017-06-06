@@ -2,32 +2,36 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AUTH_CONFIG } from './auth.config';
-import { tokenNotExpired } from 'angular2-jwt';
-
-// Avoid name not found warnings
-declare var auth0: any;
+import auth0 from 'auth0-js';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class AuthService {
   // Create Auth0 web auth instance
   auth0 = new auth0.WebAuth({
     clientID: AUTH_CONFIG.CLIENT_ID,
-    domain: AUTH_CONFIG.CLIENT_DOMAIN
+    domain: AUTH_CONFIG.CLIENT_DOMAIN,
+    responseType: 'token id_token',
+    redirectUri: AUTH_CONFIG.REDIRECT,
+    audience: AUTH_CONFIG.AUDIENCE,
+    scope: AUTH_CONFIG.SCOPE
   });
-
   userProfile: any;
   isAdmin: boolean;
   // Check localStorage for redirect from auth guard
   private _authRedirect = localStorage.getItem('authRedirect');
-
   // Create a stream of logged in status to communicate throughout app
   loggedIn: boolean;
   loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
+  // Subscribe to token stream
+  refreshSubscription: Subscription;
 
   constructor(private router: Router) {
-    // If authenticated, set local profile property, admin status,
-    // and update login status subject.
-    // If token is expired but user data still in localStorage, log out
+    // If authenticated, set local profile property,
+    // admin status, and update login status subject.
+    // If not authenticated but there are still items
+    // in localStorage, log out
     const lsProfile = localStorage.getItem('profile');
 
     if (this.authenticated) {
@@ -55,12 +59,7 @@ export class AuthService {
       localStorage.setItem('authRedirect', this.router.url);
     }
     // Auth0 authorize request
-    this.auth0.authorize({
-      responseType: 'token id_token',
-      redirectUri: AUTH_CONFIG.REDIRECT,
-      audience: AUTH_CONFIG.AUDIENCE,
-      scope: AUTH_CONFIG.SCOPE
-    });
+    this.auth0.authorize();
   }
 
   handleAuth() {
@@ -72,7 +71,7 @@ export class AuthService {
       } else if (err) {
         this._clearRedirect();
         this.router.navigate(['/']);
-        console.error(`Error: ${err.error}`);
+        console.error(`Error authenticating: ${err.error}`);
       }
     });
   }
@@ -86,15 +85,23 @@ export class AuthService {
     });
   }
 
-  private _setSession(authResult, profile) {
-    // Save session data and update login status subject
+  private _setSession(authResult, profile?) {
+    // Set tokens and expiration in localStorage
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + Date.now());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('profile', JSON.stringify(profile));
-    this.userProfile = profile;
-    this.isAdmin = this._checkAdmin(profile);
-    localStorage.setItem('isAdmin', this.isAdmin.toString());
+    localStorage.setItem('expires_at', expiresAt);
+    // If initial login, set profile and admin information
+    if (profile) {
+      localStorage.setItem('profile', JSON.stringify(profile));
+      this.userProfile = profile;
+      this.isAdmin = this._checkAdmin(profile);
+      localStorage.setItem('isAdmin', this.isAdmin.toString());
+    }
+    // Update login status in loggedIn$ stream
     this.setLoggedIn(true);
+    // Schedule token renewal
+    this.scheduleRenewal();
   }
 
   private _checkAdmin(profile) {
@@ -111,22 +118,64 @@ export class AuthService {
 
   logout() {
     // Ensure all auth items removed from localStorage
-    // clear local properties, update login status, go home
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
     localStorage.removeItem('isAdmin');
-    localStorage.removeItem('authRedirect');
+    localStorage.removeItem('expires_at');
+    // Clear redirect, reset local properties, update loggedIn$ stream
     this._clearRedirect();
     this.userProfile = undefined;
     this.isAdmin = undefined;
     this.setLoggedIn(false);
+    // Unschedule auth token renewal
+    this.unscheduleRenewal();
+    // Return to homepage
     this.router.navigate(['/']);
   }
 
-  get authenticated() {
-    // Check if there's an unexpired access token
-    return tokenNotExpired('access_token');
+  get authenticated(): boolean {
+    // Check if current time is past access token's expiration
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    return Date.now() < expiresAt;
+  }
+
+  renewToken() {
+    this.auth0.renewAuth({
+      audience: AUTH_CONFIG.AUDIENCE,
+      redirectUri: AUTH_CONFIG.REDIRECT,
+      usePostMessage: true
+    }, (err, authResult) => {
+      if (err) {
+        console.error(`Could not renew token with silent authentication: ${err.error}`);
+      } else {
+        alert('renewed auth successfully');
+        this._setSession(authResult);
+      }
+    });
+  }
+
+  scheduleRenewal() {
+    if (!this.authenticated) { return; }
+    this.unscheduleRenewal();
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    const expiresAt$ = Observable.of(expiresAt)
+      .flatMap(expires => {
+        const now = Date.now();
+        // Use timer delay to run renew token at proper time
+        return Observable.timer(Math.max(1, expires - now));
+      });
+
+    this.refreshSubscription = expiresAt$.subscribe(() => {
+      this.renewToken();
+      this.scheduleRenewal();
+    });
+  }
+
+  unscheduleRenewal() {
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
   }
 
 }
