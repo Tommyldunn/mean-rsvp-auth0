@@ -20,7 +20,8 @@ export class AuthService {
   userProfile: any;
   isAdmin: boolean;
   // Check localStorage for redirect from auth guard
-  private _authRedirect = localStorage.getItem('authRedirect');
+  private _authRedirect: any = localStorage.getItem('authRedirect');
+  private _authRedirectTab: any;
   // Create a stream of logged in status to communicate throughout app
   loggedIn: boolean;
   loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
@@ -48,6 +49,19 @@ export class AuthService {
     // Update login status subject
     this.loggedIn$.next(value);
     this.loggedIn = value;
+  }
+
+  private _redirect() {
+    const fullRedirect = decodeURI(localStorage.getItem('authRedirect'));
+    const redirectArr = fullRedirect.split('?');
+    const navArr = [redirectArr[0] || '/'];
+    const tabObj = redirectArr[1] ? { queryParams: { tab: redirectArr[1].split('=')[1] }} : null;
+
+    if (!tabObj) {
+      this.router.navigate(navArr);
+    } else {
+      this.router.navigate(navArr, tabObj);
+    }
   }
 
   login() {
@@ -81,7 +95,7 @@ export class AuthService {
     // Use access token to retrieve user's profile and set session
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
       this._setSession(authResult, profile);
-      this.router.navigate([this._authRedirect || '/']);
+      this._redirect();
       this._clearRedirect();
     });
   }
@@ -153,10 +167,9 @@ export class AuthService {
         console.warn(`Could not renew token with silent authentication: ${err.error}`);
         // Log out without redirecting
         this.logout(true);
-        // Log in again
+        // Prompt to log in again
         this.login();
       } else {
-        console.log('Successfully renewed authentication.');
         this._setSession(authResult);
       }
     });
@@ -167,16 +180,17 @@ export class AuthService {
     this.unscheduleRenewal();
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     const expiresAt$ = Observable.of(expiresAt)
-      .flatMap(expires => {
-        const now = Date.now();
-        // Use timer delay to run renew token at proper time
-        return Observable.timer(Math.max(1, expires - now));
-      });
+      .flatMap(
+        expires => Observable.timer(Math.max(1, expires - Date.now()))
+      );
 
-    this.refreshSubscription = expiresAt$.subscribe(() => {
-      this.renewToken();
-      this.scheduleRenewal();
-    });
+    this.refreshSubscription = expiresAt$
+      .subscribe(
+        () => {
+          this.renewToken();
+          this.scheduleRenewal();
+        }
+      );
   }
 
   unscheduleRenewal() {

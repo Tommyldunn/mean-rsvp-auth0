@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { AuthService } from './../auth/auth.service';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
 
 @Component({
@@ -11,16 +12,22 @@ import 'rxjs/add/operator/filter';
 export class HeaderComponent implements OnInit {
   @Output() navToggled = new EventEmitter();
   navOpen = false;
+  authSub: Subscription;
+  loggedIn: boolean;
 
   constructor(
     private router: Router,
     public auth: AuthService) { }
 
   ngOnInit() {
-    // if nav is open after routing, close it
+    // If nav is open after routing, close it
     this.router.events
       .filter(event => event instanceof NavigationStart && this.navOpen)
       .subscribe(event => this.toggleNav());
+
+    // Subscribe to login status stream
+    this.authSub = this.auth.loggedIn$
+      .subscribe(loggedIn => this.loggedIn = loggedIn);
   }
 
   toggleNav() {
