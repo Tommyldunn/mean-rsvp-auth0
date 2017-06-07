@@ -20,8 +20,7 @@ export class AuthService {
   userProfile: any;
   isAdmin: boolean;
   // Check localStorage for redirect from auth guard
-  private _authRedirect: any = localStorage.getItem('authRedirect');
-  private _authRedirectTab: any;
+  private _authRedirect = localStorage.getItem('authRedirect');
   // Create a stream of logged in status to communicate throughout app
   loggedIn: boolean;
   loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
@@ -52,10 +51,12 @@ export class AuthService {
   }
 
   private _redirect() {
+    // Redirect with or without 'tab' query parameter
+    // Note: does not support additional params besides 'tab'
     const fullRedirect = decodeURI(localStorage.getItem('authRedirect'));
-    const redirectArr = fullRedirect.split('?');
+    const redirectArr = fullRedirect.split('?tab=');
     const navArr = [redirectArr[0] || '/'];
-    const tabObj = redirectArr[1] ? { queryParams: { tab: redirectArr[1].split('=')[1] }} : null;
+    const tabObj = redirectArr[1] ? { queryParams: { tab: redirectArr[1] }} : null;
 
     if (!tabObj) {
       this.router.navigate(navArr);
