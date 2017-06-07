@@ -117,7 +117,7 @@ export class AuthService {
     localStorage.removeItem('authRedirect');
   }
 
-  logout() {
+  logout(noRedirect?: boolean) {
     // Ensure all auth items removed from localStorage
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
@@ -132,7 +132,9 @@ export class AuthService {
     // Unschedule auth token renewal
     this.unscheduleRenewal();
     // Return to homepage
-    this.router.navigate(['/']);
+    if (noRedirect !== true) {
+      this.router.navigate(['/']);
+    }
   }
 
   get authenticated(): boolean {
@@ -149,7 +151,9 @@ export class AuthService {
     }, (err, authResult) => {
       if (err) {
         console.warn(`Could not renew token with silent authentication: ${err.error}`);
-        this.logout();
+        // Log out without redirecting
+        this.logout(true);
+        // Log in again
         this.login();
       } else {
         console.log('Successfully renewed authentication.');
