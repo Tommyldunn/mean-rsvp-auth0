@@ -19,8 +19,6 @@ export class AuthService {
   });
   userProfile: any;
   isAdmin: boolean;
-  // Check localStorage for redirect from auth guard
-  private _authRedirect = localStorage.getItem('authRedirect');
   // Create a stream of logged in status to communicate throughout app
   loggedIn: boolean;
   loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
@@ -50,28 +48,10 @@ export class AuthService {
     this.loggedIn = value;
   }
 
-  private _redirect() {
-    // Redirect with or without 'tab' query parameter
-    // Note: does not support additional params besides 'tab'
-    const fullRedirect = decodeURI(localStorage.getItem('authRedirect'));
-    const redirectArr = fullRedirect.split('?tab=');
-    const navArr = [redirectArr[0] || '/'];
-    const tabObj = redirectArr[1] ? { queryParams: { tab: redirectArr[1] }} : null;
-
-    if (!tabObj) {
-      this.router.navigate(navArr);
-    } else {
-      this.router.navigate(navArr, tabObj);
-    }
-  }
-
   login() {
-    // If redirect exists in localStorage, set local prop.
     // If no redirect already set in localStorage,
     // set redirect to current route logging in from.
-    if (localStorage.getItem('authRedirect')) {
-      this._authRedirect = localStorage.getItem('authRedirect');
-    } else {
+    if (!localStorage.getItem('authRedirect')) {
       localStorage.setItem('authRedirect', this.router.url);
     }
     // Auth0 authorize request
@@ -126,9 +106,23 @@ export class AuthService {
     return roles.indexOf('admin') > -1;
   }
 
+  private _redirect() {
+    // Redirect with or without 'tab' query parameter
+    // Note: does not support additional params besides 'tab'
+    const fullRedirect = decodeURI(localStorage.getItem('authRedirect'));
+    const redirectArr = fullRedirect.split('?tab=');
+    const navArr = [redirectArr[0] || '/'];
+    const tabObj = redirectArr[1] ? { queryParams: { tab: redirectArr[1] }} : null;
+
+    if (!tabObj) {
+      this.router.navigate(navArr);
+    } else {
+      this.router.navigate(navArr, tabObj);
+    }
+  }
+
   private _clearRedirect() {
-    // Remove auth redirect information
-    this._authRedirect = undefined;
+    // Remove redirect from localStorage
     localStorage.removeItem('authRedirect');
   }
 
@@ -139,8 +133,8 @@ export class AuthService {
     localStorage.removeItem('profile');
     localStorage.removeItem('isAdmin');
     localStorage.removeItem('expires_at');
-    // Clear redirect, reset local properties, update loggedIn$ stream
     this._clearRedirect();
+    // Reset local properties, update loggedIn$ stream
     this.userProfile = undefined;
     this.isAdmin = undefined;
     this.setLoggedIn(false);
