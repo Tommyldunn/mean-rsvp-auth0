@@ -154,8 +154,6 @@ export class AuthService {
 
   renewToken() {
     this.auth0.renewAuth({
-      audience: AUTH_CONFIG.AUDIENCE,
-      redirectUri: AUTH_CONFIG.REDIRECT,
       usePostMessage: true
     }, (err, authResult) => {
       if (err) {
