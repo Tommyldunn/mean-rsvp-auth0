@@ -149,6 +149,8 @@ export class AuthService {
     }, (err, authResult) => {
       if (err) {
         console.warn(`Could not renew token with silent authentication: ${err.error}`);
+        this.logout();
+        this.login();
       } else {
         console.log('Successfully renewed authentication.');
         this._setSession(authResult);
