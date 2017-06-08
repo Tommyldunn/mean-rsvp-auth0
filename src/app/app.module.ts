@@ -1,8 +1,5 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
@@ -10,8 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
 import { CallbackComponent } from './pages/callback/callback.component';
 import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
 import { AdminComponent } from './pages/admin/admin.component';
@@ -28,8 +23,6 @@ import { DeleteEventComponent } from './pages/admin/update-event/delete-event/de
   declarations: [
     AppComponent,
     HomeComponent,
-    HeaderComponent,
-    FooterComponent,
     CallbackComponent,
     MyRsvpsComponent,
     AdminComponent,
@@ -44,11 +37,7 @@ import { DeleteEventComponent } from './pages/admin/update-event/delete-event/de
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     AuthModule,
     CoreModule
   ],

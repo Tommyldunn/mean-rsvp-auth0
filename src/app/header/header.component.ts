@@ -24,10 +24,6 @@ export class HeaderComponent implements OnInit {
     this.router.events
       .filter(event => event instanceof NavigationStart && this.navOpen)
       .subscribe(event => this.toggleNav());
-
-    // Subscribe to login status stream
-    this.authSub = this.auth.loggedIn$
-      .subscribe(loggedIn => this.loggedIn = loggedIn);
   }
 
   toggleNav() {
