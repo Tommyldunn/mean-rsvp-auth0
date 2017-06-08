@@ -23,7 +23,7 @@ export class AuthService {
   loggedIn: boolean;
   loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
   // Subscribe to token expiration stream
-  expiresAtSub: Subscription;
+  refreshSub: Subscription;
 
   constructor(private router: Router) {
     // If authenticated, set local profile property,
@@ -179,13 +179,13 @@ export class AuthService {
     this.unscheduleRenewal();
     // Create and subscribe to expiration observable
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    const expiresAt$ = Observable.of(expiresAt)
+    const expiresIn$ = Observable.of(expiresAt)
       .flatMap(
         // Use timer to track delay until expiration
         expires => Observable.timer(Math.max(1, expires - Date.now()))
       );
 
-    this.expiresAtSub = expiresAt$
+    this.refreshSub = expiresIn$
       .subscribe(
         () => {
           this.renewToken();
@@ -195,8 +195,8 @@ export class AuthService {
   }
 
   unscheduleRenewal() {
-    if (this.expiresAtSub) {
-      this.expiresAtSub.unsubscribe();
+    if (this.refreshSub) {
+      this.refreshSub.unsubscribe();
     }
   }
 
