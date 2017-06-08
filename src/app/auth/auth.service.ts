@@ -96,7 +96,7 @@ export class AuthService {
     }
     // Update login status in loggedIn$ stream
     this.setLoggedIn(true);
-    // Schedule token renewal
+    // Schedule access token renewal
     this.scheduleRenewal();
   }
 
@@ -138,7 +138,7 @@ export class AuthService {
     this.userProfile = undefined;
     this.isAdmin = undefined;
     this.setLoggedIn(false);
-    // Unschedule auth token renewal
+    // Unschedule access token renewal
     this.unscheduleRenewal();
     // Return to homepage
     if (noRedirect !== true) {
@@ -157,10 +157,10 @@ export class AuthService {
       usePostMessage: true
     }, (err, authResult) => {
       if (err) {
-        console.warn(`Could not renew token with silent authentication: ${err.error}`);
-        // Log out without redirecting
+        console.warn(`Could not renew token: ${err.errorDescription}`);
+        // Log out without redirecting to clear auth data
         this.logout(true);
-        // Prompt to log in again
+        // Log in again
         this.login();
       } else {
         this._setSession(authResult);
