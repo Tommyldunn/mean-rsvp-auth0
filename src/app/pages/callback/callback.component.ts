@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ENV } from './../../core/env.config';
 
 @Component({
   selector: 'app-callback',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CallbackComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    parent.postMessage(window.location.hash, ENV.BASE_URI);
+  }
 
   ngOnInit() {
   }

@@ -2,16 +2,11 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { HttpModule, Http, RequestOptions } from '@angular/http';
-import { AppRoutingModule } from './app-routing.module';
-import { ApiService } from './core/api.service';
-import { UtilsService } from './core/utils.service';
-import { FilterSortService } from './core/filter-sort.service';
+import { HttpModule } from '@angular/http';
 
-import { AuthService } from './auth/auth.service';
-import { AuthHttp } from 'angular2-jwt';
-import { authHttpFactory } from './auth/auth-http.factory';
+import { AuthModule } from './auth/auth.module';
+import { CoreModule } from './core/core.module';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -21,14 +16,12 @@ import { CallbackComponent } from './pages/callback/callback.component';
 import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { EventComponent } from './pages/event/event.component';
-import { LoadingComponent } from './core/loading.component';
 import { EventDetailComponent } from './pages/event/event-detail/event-detail.component';
 import { RsvpComponent } from './pages/event/rsvp/rsvp.component';
 import { RsvpFormComponent } from './pages/event/rsvp/rsvp-form/rsvp-form.component';
 import { CreateEventComponent } from './pages/admin/create-event/create-event.component';
 import { UpdateEventComponent } from './pages/admin/update-event/update-event.component';
 import { EventFormComponent } from './pages/admin/event-form/event-form.component';
-import { SubmittingComponent } from './core/forms/submitting.component';
 import { DeleteEventComponent } from './pages/admin/update-event/delete-event/delete-event.component';
 
 @NgModule({
@@ -41,14 +34,12 @@ import { DeleteEventComponent } from './pages/admin/update-event/delete-event/de
     MyRsvpsComponent,
     AdminComponent,
     EventComponent,
-    LoadingComponent,
     EventDetailComponent,
     RsvpComponent,
     RsvpFormComponent,
     CreateEventComponent,
     UpdateEventComponent,
     EventFormComponent,
-    SubmittingComponent,
     DeleteEventComponent
   ],
   imports: [
@@ -57,20 +48,12 @@ import { DeleteEventComponent } from './pages/admin/update-event/delete-event/de
     ReactiveFormsModule,
     HttpModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AuthModule,
+    CoreModule
   ],
   providers: [
-    Title,
-    AuthService,
-    ApiService,
-    DatePipe,
-    UtilsService,
-    FilterSortService,
-    {
-      provide: AuthHttp,
-      useFactory: authHttpFactory,
-      deps: [Http, RequestOptions]
-    }
+    Title
   ],
   bootstrap: [AppComponent]
 })
