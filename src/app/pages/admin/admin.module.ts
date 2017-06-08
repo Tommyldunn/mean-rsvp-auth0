@@ -19,14 +19,6 @@ import { DeleteEventComponent } from './update-event/delete-event/delete-event.c
     UpdateEventComponent,
     EventFormComponent,
     DeleteEventComponent
-  ],
-  exports: [
-    CoreModule,
-    AdminComponent,
-    CreateEventComponent,
-    UpdateEventComponent,
-    EventFormComponent,
-    DeleteEventComponent
   ]
 })
 export class AdminModule { }

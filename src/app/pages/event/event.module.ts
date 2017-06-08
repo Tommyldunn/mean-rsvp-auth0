@@ -16,13 +16,6 @@ import { RsvpFormComponent } from './rsvp/rsvp-form/rsvp-form.component';
     EventDetailComponent,
     RsvpComponent,
     RsvpFormComponent
-  ],
-  exports: [
-    CoreModule,
-    EventComponent,
-    EventDetailComponent,
-    RsvpComponent,
-    RsvpFormComponent
   ]
 })
 export class EventModule { }

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -29,6 +30,7 @@ import { FooterComponent } from './../footer/footer.component';
     SubmittingComponent
   ],
   providers: [
+    Title,
     DatePipe,
     ApiService,
     UtilsService,
