@@ -75,9 +75,13 @@ export class AuthService {
   private _getProfile(authResult) {
     // Use access token to retrieve user's profile and set session
     this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
-      this._setSession(authResult, profile);
-      this._redirect();
-      this._clearRedirect();
+      if (profile) {
+        this._setSession(authResult, profile);
+        this._redirect();
+        this._clearRedirect();
+      } else if (err) {
+        console.warn(`Error retrieving profile: ${err.error}`);
+      }
     });
   }
 
@@ -156,20 +160,20 @@ export class AuthService {
     this.auth0.renewAuth({
       usePostMessage: true
     }, (err, authResult) => {
-      if (err) {
+      if (authResult && authResult.accessToken) {
+        this._setSession(authResult);
+      } else if (err) {
         console.warn(`Could not renew token: ${err.errorDescription}`);
         // Log out without redirecting to clear auth data
         this.logout(true);
         // Log in again
         this.login();
-      } else {
-        this._setSession(authResult);
       }
     });
   }
 
   scheduleRenewal() {
-    // If token isn't expired, do nothing
+    // If user isn't authenticated, do nothing
     if (!this.authenticated) { return; }
     // Unsubscribe from previous expiration observable
     this.unscheduleRenewal();
