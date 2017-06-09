@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from './../../core/core.module';
+import { RouterModule } from '@angular/router';
+import { ADMIN_ROUTES } from './admin.routes';
 import { AdminComponent } from './admin.component';
 import { CreateEventComponent } from './create-event/create-event.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
@@ -10,7 +12,8 @@ import { DeleteEventComponent } from './update-event/delete-event/delete-event.c
 @NgModule({
   imports: [
     CommonModule,
-    CoreModule
+    CoreModule,
+    RouterModule.forChild(ADMIN_ROUTES)
   ],
   declarations: [
     AdminComponent,

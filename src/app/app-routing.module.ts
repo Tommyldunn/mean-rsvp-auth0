@@ -37,23 +37,10 @@ const routes: Routes = [
   },
   {
     path: 'admin',
+    loadChildren: './pages/admin/admin.module#AdminModule',
     canActivate: [
       AuthGuard,
       AdminGuard
-    ],
-    children: [
-      {
-        path: '',
-        component: AdminComponent
-      },
-      {
-        path: 'event/new',
-        component: CreateEventComponent
-      },
-      {
-        path: 'event/update/:id',
-        component: UpdateEventComponent
-      }
     ]
   },
   {
