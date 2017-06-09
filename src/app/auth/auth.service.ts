@@ -48,12 +48,10 @@ export class AuthService {
     this.loggedIn = value;
   }
 
-  login() {
-    // If no redirect already set in localStorage,
-    // set redirect to current route logging in from.
-    if (!localStorage.getItem('authRedirect')) {
-      localStorage.setItem('authRedirect', this.router.url);
-    }
+  login(redirect?: string) {
+    // Set redirect after login
+    const _redirect = redirect ? redirect : this.router.url;
+    localStorage.setItem('authRedirect', _redirect);
     // Auth0 authorize request
     this.auth0.authorize();
   }

@@ -13,9 +13,8 @@ export class AuthGuard implements CanActivate {
     if (this.auth.authenticated) {
       return true;
     } else {
-      // save guarded route to redirect to after login
-      localStorage.setItem('authRedirect', state.url);
-      this.auth.login();
+      // Send guarded route to redirect to after login
+      this.auth.login(state.url);
       return false;
     }
   }
