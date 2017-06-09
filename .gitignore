@@ -3,7 +3,7 @@
 auth.config.ts
 
 # compiled output
-/dist
+# /dist
 /tmp
 /out-tsc
 
