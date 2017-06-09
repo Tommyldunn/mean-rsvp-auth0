@@ -3,7 +3,6 @@ import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ApiService } from './api.service';
@@ -20,8 +19,7 @@ import { FooterComponent } from './../footer/footer.component';
     HttpModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule
+    ReactiveFormsModule
   ],
   declarations: [
     HeaderComponent,
@@ -41,7 +39,6 @@ import { FooterComponent } from './../footer/footer.component';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     HeaderComponent,
     FooterComponent,
     LoadingComponent,
