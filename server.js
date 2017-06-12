@@ -71,11 +71,11 @@ require('./server/api')(app, config);
 
 // Pass routing to Angular app
 // Don't run in dev
-if (process.env.NODE_ENV !== 'dev') {
-  app.get('*', (req, res) => {
+//if (process.env.NODE_ENV !== 'dev') {
+  app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   });
-}
+//}
 
 /*
  |--------------------------------------
