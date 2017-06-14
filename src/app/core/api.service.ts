@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
+import { AuthService } from './../auth/auth.service';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ENV } from './env.config';
 import 'rxjs/add/operator/map';
@@ -13,7 +15,9 @@ export class ApiService {
 
   constructor(
     private http: Http,
-    private authHttp: AuthHttp) { }
+    private authHttp: AuthHttp,
+    private auth: AuthService,
+    private router: Router) { }
 
   // GET list of public, future events
   getEvents$(): Observable<EventModel[]> {
@@ -101,6 +105,9 @@ export class ApiService {
 
   private _handleError(err: Response | any) {
     const errorMsg = err.message || 'Error: Unable to complete request.';
+    if (err.message && err.message.indexOf('No JWT present') > -1) {
+      this.auth.login(this.router.url);
+    }
     return Observable.throw(errorMsg);
   }
 
