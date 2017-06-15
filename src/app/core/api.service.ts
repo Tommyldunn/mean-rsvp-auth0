@@ -106,7 +106,7 @@ export class ApiService {
   private _handleError(err: Response | any) {
     const errorMsg = err.message || 'Error: Unable to complete request.';
     if (err.message && err.message.indexOf('No JWT present') > -1) {
-      this.auth.login(this.router.url);
+      this.auth.login();
     }
     return Observable.throw(errorMsg);
   }
