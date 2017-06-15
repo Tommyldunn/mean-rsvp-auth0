@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AUTH_CONFIG } from './auth.config';
-import auth0 from 'auth0-js';
+import * as auth0 from 'auth0-js';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Rx';
 import { ENV } from './../core/env.config';
@@ -157,8 +157,7 @@ export class AuthService {
 
   renewToken() {
     this.auth0.renewAuth({
-      audience: AUTH_CONFIG.AUDIENCE,
-      redirectUri: 'http://localhost:8083/silent',
+      redirectUri: AUTH_CONFIG.SILENT_REDIRECT,
       usePostMessage: true
     }, (err, result) => {
       if (err) {

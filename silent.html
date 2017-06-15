@@ -6,21 +6,19 @@
   <script>
     var AUTH0_CLIENT_ID = 'ROP6VPKhSPtM1MMeK2dAVSEXX3XDnH20';
     var AUTH0_DOMAIN = 'kmaida.auth0.com';
+
     var webAuth = new auth0.WebAuth({
-      domain: AUTH0_DOMAIN,
       clientID: AUTH0_CLIENT_ID,
+      domain: AUTH0_DOMAIN,
       scope: 'openid profile',
       responseType: 'token id_token',
       redirectUri: 'http://localhost:4200'
-      // redirectUri: 'http://localhost:8083
-      // redirectUri: 'https://rsvp.kmaida.net
+      // redirectUri: 'http://localhost:8083'
     });
-  </script>
-  <script>
+
     webAuth.parseHash(window.location.hash, function (err, response) {
       parent.postMessage(err || response, 'http://localhost:4200');
       // parent.postMessage(err || response, 'http://localhost:8083');
-      // parent.postMessage(err || response, 'https://rsvp.kmaida.net');
     });
   </script>
 </head>
