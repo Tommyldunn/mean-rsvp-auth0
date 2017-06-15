@@ -159,15 +159,15 @@ export class AuthService {
     this.auth0.renewAuth({
       redirectUri: AUTH_CONFIG.SILENT_REDIRECT,
       usePostMessage: true
-    }, (err, result) => {
-      if (err) {
+    }, (err, authResult) => {
+      if (authResult && authResult.accessToken) {
+        this._setSession(authResult);
+      } else if (err) {
         console.warn(`Could not renew token: ${err.errorDescription}`);
         // Log out without redirecting to clear auth data
         this.logout(true);
         // Log in again
         this.login();
-      } else {
-        this._setSession(result);
       }
     });
   }
@@ -185,7 +185,7 @@ export class AuthService {
           const now = Date.now();
           // Use timer to track delay until expiration
           // to run the refresh at the proper time
-          return Observable.timer(Math.max(1, expires - now))
+          return Observable.timer(Math.max(1, expires - now));
         }
       );
 

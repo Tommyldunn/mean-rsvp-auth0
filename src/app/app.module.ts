@@ -9,8 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CallbackComponent } from './pages/callback/callback.component';
-import { EventModule } from './pages/event/event.module';
-import { AdminModule } from './pages/admin/admin.module';
 import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
 
 @NgModule({
@@ -25,9 +23,7 @@ import { MyRsvpsComponent } from './pages/my-rsvps/my-rsvps.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     AuthModule,
-    CoreModule,
-    EventModule,
-    AdminModule
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
