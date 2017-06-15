@@ -10,10 +10,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-
-// Use cors in dev only
 const cors = require('cors');
-
+const staticFile = require('connect-static-file');
 // Config
 const config = require('./server/config');
 
@@ -45,11 +43,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('X-HTTP-Method-Override'));
-
-// Use cors in dev only
-if (process.env.NODE_ENV === 'dev') {
-  app.use(cors());
-}
+app.use(cors());
+app.use('/silent', staticFile(`${__dirname}/silent.html`));
 
 // Set port
 const port = process.env.PORT || '8083';

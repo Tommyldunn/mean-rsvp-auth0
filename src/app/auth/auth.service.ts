@@ -5,6 +5,7 @@ import { AUTH_CONFIG } from './auth.config';
 import auth0 from 'auth0-js';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Rx';
+import { ENV } from './../core/env.config';
 
 @Injectable()
 export class AuthService {
@@ -156,16 +157,18 @@ export class AuthService {
 
   renewToken() {
     this.auth0.renewAuth({
+      audience: AUTH_CONFIG.AUDIENCE,
+      redirectUri: 'http://localhost:8083/silent',
       usePostMessage: true
-    }, (err, authResult) => {
-      if (authResult && authResult.accessToken) {
-        this._setSession(authResult);
-      } else if (err) {
+    }, (err, result) => {
+      if (err) {
         console.warn(`Could not renew token: ${err.errorDescription}`);
         // Log out without redirecting to clear auth data
         this.logout(true);
         // Log in again
         this.login();
+      } else {
+        this._setSession(result);
       }
     });
   }
@@ -179,8 +182,12 @@ export class AuthService {
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     const expiresIn$ = Observable.of(expiresAt)
       .flatMap(
-        // Use timer to track delay until expiration
-        expires => Observable.timer(Math.max(1, expires - Date.now()))
+        expires => {
+          const now = Date.now();
+          // Use timer to track delay until expiration
+          // to run the refresh at the proper time
+          return Observable.timer(Math.max(1, expires - now))
+        }
       );
 
     this.refreshSub = expiresIn$
