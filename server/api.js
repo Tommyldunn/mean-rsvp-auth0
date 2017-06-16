@@ -65,7 +65,7 @@ module.exports = function(app, config) {
             eventsArr.push(event);
           });
         }
-        res.send([]);
+        res.send(eventsArr);
       }
     );
   });
