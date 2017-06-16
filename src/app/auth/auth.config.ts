@@ -5,15 +5,17 @@ interface AuthConfig {
   CLIENT_DOMAIN: string;
   AUDIENCE: string;
   REDIRECT: string;
+  SILENT_REDIRECT: string;
   SCOPE: string;
   NAMESPACE: string;
-}
+};
 
 export const AUTH_CONFIG: AuthConfig = {
-  CLIENT_ID: '[AUTH0_CLIENT_ID]',
-  CLIENT_DOMAIN: '[AUTH0_CLIENT_DOMAIN].auth0.com',
-  AUDIENCE: '[YOUR_AUTH0_API_AUDIENCE]', // likely http://localhost:3003/api/
+  CLIENT_ID: 'ROP6VPKhSPtM1MMeK2dAVSEXX3XDnH20',
+  CLIENT_DOMAIN: 'kmaida.auth0.com',
+  AUDIENCE: 'http://localhost:8083/api/',
   REDIRECT: `${ENV.BASE_URI}/callback`,
+  SILENT_REDIRECT: `${ENV.BASE_URI}/silent`,
   SCOPE: 'openid profile',
-  NAMESPACE: '[AUTH0_ROLES_CUSTOM_CLAIMS_NAMESPACE]' // likely http://myapp.com/roles
+  NAMESPACE: 'http://myapp.com/roles'
 };

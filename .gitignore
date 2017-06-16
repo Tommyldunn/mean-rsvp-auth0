@@ -1,6 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-auth.config.ts
+auth.config.js
+/server/config.js
 
 # compiled output
 # /dist
@@ -9,7 +10,6 @@ auth.config.ts
 
 # dependencies
 /node_modules
-/server/config.js
 
 # IDEs and editors
 /.idea
