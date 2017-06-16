@@ -1,6 +1,6 @@
 module.exports = {
-  AUTH0_DOMAIN: '<your_auth0_domain>.auth0.com',
-  AUTH0_API_AUDIENCE: '<your_Auth0_API_audience>' /* 'http://localhost:8083/api/' */,
-  MONGO_URI: process.env.MONGO_URI || 'mongodb://<user>:<password>@<ds111111>.mlab.com:<port>/<db_name>',
-  NAMESPACE: '<your_auth_roles_rule_namespace>' /* likely http://myapp.com/roles */
+  AUTH0_DOMAIN: '[YOUR_AUTH0_DOMAIN].auth0.com',
+  AUTH0_API_AUDIENCE: '[YOUR_AUTH0_API_NAME]' /* 'http://localhost:8083/api/' */,
+  MONGO_URI: process.env.MONGO_URI || 'mongodb://[USER]:[PASSWORD]@[DS######].mlab.com:[PORT]/[DB_NAME]',
+  NAMESPACE: '[YOUR_AUTH0_ROLES_RULES_NAMESPACE]' /* likely http://myapp.com/roles */
 };
