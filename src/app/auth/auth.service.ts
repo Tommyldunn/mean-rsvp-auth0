@@ -33,12 +33,12 @@ export class AuthService {
     // in localStorage, log out.
     const lsProfile = localStorage.getItem('profile');
 
-    if (this.authenticated) {
+    if (this.tokenValid) {
       this.userProfile = JSON.parse(lsProfile);
       this.isAdmin = localStorage.getItem('isAdmin') === 'true';
       this.setLoggedIn(true);
       this.scheduleRenewal();
-    } else if (!this.authenticated && lsProfile) {
+    } else if (!this.tokenValid && lsProfile) {
       this.logout();
     }
   }
@@ -149,7 +149,7 @@ export class AuthService {
     }
   }
 
-  get authenticated(): boolean {
+  get tokenValid(): boolean {
     // Check if current time is past access token's expiration
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return Date.now() < expiresAt;
@@ -174,7 +174,7 @@ export class AuthService {
 
   scheduleRenewal() {
     // If user isn't authenticated, do nothing
-    if (!this.authenticated) { return; }
+    if (!this.tokenValid) { return; }
     // Unsubscribe from previous expiration observable
     this.unscheduleRenewal();
     // Create and subscribe to expiration observable
