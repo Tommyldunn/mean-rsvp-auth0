@@ -55,6 +55,7 @@ if (process.env.NODE_ENV !== 'dev') {
   app.use(express.static(path.join(__dirname, './dist')));
 }
 
+// Serve static silent.html file at /silent
 app.use('/silent', staticFile(`${__dirname}/silent.html`));
 
 /*
