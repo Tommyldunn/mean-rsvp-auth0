@@ -31,7 +31,7 @@ module.exports = function(app, config) {
 
   // Check for an authenticated admin user
   const adminCheck = (req, res, next) => {
-    const roles = req.user[`${config.NAMESPACE}`] || [];
+    const roles = req.user[config.NAMESPACE] || [];
     if (roles.indexOf('admin') > -1) {
       next();
     } else {
