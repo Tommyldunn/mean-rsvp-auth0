@@ -44,7 +44,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(cors());
-app.use('/silent', staticFile(`${__dirname}/silent.html`));
 
 // Set port
 const port = process.env.PORT || '8083';
@@ -55,6 +54,8 @@ app.set('port', port);
 if (process.env.NODE_ENV !== 'dev') {
   app.use(express.static(path.join(__dirname, './dist')));
 }
+
+app.use('/silent', staticFile(`${__dirname}/silent.html`));
 
 /*
  |--------------------------------------
