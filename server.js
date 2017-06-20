@@ -11,7 +11,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const cors = require('cors');
-const staticFile = require('connect-static-file');
 // Config
 const config = require('./server/config');
 
@@ -49,14 +48,14 @@ app.use(cors());
 const port = process.env.PORT || '8083';
 app.set('port', port);
 
+// Serve static silent.html file at /silent
+app.use('/silent', express.static(path.join(__dirname, './silent.html')));
+
 // Set static path to Angular app in dist
 // Don't run in dev
 if (process.env.NODE_ENV !== 'dev') {
-  app.use(express.static(path.join(__dirname, './dist')));
+  app.use('/', express.static(path.join(__dirname, './dist')));
 }
-
-// Serve static silent.html file at /silent
-app.use('/silent', staticFile(`${__dirname}/silent.html`));
 
 /*
  |--------------------------------------
