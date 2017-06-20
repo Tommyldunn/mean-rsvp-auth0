@@ -12,8 +12,6 @@ import 'rxjs/add/operator/filter';
 export class HeaderComponent implements OnInit {
   @Output() navToggled = new EventEmitter();
   navOpen = false;
-  authSub: Subscription;
-  loggedIn: boolean;
 
   constructor(
     private router: Router,
