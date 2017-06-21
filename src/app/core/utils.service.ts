@@ -11,15 +11,15 @@ export class UtilsService {
   }
 
   eventDates(start, end): string {
-    // Display single-day events as "1/7/2018"
-    // Display multi-day events as "8/12/2017 - 8/13/2017"
+    // Display single-day events as "Jan 7, 2018"
+    // Display multi-day events as "Aug 12, 2017 - Aug 13, 2017"
     const startDate = this.datePipe.transform(start, 'mediumDate');
     const endDate = this.datePipe.transform(end, 'mediumDate');
 
     if (startDate === endDate) {
       return startDate;
     } else {
-      return startDate + ' - ' + endDate;
+      return `${startDate} - ${endDate}`;
     }
   }
 
