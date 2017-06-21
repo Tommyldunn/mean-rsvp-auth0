@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { AuthService } from './../auth/auth.service';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { ENV } from './env.config';
 import 'rxjs/add/operator/map';
@@ -16,8 +15,7 @@ export class ApiService {
   constructor(
     private http: Http,
     private authHttp: AuthHttp,
-    private auth: AuthService,
-    private router: Router) { }
+    private auth: AuthService) { }
 
   // GET list of public, future events
   getEvents$(): Observable<EventModel[]> {
