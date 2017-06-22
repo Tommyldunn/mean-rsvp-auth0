@@ -1,7 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 import { stringsToDate } from './formUtils.factory';
 
-export function dateRangeValidator(c: AbstractControl) {
+export function dateRangeValidator(c: AbstractControl): {[key: string]: any} {
   // Get controls in group
   const startDateC = c.get('startDate');
   const startTimeC = c.get('startTime');
