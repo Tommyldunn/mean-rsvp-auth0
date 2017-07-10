@@ -25,7 +25,8 @@ $ npm install
 
 ```
 $ ng serve
-$ NODE_ENV=dev nodemon server
+$ NODE_ENV=dev
+$ nodemon server
 ```
 
 Available on `http://localhost:4200/`. 
