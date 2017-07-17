@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './../auth/auth.service';
 import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { ENV } from './env.config';
 import { EventModel } from './models/event.model';
@@ -14,7 +13,7 @@ export class ApiService {
     private http: HttpClient,
     private auth: AuthService) { }
 
-  private get _tokenHeaderVal(): string {
+  private get _authHeader(): string {
     return `Bearer ${localStorage.getItem('access_token')}`;
   }
 
@@ -29,7 +28,7 @@ export class ApiService {
   getAdminEvents$(): Observable<EventModel[]> {
     return this.http
       .get(`${ENV.BASE_API}events/admin`, {
-        headers: new HttpHeaders().set('Authorization', this._tokenHeaderVal)
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .catch(this._handleError);
   }
@@ -38,7 +37,7 @@ export class ApiService {
   getEventById$(id: string): Observable<EventModel> {
     return this.http
       .get(`${ENV.BASE_API}event/${id}`, {
-        headers: new HttpHeaders().set('Authorization', this._tokenHeaderVal)
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .catch(this._handleError);
   }
@@ -47,7 +46,7 @@ export class ApiService {
   getRsvpsByEventId$(eventId: string): Observable<RsvpModel[]> {
     return this.http
       .get(`${ENV.BASE_API}event/${eventId}/rsvps`, {
-        headers: new HttpHeaders().set('Authorization', this._tokenHeaderVal)
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .catch(this._handleError);
   }
@@ -56,7 +55,7 @@ export class ApiService {
   postEvent$(event: EventModel): Observable<EventModel> {
     return this.http
       .post(`${ENV.BASE_API}event/new`, event, {
-        headers: new HttpHeaders().set('Authorization', this._tokenHeaderVal)
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .catch(this._handleError);
   }
@@ -65,7 +64,7 @@ export class ApiService {
   editEvent$(id: string, event: EventModel): Observable<EventModel> {
     return this.http
       .put(`${ENV.BASE_API}event/${id}`, event, {
-        headers: new HttpHeaders().set('Authorization', this._tokenHeaderVal)
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .catch(this._handleError);
   }
@@ -74,7 +73,7 @@ export class ApiService {
   deleteEvent$(id: string): Observable<any> {
     return this.http
       .delete(`${ENV.BASE_API}event/${id}`, {
-        headers: new HttpHeaders().set('Authorization', this._tokenHeaderVal)
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .catch(this._handleError);
   }
@@ -83,7 +82,7 @@ export class ApiService {
   getUserEvents$(userId: string): Observable<EventModel[]> {
     return this.http
       .get(`${ENV.BASE_API}events/${userId}`, {
-        headers: new HttpHeaders().set('Authorization', this._tokenHeaderVal)
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .catch(this._handleError);
   }
@@ -92,7 +91,7 @@ export class ApiService {
   postRsvp$(rsvp: RsvpModel): Observable<RsvpModel> {
     return this.http
       .post(`${ENV.BASE_API}rsvp/new`, rsvp, {
-        headers: new HttpHeaders().set('Authorization', this._tokenHeaderVal)
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .catch(this._handleError);
   }
@@ -101,7 +100,7 @@ export class ApiService {
   editRsvp$(id: string, rsvp: RsvpModel): Observable<RsvpModel> {
     return this.http
       .put(`${ENV.BASE_API}rsvp/${id}`, rsvp, {
-        headers: new HttpHeaders().set('Authorization', this._tokenHeaderVal)
+        headers: new HttpHeaders().set('Authorization', this._authHeader)
       })
       .catch(this._handleError);
   }
