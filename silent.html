@@ -6,17 +6,18 @@
   <script>
     const AUTH0_CLIENT_ID = 'ROP6VPKhSPtM1MMeK2dAVSEXX3XDnH20';
     const AUTH0_DOMAIN = 'kmaida.auth0.com';
+    const URL = 'https://rsvp.kmaida.net';
 
     const webAuth = new auth0.WebAuth({
       clientID: AUTH0_CLIENT_ID,
       domain: AUTH0_DOMAIN,
       scope: 'openid profile',
       responseType: 'token id_token',
-      redirectUri: 'https://rsvp.kmaida.net'
+      redirectUri: URL
     });
 
     webAuth.parseHash(window.location.hash, function (err, response) {
-      parent.postMessage(err || response, 'https://rsvp.kmaida.net');
+      parent.postMessage(err || response, URL);
     });
   </script>
 </head>
