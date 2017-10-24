@@ -107,7 +107,8 @@ export class ApiService {
 
   private _handleError(err: HttpErrorResponse | any) {
     const errorMsg = err.message || 'Error: Unable to complete request.';
-    if (err.message && err.message.indexOf('No JWT present') > -1) {
+    if (err.message && err.message.indexOf('No JWT present') > -1 || err.message.indexOf('UnauthorizedError') > -1) {
+      this.auth.logout(true);
       this.auth.login();
     }
     return Observable.throw(errorMsg);

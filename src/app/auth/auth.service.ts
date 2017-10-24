@@ -38,7 +38,7 @@ export class AuthService {
       this.isAdmin = localStorage.getItem('isAdmin') === 'true';
       this.setLoggedIn(true);
       this.scheduleRenewal();
-    } else if (!this.tokenValid && lsProfile) {
+    } else if (this.tokenValid === false && lsProfile) {
       this.logout();
     }
   }
