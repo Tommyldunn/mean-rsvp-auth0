@@ -243,8 +243,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_5__app_routing_module__["a" /* AppRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_3__auth_auth_module__["a" /* AuthModule */],
-                __WEBPACK_IMPORTED_MODULE_4__core_core_module__["a" /* CoreModule */]
+                __WEBPACK_IMPORTED_MODULE_3__auth_auth_module__["a" /* AuthModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_4__core_core_module__["a" /* CoreModule */].forRoot()
             ],
             providers: [],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_6__app_component__["a" /* AppComponent */]]
@@ -385,18 +385,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var AuthModule = (function () {
     function AuthModule() {
     }
-    AuthModule = __decorate([
+    AuthModule_1 = AuthModule;
+    AuthModule.forRoot = function () {
+        return {
+            ngModule: AuthModule_1,
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */]
+            ]
+        };
+    };
+    AuthModule = AuthModule_1 = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
             ],
-            declarations: [],
-            providers: [
-                __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */]
-            ]
+            declarations: []
         })
     ], AuthModule);
     return AuthModule;
+    var AuthModule_1;
 }());
 
 
@@ -570,10 +577,7 @@ var AuthService = (function () {
     });
     AuthService.prototype.renewToken = function () {
         var _this = this;
-        this._auth0.renewAuth({
-            redirectUri: __WEBPACK_IMPORTED_MODULE_3__auth_config__["a" /* AUTH_CONFIG */].SILENT_REDIRECT,
-            usePostMessage: true
-        }, function (err, authResult) {
+        this._auth0.checkSession({}, function (err, authResult) {
             if (authResult && authResult.accessToken) {
                 _this._setSession(authResult);
             }
@@ -802,7 +806,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var CoreModule = (function () {
     function CoreModule() {
     }
-    CoreModule = __decorate([
+    CoreModule_1 = CoreModule;
+    CoreModule.forRoot = function () {
+        return {
+            ngModule: CoreModule_1,
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* Title */],
+                __WEBPACK_IMPORTED_MODULE_2__angular_common__["d" /* DatePipe */],
+                __WEBPACK_IMPORTED_MODULE_6__api_service__["a" /* ApiService */],
+                __WEBPACK_IMPORTED_MODULE_7__utils_service__["a" /* UtilsService */],
+                __WEBPACK_IMPORTED_MODULE_8__filter_sort_service__["a" /* FilterSortService */]
+            ]
+        };
+    };
+    CoreModule = CoreModule_1 = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */],
@@ -817,13 +834,6 @@ var CoreModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_10__loading_component__["a" /* LoadingComponent */],
                 __WEBPACK_IMPORTED_MODULE_9__forms_submitting_component__["a" /* SubmittingComponent */]
             ],
-            providers: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["c" /* Title */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_common__["d" /* DatePipe */],
-                __WEBPACK_IMPORTED_MODULE_6__api_service__["a" /* ApiService */],
-                __WEBPACK_IMPORTED_MODULE_7__utils_service__["a" /* UtilsService */],
-                __WEBPACK_IMPORTED_MODULE_8__filter_sort_service__["a" /* FilterSortService */]
-            ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClientModule */],
                 __WEBPACK_IMPORTED_MODULE_4__angular_router__["d" /* RouterModule */],
@@ -837,6 +847,7 @@ var CoreModule = (function () {
         })
     ], CoreModule);
     return CoreModule;
+    var CoreModule_1;
 }());
 
 
