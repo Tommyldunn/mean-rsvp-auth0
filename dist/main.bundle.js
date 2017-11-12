@@ -314,7 +314,6 @@ var AUTH_CONFIG = {
     CLIENT_DOMAIN: 'kmaida.auth0.com',
     AUDIENCE: 'http://localhost:8083/api/',
     REDIRECT: __WEBPACK_IMPORTED_MODULE_0__core_env_config__["a" /* ENV */].BASE_URI + "/callback",
-    SILENT_REDIRECT: __WEBPACK_IMPORTED_MODULE_0__core_env_config__["a" /* ENV */].BASE_URI + "/silent",
     SCOPE: 'openid profile',
     NAMESPACE: 'http://myapp.com/roles'
 };
