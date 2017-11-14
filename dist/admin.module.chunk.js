@@ -438,9 +438,10 @@ var EventFormComponent = (function () {
             // FormEventModel from existing data
             // Transform datetimes:
             // https://angular.io/docs/ts/latest/api/common/index/DatePipe-pipe.html
-            // 'shortDate': 9/3/10
+            // _shortDate: 1/7/2017
             // 'shortTime': 12:05 PM
-            return new __WEBPACK_IMPORTED_MODULE_4__core_models_event_model__["b" /* FormEventModel */](this.event.title, this.event.location, this.datePipe.transform(this.event.startDatetime, 'shortDate'), this.datePipe.transform(this.event.startDatetime, 'shortTime'), this.datePipe.transform(this.event.endDatetime, 'shortDate'), this.datePipe.transform(this.event.endDatetime, 'shortTime'), this.event.viewPublic, this.event.description);
+            var _shortDate = 'M/d/yyyy';
+            return new __WEBPACK_IMPORTED_MODULE_4__core_models_event_model__["b" /* FormEventModel */](this.event.title, this.event.location, this.datePipe.transform(this.event.startDatetime, _shortDate), this.datePipe.transform(this.event.startDatetime, 'shortTime'), this.datePipe.transform(this.event.endDatetime, _shortDate), this.datePipe.transform(this.event.endDatetime, 'shortTime'), this.event.viewPublic, this.event.description);
         }
     };
     EventFormComponent.prototype._buildForm = function () {

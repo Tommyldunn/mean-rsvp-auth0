@@ -1086,9 +1086,10 @@ var UtilsService = (function () {
     UtilsService.prototype.eventDatesTimes = function (start, end) {
         // Display single-day events as "1/7/2018, 5:30 PM - 7:30 PM"
         // Display multi-day events as "8/12/2017, 8:00 PM - 8/13/2017, 10:00 AM"
-        var startDate = this.datePipe.transform(start, 'shortDate');
+        var _shortDate = 'M/d/yyyy';
+        var startDate = this.datePipe.transform(start, _shortDate);
         var startTime = this.datePipe.transform(start, 'shortTime');
-        var endDate = this.datePipe.transform(end, 'shortDate');
+        var endDate = this.datePipe.transform(end, _shortDate);
         var endTime = this.datePipe.transform(end, 'shortTime');
         if (startDate === endDate) {
             return startDate + ", " + startTime + " - " + endTime;
