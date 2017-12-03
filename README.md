@@ -1,30 +1,14 @@
-# MEAN-RSVP-Auth0
+# MEAN-RSVP-Auth0 (live)
 
-This is the sample repository for the Real-World Angular Series of tutorials. Begin the tutorials here: [Real-World Angular Series - Part 1](https://auth0.com/blog/real-world-angular-series-part-1).
+This is the **DEPLOYED** sample repository for the Real-World Angular Series of tutorials. Begin the tutorials here: [Real-World Angular Series - Part 1](https://auth0.com/blog/real-world-angular-series-part-1).
 
-## Requirements
-
-* Node + npm
-* Angular CLI
-
-## Install
-
-Clone this repository, then run:
-
-```
-$ npm install
-```
-
-## Setup
-
-* Add your Auth0 credentials and remove `.SAMPLE`: `server/config.js.SAMPLE`
-* Add your Auth0 credentials: `src/app/auth/auth.config.ts`
+To view the **sample repo** that you should download for your own personal use with the tutorial, please see [auth0-blog/mean-rsvp-auth0](https://github.com/auth0-blog/mean-rsvp-auth0).
 
 ## Development server
 
 ```bash
-$ ng serve // client
-$ NODE_ENV=dev nodemon server // server
+$ ng serve
+$ NODE_ENV=dev nodemon server
 ```
 
 Available at `http://localhost:4200`. 
@@ -38,33 +22,13 @@ $ node server // server
 
 Available on `http://localhost:8083`.
 
-## Deploy
+## Deployed
 
-To deploy the app in this repo to a production environment, follow the instructions here: [Real-World Angular Series - Part 8](https://auth0.com/blog/real-world-angular-series-part-8/#deploy).
-
-## What is Auth0?
-
-Auth0 helps you to:
-
-* Add authentication with [multiple authentication sources](https://docs.auth0.com/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, amont others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
-* Add authentication through more traditional **[username/password databases](https://docs.auth0.com/mysql-connection-tutorial)**.
-* Add support for **[linking different user accounts](https://docs.auth0.com/link-accounts)** with the same user.
-* Support for generating signed [Json Web Tokens](https://docs.auth0.com/jwt) to call your APIs and **flow the user identity** securely.
-* Analytics of how, when and where users are logging in.
-* Pull data from other sources and add it to the user profile, through [JavaScript rules](https://docs.auth0.com/rules).
-
-## Create a Free Auth0 Account
-
-1. Go to [Auth0](https://auth0.com) and click Sign Up.
-2. Use Google, GitHub, or Microsoft Account to log in.
-
-## Issue Reporting
-
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+The RSVP application in this repo is deployed in production at [https://rsvp.kmaida.net](https://rsvp.kmaida.net).
 
 ## Author
 
-[Auth0](auth0.com)
+[Kim Maida](https://twitter.com/KimMaida), at [Auth0](https://auth0.com/blog)
 
 ## License
 
